@@ -1,48 +1,54 @@
-import { projectModel } from '../models';
+import { postModel } from '../models';
 import { Request, Response } from 'express';
 
 export default {
-  async getOne(req: Request, res: Response): Promise<void> {
+  async getOnePublic(req: Request, res: Response): Promise<void> {
     try {
-      const response = await projectModel.findOne(parseInt(req.params.id));
+      const response = await postModel.findOnePublic(parseInt(req.params.id));
       res.status(200).json(response);
     } catch (err) {
-      console.log('err in projectController getOne:::', err);
+      console.log('err in postController getOnePublic:::', err);
       res.status(400).send(err);
     }
   },
 
-  async getPublished(req: Request, res: Response): Promise<void> {
+  async listPublic(req: Request, res: Response): Promise<void> {
     try {
-      const query = {
-        username: req.params.username,
-        title_slug: req.params.slug
-      };
-      const response = await projectModel.findPublished(query);
+      console.log('req.query:::', req.query);
+      const response = await postModel.findPublicPosts(req.query);
       res.status(200).json(response);
     } catch (err) {
-      console.log('err in projectController getPublished:::', err);
+      console.log('err in postController listPublic:::', err);
+      res.status(400).send(err);
+    }
+  },
+
+  async getOne(req: Request, res: Response): Promise<void> {
+    try {
+      const response = await postModel.findOne(parseInt(req.params.id));
+      res.status(200).json(response);
+    } catch (err) {
+      console.log('err in postController getOne:::', err);
       res.status(400).send(err);
     }
   },
 
   async list(req: Request, res: Response): Promise<void> {
     try {
-      const query = { ...req.query, user_id: req.user?.id };
-      const response = await projectModel.findMany(query);
+      const response = await postModel.findMany(req.query);
       res.status(200).json(response);
     } catch (err) {
-      console.log('err in projectController list:::', err);
+      console.log('err in postController list:::', err);
       res.status(400).send(err);
     }
   },
   
   async put(req: Request, res: Response): Promise<void> {
     try {
-      const response = await projectModel.update(req.body.id, req.body);
+      const response = await postModel.update(req.body.id, req.body);
       res.status(201).json(response);
     } catch (err) {
-      console.log('err in projectController put:::', err);
+      console.log('err in postController put:::', err);
       res.status(400).send(err);
     }
   },
@@ -50,20 +56,20 @@ export default {
   async post(req: Request, res: Response): Promise<void> {
     try {
       req.body.user_id = req.user?.id;
-      const response = await projectModel.create(req.body);
+      const response = await postModel.create(req.body);
       res.status(201).json(response);
     } catch (err) {
-      console.log('err in projectController post:::', err);
+      console.log('err in postController post:::', err);
       res.status(400).send(err);
     }
   },
   
   async destroy(req: Request, res: Response): Promise<void> {
     try {
-      const response = await projectModel.delete(parseInt(req.params.id));
+      const response = await postModel.delete(parseInt(req.params.id));
       res.status(200).json(response);
     } catch (err) {
-      console.log('err in projectController destroy:::', err);
+      console.log('err in postController destroy:::', err);
       res.status(400).send(err);
     }
   }

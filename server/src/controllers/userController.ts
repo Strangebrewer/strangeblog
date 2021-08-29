@@ -13,16 +13,6 @@ export default {
     }
   },
 
-  async list(req: Request, res: Response): Promise<void> {
-    try {
-      const users = await userModel.findMany();
-      res.status(200).json(users);
-    } catch (err) {
-      console.log('err in userController list:::', err);
-      res.status(400).send({ message: err.message });
-    }
-  },
-
 
   async register(req: Request, res: Response): Promise<void> {
     try {
@@ -68,16 +58,6 @@ export default {
       res.status(200).send('success');
     } catch (err) {
       console.log('err in userController destroy:::', err);
-      res.status(400).send({ message: err.message });
-    }
-  },
-
-  async getPublicProfile(req: Request, res: Response): Promise<void> {
-    try {
-      const userProfile = await userModel.getPublicProfile(req.params.username);
-      res.status(200).json(userProfile);
-    } catch (err) {
-      console.log('err in userController getPublicProfile:::', err);
       res.status(400).send({ message: err.message });
     }
   }

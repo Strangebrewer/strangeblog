@@ -12,6 +12,7 @@ generator client {
 
 model User {
   id              Int      @id @default(autoincrement())
+  admin           Boolean  @default(false)
   email           String   @unique
   normalizedEmail String   @unique @map("normalized_email")
   username        String   @unique
@@ -31,7 +32,7 @@ model Post {
   body      String
   category  String?
   tags      String[]
-  published Boolean
+  public    Boolean  @default(false)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 }
