@@ -7,8 +7,8 @@ class PostAPI extends BaseAPI {
   }
 
   // may find this one useful...
-  getPublished(query) {    
-    return axios.get(`${this.endpoint}/${query.username}/${query.slug}`);
+  listPublicPosts(query) {    
+    return axios.get(`${this.endpoint}/public`);
   }
 }
 

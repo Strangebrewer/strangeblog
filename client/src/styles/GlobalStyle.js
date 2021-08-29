@@ -26,14 +26,8 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: inherit;
   }
   body {
-    /* background: linear-gradient(90deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
-      linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
-      url('/images/background-two.jpg');
-    background-repeat: repeat;
-    background-attachment: fixed; */
-    background-color: #0a1016;
     border: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Roboto, Helvetica, sans-serif;
     line-height: 1;
     margin: 0;
     padding: 0;

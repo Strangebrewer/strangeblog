@@ -11,6 +11,12 @@ import { setAuthToken, resetAuthToken } from './utils/token';
 function App(props) {
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    (function () {
+      setTimeout(() => setLoading(false), 1000);
+    })();
+  }, [])
+
   return (
     loading
       ? (
@@ -37,8 +43,6 @@ function mapStateToProps(state) {
   }
 }
 
-const dispatchProps = {
-  getUser: getCurrentUser
-};
+const dispatchProps = {};
 
 export default connect(mapStateToProps, dispatchProps)(App);

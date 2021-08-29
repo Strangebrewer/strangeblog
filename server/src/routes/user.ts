@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
-import isAuthenticated from '../utils/isAuthenticated';
 import userController from '../controllers/userController';
+import isAuthenticated from '../utils/isAuthenticated';
 
 router.route('/')
   .get(isAuthenticated, userController.getCurrentUser)
