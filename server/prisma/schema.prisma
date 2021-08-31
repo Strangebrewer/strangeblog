@@ -10,9 +10,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum ACLTypes {
+  admin
+  friend
+  public
+}
+
 model User {
   id              Int      @id @default(autoincrement())
-  admin           Boolean  @default(false)
+  acl             ACLTypes @default(public)
   email           String   @unique
   normalizedEmail String   @unique @map("normalized_email")
   username        String   @unique

@@ -1,25 +1,58 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import DisplayEditor from '../components/slate/DisplayEditor';
+import slugify from 'slugify';
+import InlineEditor from '../components/slate/InlineEditor';
 
-import { post } from '../api';
+import { logout } from '../redux/actions/authActions';
+import { savePost, listPublicPosts, listPosts, getOnePublicPost, getOnePost } from '../redux/actions/postActions';
 
-function Main(props) {
-  const [posts, setPosts] = useState(null);
+const Main = (props) => {
+  const history = useHistory();
+
+  const { admin, friend, authenticated } = props;
 
   useEffect(() => {
-    async function getPosts() {
-      const { data } = await post.listPublicPosts();
-      console.log('publicPosts:::', data);
-      setPosts(data);
-    }
+    (async function () {
+      if (props.admin || props.friend) {
+        props.listPosts();
+      } else {
+        props.listPublicPosts();
+      }
+    })();
+  }, [admin, friend, authenticated]);
 
-    getPosts();
-  }, []);
-
-  const openSearch = () => {
+  function openSearch() {
     console.log('opening search');
+    console.log('props.authenticated:::', props.authenticated);
+  }
+
+  function goTo(route) {
+    history.push(route)
+  }
+
+  function save(update) {
+    console.log('update:::', update);
+    props.savePost(update);
+  }
+
+  async function getPost(post) {
+    if (props.admin || props.friend) {
+      await props.getOnePost(post.id);
+    } else {
+      await props.getOnePublicPost(post.id);
+    }
+    goTo(`/${slugify(post.title, { lower: true })}`);
+  }
+
+  async function openSingleEdit(id) {
+    if (props.admin || props.friend) {
+      await props.getOnePost(id);
+    } else {
+      await props.getOnePublicPost(id);
+    }
+    goTo('/editor');
   }
 
   return (
@@ -37,22 +70,42 @@ function Main(props) {
           <option value="spirituality">Spirituality</option>
         </select>
         <button onClick={openSearch}>Search</button>
+        {props.authenticated
+          ? <button onClick={props.logout}>Logout</button>
+          : <button onClick={() => goTo('login')}>Login</button>
+        }
       </Nav>
 
       <Bio>
-        <p>Hello there.</p>
-        <p>This is a collection of whatever I feel like writing about. It's a repository for subjects I want to remember, ideas I want to develop, rants, ramblings, rarities, and revelations. I am a proponent of science, a student of many spiritual paths, and I keep my own counsel. Many would say I lean left, but I would say I simply want the truth.</p>
-        <p>Abandon all hope, ye who enter here...</p>
+        <p>Hello there. I'm so glad you've <span className="main-red">come</span>.</p>
+        <p>
+          Welcome to my blawg - a collection of writings on whatever the <span className="main-red">hell</span> I feel like. It's a repository for facts n factoids I want to remember &amp; <span className="main-red">ideas</span> I want to develop. It's a forum for rants, ramblings, rarities, and <span className="main-red">revelations</span>, mine and otherwise. It's a sucker's bet, a fool's errand. It's a warm, flat beer on a hot August day. How <em><strong>you</strong></em> doin?
+        </p>
+        <p>
+          I am a proponent of <span className="main-red">science</span>, a student of the <span className="main-red">perennial philosophy</span>, and a keeper of my own <span className="main-red">god damned</span> counsel. Many would say I lean <span className="main-red">left</span>, but I would say I simply want the <span className="main-red">truth</span> (the whole truth, and nothing but the truth, so help me Gawduh). So buckle up and suck it up, cupcake - the truth may well set you free, but not until it's had its way with you. And so it begins.
+        </p>
+        {/* <p><em>Abandon all <span className="main-red">hope</span>, ye who enter here...</em></p> */}
+        {/* <p><span className="main-red">Abandon all hope, ye who enter here...</span></p> */}
+        <p><em><span className="main-red">Abandon all hope, ye who enter here...</span></em></p>
+        {/* <p><em>Abandon all hope, ye who enter here...</em></p> */}
       </Bio>
 
       <PostsWrapper>
-        {posts && posts.map((p, index) => {
+        {props.posts && props.posts.map((p) => {
           return (
-            <Post>
-              <h2>{p.title}</h2>
+            <Post key={`post-${p.id}`}>
+              <div style={{ display: 'flex' }}>
+                <h2 onClick={() => getPost(p)} style={{ cursor: 'pointer' }}>{p.title}</h2>
+                {props.admin && <span><button onClick={() => openSingleEdit(p.id)}><i className="fas fa-external-link-alt" /></button></span>}
+              </div>
               <h4>{p.subtitle}</h4>
               <p>{p.createdAt}</p>
-              <DisplayEditor text={p.body}/>
+              <InlineEditor
+                post={p}
+                save={save}
+                isAdmin={props.admin}
+                edit={openSingleEdit}
+              />
             </Post>
           )
         })}
@@ -62,10 +115,22 @@ function Main(props) {
 }
 
 function mapPropsToState(state) {
-  return {}
+  return {
+    admin: state.user.acl === "admin",
+    authenticated: state.auth.authenticated,
+    friend: state.user.acl === "friend",
+    posts: state.posts
+  }
 }
 
-const mapDispatchToState = {};
+const mapDispatchToState = {
+  getOnePost,
+  getOnePublicPost,
+  listPosts,
+  listPublicPosts,
+  logout,
+  savePost
+};
 
 export default connect(mapPropsToState, mapDispatchToState)(Main);
 
@@ -88,6 +153,7 @@ const Header = styled.header`
   > p {
     font-size: 22px;
     text-indent: 10px;
+    color: ${props => props.theme.mainRed};
   }
 `;
 
@@ -105,12 +171,17 @@ const Bio = styled.section`
   width: 700px;
   margin: auto;
   padding: 20px 0;
-  border-bottom: 2px solid red;
+  border-bottom: 2px solid ${props => props.theme.mainRed};
+  color: #aaa;
 
-  p {
+  > p {
     font-size: 16px;
     padding: 8px 0;
-    line-height: 1.2;
+    line-height: 1.3;
+
+    .main-red {
+      color: ${props => props.theme.mainRed};
+    }
   }
 `;
 
@@ -121,7 +192,7 @@ const PostsWrapper = styled.main`
 `;
 
 const Post = styled.article`
-  > h2 {
+  > div > h2 {
     font-size: 28px;
     font-weight: bold;
     margin-bottom: 4px;

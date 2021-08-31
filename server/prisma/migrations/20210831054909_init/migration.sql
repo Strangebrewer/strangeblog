@@ -1,6 +1,10 @@
+-- CreateEnum
+CREATE TYPE "ACLTypes" AS ENUM ('admin', 'friend', 'public');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
+    "acl" "ACLTypes" NOT NULL DEFAULT E'public',
     "email" TEXT NOT NULL,
     "normalized_email" TEXT NOT NULL,
     "username" TEXT NOT NULL,
@@ -21,6 +25,7 @@ CREATE TABLE "Post" (
     "body" TEXT NOT NULL,
     "category" TEXT,
     "tags" TEXT[],
+    "public" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 

@@ -1,5 +1,8 @@
 export const Themes = {
   nightmode: {
+    mainRed: '#e22c5a',
+
+
     bg: '#1b1e24',
     shadow: '#000',
     text:'#f3f3f4',

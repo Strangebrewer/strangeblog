@@ -2,11 +2,12 @@
    {
       "username": "mr-mojo-risin",
       "email": "BKAShambala@gmail.com",
-      "admin": true
+      "acl": "admin"
    },
    {
       "username": "Heck-Fire",
-      "email": "adcatcher73@gmail.com"
+      "email": "adcatcher73@gmail.com",
+      "acl": "friend"
    },
    {
       "username": "The-Loving-Friend",

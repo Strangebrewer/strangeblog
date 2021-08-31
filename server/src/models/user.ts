@@ -19,9 +19,9 @@ export default class UserModel {
   constructor(private readonly client: IDatabaseClient) { }
 
   private tokenize(user: User): Tokenized {
-    const { id, email, username } = user;
+    const { id, email, username, acl } = user;
     const token = sign({ id, email });
-    const userToReturn = { id, email, username };
+    const userToReturn = { id, email, username, acl };
     return { token, user: userToReturn };
   }
 
@@ -64,7 +64,7 @@ export default class UserModel {
 
   public async login(email: string, password: string): Promise<Tokenized> {
     const user = await this.client.user.findUnique({
-      where: { normalized_email: email.toLowerCase() }
+      where: { normalizedEmail: email.toLowerCase() }
     });
     if (!user) throw new Error('Can\'t find a user with that email');
     const passwordValid = this.checkPassword(password, user.password);

@@ -16,11 +16,12 @@ const HOTKEYS = {
   'mod+u': 'underline'
 };
 
-const PostEditor = props => {
-  const [value, setValue] = useState(props.post && props.post.id ? JSON.parse(props.post.body) : initialValue);
+const DisplayEditor = props => {
+  const [value, setValue] = useState(props.post.body ? JSON.parse(props.post.body) : initialValue);
   const renderElement = useCallback(props => <Element {...props} />, []);
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const [readOnly, setReadOnly] = useState(true);
 
   function honKeyDown(e) {
     for (const hotkey in HOTKEYS) {
@@ -33,91 +34,74 @@ const PostEditor = props => {
   }
 
   async function save() {
-    // const update = { body: JSON.stringify(value) };
-    // if (props.post && props.post.id) update.id = props.post.id;
-    // props.save(update);
-  }
-
-  function cancel() {
-    // props.cancel();
+    const update = { body: JSON.stringify(value) };
+    if (props.post && props.post.id) update.id = props.post.id;
+    props.save(update);
   }
 
   async function saveAndClose() {
-    // save();
-    // cancel();
+    save();
+    setReadOnly(true);
   }
 
-  const editorFieldStyle = {
-    backgroundColor: 'white',
-    boxShadow: '4px 4px 8px #222',
-    padding: '80px 120px',
-    width: '900px',
-    fontSize: '18px'
-  };
+  function cancel() {
+    setValue(props.post.body ? JSON.parse(props.post.body) : initialValue);
+    setReadOnly(true);
+  }
 
   return (
-    <EditorWrapper>
+    <>
+      {props.isAdmin && <button onClick={() => setReadOnly(false)}><i className="fas fa-edit" /></button>}
       <Slate editor={editor} value={value} onChange={v => setValue(v)}>
-        <RenderButtons visible />
+        {!readOnly && <RenderButtons visible />}
         <Editable
-          style={editorFieldStyle}
           renderElement={renderElement}
           renderLeaf={renderLeaf}
-          placeholder="Sup, sucka..."
-          autoFocus
+          readOnly={readOnly}
           onKeyDown={honKeyDown}
         />
       </Slate>
 
-      {!props.readOnly && (
-        <Buttons disabled={!props.canSave}>
-          <button disabled={!props.canSave} onClick={save}>Save</button>
-          <button disabled={!props.canSave} onClick={saveAndClose}>Save &amp; Close</button>
+      {!readOnly && (
+        <Buttons>
+          <button onClick={save}>Save</button>
+          {!props.new && <button onClick={saveAndClose}>Save &amp; Close</button>}
           <button onClick={cancel}>Cancel</button>
         </Buttons>
       )}
-    </EditorWrapper>
+    </>
   )
 }
 
-export default PostEditor;
-
-const EditorWrapper = styled.div`
-  margin: auto;
-  padding-top: 50px;
-  width: 900px;
-`;
+export default DisplayEditor;
 
 const Buttons = styled.div`
   margin-left: 16px;
   margin-top: 16px;
 
-  button {
+  > button {
     background: #222;
-    border: 1px solid ${props => props.disabled ? '#999' : props.theme.nBlue};
+    border: 1px solid ${props => props.theme.nBlue};
     border-radius: 5px;
-    box-shadow: 4px 4px 4px ${props => props.disabled ? '#999' : props.theme.nBlue}77;
-    color: ${props => props.disabled ? '#999' : props.theme.nBlue};
-    cursor: ${props => props.disabled ? 'default' : 'pointer'};
+    box-shadow: 4px 4px 4px ${props => props.theme.nBlue}77;
+    color: ${props => props.theme.nBlue};
+    cursor: pointer;
     font-weight: bold;
     margin-right: 16px;
-    opacity: ${props => props.disabled ? '.6' : '1'};
     outline: transparent;
     padding: 6px 12px;
   }
 
-  button:nth-child(2) {
-    border: 1px solid ${props => props.disabled ? '#999' : props.theme.nGreen};
-    box-shadow: 4px 4px 4px ${props => props.disabled ? '#999' : props.theme.nGreen}77;
-    color: ${props => props.disabled ? '#999' : props.theme.nGreen};
+  > button:nth-child(2) {
+    border: 1px solid ${props => props.theme.nGreen};
+    box-shadow: 4px 4px 4px ${props => props.theme.nGreen}77;
+    color: ${props => props.theme.nGreen};
   }
 
-  button:last-of-type {
+  > button:last-of-type {
     border: 1px solid ${props => props.theme.nRed};
     box-shadow: 4px 4px 4px ${props => props.theme.nRed}77;
     color: ${props => props.theme.nRed};
-    cursor: pointer;
     margin-right: 0;
-    opacity: 1;
   }
 `;

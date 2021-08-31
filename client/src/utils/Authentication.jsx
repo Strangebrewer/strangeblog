@@ -8,16 +8,21 @@ const WuhTuhFuh = (WrappedComponent, passedProps = {}) => {
 
         useEffect(() => {
             function checkAuthenticated() {
-                const { required, authenticated } = passedProps;
-    
-                if (required && !authenticated) {
+                const { adminRequired, admin, required, authenticated } = passedProps;
+
+                if (adminRequired && !admin) {
                     setRedirect(true);
                     setDestination('/');
                 }
     
+                if (required && !authenticated) {
+                    setRedirect(true);
+                    setDestination('/login');
+                }
+    
                 if (!required && authenticated) {
                     setRedirect(true);
-                    setDestination('/dashboard');
+                    setDestination('/');
                 }
             }
 

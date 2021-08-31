@@ -6,6 +6,10 @@ class PostAPI extends BaseAPI {
     super('posts');
   }
 
+  getOnePublicPost(id) {
+    return axios.get(`${this.endpoint}/public/${id}`);
+  }
+
   // may find this one useful...
   listPublicPosts(query) {    
     return axios.get(`${this.endpoint}/public`);

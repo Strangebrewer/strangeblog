@@ -13,10 +13,34 @@ export function getOnePost(id) {
   }
 }
 
-export function getPosts(query = {}) {
+export function listPosts(query = {}) {
   return async dispatch => {
     try {
       const response = await API.post.get(query);
+      dispatch({ type: Post.SET_ALL_POSTS, payload: response.data });
+      return response.data;
+    } catch (e) {
+      
+    }
+  }
+}
+
+export function getOnePublicPost(id) {
+  return async dispatch => {
+    try {
+      const response = await API.post.getOnePublicPost(id);
+      dispatch({ type: Post.SET_CURRENT_POST, payload: response.data });
+      return response.data;
+    } catch (e) {
+      
+    }
+  }
+}
+
+export function listPublicPosts(query = {}) {
+  return async dispatch => {
+    try {
+      const response = await API.post.listPublicPosts();
       dispatch({ type: Post.SET_ALL_POSTS, payload: response.data });
       return response.data;
     } catch (e) {
@@ -33,7 +57,7 @@ export function savePost(data) {
       if (data.id) {
         // set immediately for smooth UI transition
         dispatch({ type: Post.EDIT_POST_IN_POSTS, payload: data });
-        dispatch({ type: Post.SET_CURRENT_Post, payload: data });
+        dispatch({ type: Post.SET_CURRENT_POST, payload: data });
         response = await API.post.edit(data);
 
         // set accurately with db response. They should be the same.
