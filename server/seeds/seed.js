@@ -16,6 +16,8 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
 
     userSeed.forEach(user => {
       user.password = pw;
+      user.createdAt = new Date();
+      user.updatedAt = new Date();
       user.normalizedEmail = user.email.toLowerCase();
       user.username = user.username.toLowerCase();
     });
@@ -25,6 +27,8 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
 
     postSeed.forEach(p => {
       p.userId = users[0].id;
+      p.createdAt = new Date();
+      p.updatedAt = new Date();
       p.body = JSON.stringify(p.body.split('?%?').map(p => {
         return {
           "type": "paragraph",
