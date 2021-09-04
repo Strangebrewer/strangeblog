@@ -1,14 +1,17 @@
 import * as Post from '../action-types/postTypes';
 import * as API from '../../api';
 
-export function getOnePost(id) {
+export function getOnePost(id, toEdit) {
   return async dispatch => {
     try {
       const response = await API.post.getOne(id);
-      dispatch({ type: Post.SET_CURRENT_POST, payload: response.data });      
+      dispatch({ type: Post.SET_CURRENT_POST, payload: response.data });
+      if (toEdit) {
+        dispatch({ type: Post.SET_EDITING_POST, payload: response.data });
+      }
       return response.data;
     } catch (e) {
-      
+
     }
   }
 }
@@ -20,7 +23,7 @@ export function listPosts(query = {}) {
       dispatch({ type: Post.SET_ALL_POSTS, payload: response.data });
       return response.data;
     } catch (e) {
-      
+
     }
   }
 }
@@ -32,7 +35,7 @@ export function getOnePublicPost(id) {
       dispatch({ type: Post.SET_CURRENT_POST, payload: response.data });
       return response.data;
     } catch (e) {
-      
+
     }
   }
 }
@@ -44,16 +47,16 @@ export function listPublicPosts(query = {}) {
       dispatch({ type: Post.SET_ALL_POSTS, payload: response.data });
       return response.data;
     } catch (e) {
-      
+
     }
   }
 }
 
-export function savePost(data) {
+export function savePost(data, isEditing) {
   return async dispatch => {
     try {
       let response;
-      
+
       if (data.id) {
         // set immediately for smooth UI transition
         dispatch({ type: Post.EDIT_POST_IN_POSTS, payload: data });
@@ -63,14 +66,15 @@ export function savePost(data) {
         // set accurately with db response. They should be the same.
         dispatch({ type: Post.EDIT_POST_IN_POSTS, payload: response.data });
         dispatch({ type: Post.SET_CURRENT_POST, payload: response.data });
-        
+        dispatch({ type: Post.SET_EDITING_POST, payload: response.data });
+
       } else {
         response = await API.post.create(data);
         dispatch({ type: Post.ADD_POST_TO_POSTS, payload: response.data });
       }
       return response;
     } catch (e) {
-      
+
     }
   }
 }
@@ -81,7 +85,7 @@ export function destroyPost(id) {
       await API.post.destroy(id);
       dispatch({ type: Post.DELETE_POST, payload: id });
     } catch (e) {
-      
+
     }
   }
 }

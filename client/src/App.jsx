@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Admin from './pages/Admin';
 import Authoritaw from './pages/Authoritaw';
 import Main from './pages/Main';
-import PostEditor from './pages/Editor';
+import PostEditor from './pages/PostEditor';
 import SinglePost from './pages/SinglePost';
 
 import Authentication from './utils/Authentication';
@@ -56,7 +56,7 @@ function App(props) {
 
             <Route
               exact
-              path="/editor"
+              path="/editor/:id"
               component={Authentication(PostEditor, { adminRequired: true, admin: props.admin })}
             />
 

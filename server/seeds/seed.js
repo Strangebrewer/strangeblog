@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import bcrypt from 'bcryptjs';
 
+import categorySeed from './categories.json';
 import postSeed from './posts.json';
 import userSeed from './users.json';
 
@@ -11,6 +12,7 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
 
 (async function () {
   try {
+    await prisma.category.deleteMany();
     await prisma.post.deleteMany();
     await prisma.user.deleteMany();
 
@@ -25,7 +27,13 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
     await prisma.user.createMany({ data: userSeed, skipDuplicates: true });
     const users = await prisma.user.findMany();
 
-    postSeed.forEach(p => {
+    categorySeed.forEach(c => {
+      c.userId = users[0].id;
+    });
+    await prisma.category.createMany({ data: categorySeed, skipDuplicates: true });
+    const categories = await prisma.category.findMany({});
+
+    postSeed.forEach((p, i) => {
       p.userId = users[0].id;
       p.createdAt = new Date();
       p.updatedAt = new Date();
@@ -39,6 +47,12 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
           ]
         }
       }));
+      if (i % 2 === 0) {
+        p.categoryId = categories[0].id;
+      }
+      if ((i+2) % 3 === 0) {
+        p.categoryId = categories[1].id;
+      }
     });
 
     await prisma.post.createMany({ data: postSeed, skipDuplicates: true });

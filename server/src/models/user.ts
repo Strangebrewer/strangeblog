@@ -7,6 +7,8 @@ type PartialUser = {
   id: number;
   email: string;
   username: string;
+  acl: string,
+  categories?: { id: number, name: string, userId: number }
 };
 
 type Tokenized = {
@@ -19,10 +21,8 @@ export default class UserModel {
   constructor(private readonly client: IDatabaseClient) { }
 
   private tokenize(user: User): Tokenized {
-    const { id, email, username, acl } = user;
-    const token = sign({ id, email });
-    const userToReturn = { id, email, username, acl };
-    return { token, user: userToReturn };
+    const token = sign({ id: user.id, email: user.email });
+    return { token, user };
   }
 
   private validateEmail(email: string): void {
@@ -41,7 +41,16 @@ export default class UserModel {
   }
 
   public async findOne(id: number): Promise<Tokenized> {
-    const user = await this.client.user.findUnique({ where: { id } });
+    const user = await this.client.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        acl: true,
+        categories: true
+      }
+    });
     if (!user) throw new Error('That user does not exist');
     return this.tokenize(user);
   }

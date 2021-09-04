@@ -17,28 +17,38 @@ enum ACLTypes {
 }
 
 model User {
-  id              Int      @id @default(autoincrement())
-  acl             ACLTypes @default(public)
-  email           String   @unique
-  normalizedEmail String   @unique @map("normalized_email")
-  username        String   @unique
+  id              Int        @id @default(autoincrement())
+  acl             ACLTypes   @default(public)
+  email           String     @unique
+  normalizedEmail String     @unique @map("normalized_email")
+  username        String     @unique
   password        String
   tags            Json[]
-  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+  createdAt       DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime   @updatedAt @map("updated_at") @db.Timestamptz
   posts           Post[]
+  categories      Category[]
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int      @map("user_id")
-  title     String
-  subtitle  String?
-  body      String
-  category  String?
-  tags      String[]
-  public    Boolean  @default(false)
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+  id         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [userId], references: [id])
+  userId     Int       @map("user_id")
+  title      String
+  subtitle   String?
+  body       String
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?      @map("category_id")
+  tags       String[]
+  public     Boolean   @default(false)
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+}
+
+model Category {
+  id     Int    @id @default(autoincrement())
+  name   String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @map("user_id")
+  posts  Post[]
 }

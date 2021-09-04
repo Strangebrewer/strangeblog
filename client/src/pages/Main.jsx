@@ -10,6 +10,7 @@ import { savePost, listPublicPosts, listPosts, getOnePublicPost, getOnePost } fr
 
 const Main = (props) => {
   const history = useHistory();
+  const [categoryId, setCategoryId] = useState('');
 
   const { admin, friend, authenticated } = props;
 
@@ -22,6 +23,13 @@ const Main = (props) => {
       }
     })();
   }, [admin, friend, authenticated]);
+
+  function handleSelectChange({ target }) {
+    const { name, value } = target;
+    console.log('name:::', name);
+    console.log('value:::', value);
+    setCategoryId(value);
+  }
 
   function openSearch() {
     console.log('opening search');
@@ -48,11 +56,9 @@ const Main = (props) => {
 
   async function openSingleEdit(id) {
     if (props.admin || props.friend) {
-      await props.getOnePost(id);
-    } else {
-      await props.getOnePublicPost(id);
+      await props.getOnePost(id, true);
+      goTo('/editor/' + id);
     }
-    goTo('/editor');
   }
 
   return (
@@ -64,10 +70,11 @@ const Main = (props) => {
 
       <Nav>
         <button>Home</button>
-        <select name="category">
-          <option value="all">Filter by Category</option>
-          <option value="climate">Climate Change</option>
-          <option value="spirituality">Spirituality</option>
+        <select name="category" onChange={handleSelectChange} value={categoryId}>
+          <option value="">Filter by Category</option>
+          {props.categories.map((c, i) => (
+            <option key={`cat-${i}`} value={c.id}>{c.name}</option>
+          ))}
         </select>
         <button onClick={openSearch}>Search</button>
         {props.authenticated
@@ -119,7 +126,8 @@ function mapPropsToState(state) {
     admin: state.user.acl === "admin",
     authenticated: state.auth.authenticated,
     friend: state.user.acl === "friend",
-    posts: state.posts
+    posts: state.posts,
+    categories: state.categories
   }
 }
 

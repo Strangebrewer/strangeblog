@@ -17,7 +17,7 @@ const HOTKEYS = {
 };
 
 const PostEditor = props => {
-  const [value, setValue] = useState(props.post && props.post.id ? JSON.parse(props.post.body) : initialValue);
+  const [value, setValue] = useState(JSON.parse(props.post.body));
   const renderElement = useCallback(props => <Element {...props} />, []);
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -33,9 +33,7 @@ const PostEditor = props => {
   }
 
   async function save() {
-    // const update = { body: JSON.stringify(value) };
-    // if (props.post && props.post.id) update.id = props.post.id;
-    // props.save(update);
+    props.save(JSON.stringify(value));
   }
 
   function cancel() {

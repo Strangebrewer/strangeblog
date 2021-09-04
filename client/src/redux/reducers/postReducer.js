@@ -26,3 +26,11 @@ export function currentPostReducer(state = {}, action) {
       default: return state;
    }
 }
+
+export function editingPostReducer(state = {}, action) {
+   switch(action.type) {
+      case Post.SET_EDITING_POST:
+         return { ...action.payload };
+      default: return state;
+   }
+}

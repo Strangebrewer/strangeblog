@@ -14,7 +14,7 @@
     "start-og": "npm run build && node dist/server.js",
     "prisma:deploy": "npx prisma migrate deploy",
     "prisma:init": "npx prisma migrate dev --name \"init\" --preview-feature",
-    "prisma:migrate": "npx prisma migrate dev --name ",
+    "prisma:migrate": "npx prisma migrate dev --preview-feature --name ",
     "seed": "node seeds/index.js",
     "lint": "npx eslint . --ext .ts",
     "test": "jest --coverage"
