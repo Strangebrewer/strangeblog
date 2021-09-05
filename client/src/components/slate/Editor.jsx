@@ -17,7 +17,7 @@ const HOTKEYS = {
 };
 
 const PostEditor = props => {
-  const [value, setValue] = useState(JSON.parse(props.post.body));
+  const [value, setValue] = useState(props.post && props.post.body ? JSON.parse(props.post.body) : initialValue);
   const renderElement = useCallback(props => <Element {...props} />, []);
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -37,19 +37,18 @@ const PostEditor = props => {
   }
 
   function cancel() {
-    // props.cancel();
+    props.cancel();
   }
 
   async function saveAndClose() {
-    // save();
-    // cancel();
+    save();
+    cancel();
   }
 
   const editorFieldStyle = {
     backgroundColor: 'white',
     boxShadow: '4px 4px 8px #222',
     padding: '80px 120px',
-    width: '900px',
     fontSize: '18px'
   };
 

@@ -9,10 +9,11 @@ import PostEditor from './pages/PostEditor';
 import SinglePost from './pages/SinglePost';
 
 import Authentication from './utils/Authentication';
-import { Spinner } from './styles/Elements';
+import { Spinner, SpinnerWrap } from './styles/Elements';
 
 import { setAuthToken, resetAuthToken } from './utils/token';
 import { getCurrentUser } from './redux/actions/authActions';
+import { getCategories, getBlogData } from './redux/actions/otherActions';
 
 function App(props) {
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,7 @@ function App(props) {
       } catch (e) {
         if (token) resetAuthToken();
       } finally {
+        await props.getBlogData();
         setTimeout(() => setLoading(false), 1000);
       }
     })();
@@ -36,9 +38,9 @@ function App(props) {
   return (
     loading
       ? (
-        <div style={{ height: '100vh', background: 'linear-gradient(black, 88%, blue)' }} >
+        <SpinnerWrap background="linear-gradient(black, 88%, blue)">
           <Spinner size="120" border="10" />
-        </div >
+        </SpinnerWrap>
       ) : (
         <Router>
           <Switch>
@@ -52,6 +54,12 @@ function App(props) {
               exact
               path="/login"
               component={Authentication(Authoritaw, { required: false, authenticated: props.authenticated })}
+            />
+
+            <Route
+              exact
+              path="/editor"
+              component={Authentication(PostEditor, { adminRequired: true, admin: props.admin })}
             />
 
             <Route
@@ -86,6 +94,8 @@ function mapStateToProps(state) {
 }
 
 const dispatchProps = {
+  getBlogData,
+  getCategories,
   getUser: getCurrentUser
 };
 

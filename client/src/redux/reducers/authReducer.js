@@ -3,9 +3,9 @@ import * as Auth from '../action-types/authTypes';
 export function authReducer(state = {}, action) {
    switch (action.type) {
       case Auth.AUTHENTICATED:
-         return { ...state, authenticated: true }
+         return { authenticated: true }
       case Auth.UNAUTHENTICATED:
-         return { ...state, authenticated: false }
+         return { authenticated: false }
       case Auth.LOGIN_ERROR:
          return { ...state, loginError: action.payload }
       case Auth.SIGNUP_ERROR:
@@ -31,6 +31,8 @@ export function userReducer(state = {}, action) {
             ...state,
             ...action.payload
          }
+      case Auth.LOGOUT:
+         return {};
       default: return state;
    }
 }

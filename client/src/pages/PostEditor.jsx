@@ -3,37 +3,57 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Editor from '../components/slate/Editor';
+import { Spinner, SpinnerWrap } from '../styles/Elements';
 
 import { getOnePost, savePost } from '../redux/actions/postActions';
 
 const FullPageEditor = props => {
+  const history = useHistory();
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
-  const [tags, setTags] = useState([]);
   const [categoryId, setCategoryId] = useState('');
-  const [showAddTag, setShowAddTag] = useState(false);
+  const [tags, setTags] = useState([]);
+  const [post, setPost] = useState(null);
+
+  const [showTagInput, setShowTagInput] = useState(false);
   const [tagsToAdd, setTagsToAdd] = useState('');
 
   useEffect(() => {
     (async function () {
-      let post = await props.getOnePost(props.match.params.id, true);
-      setTitle(post.title);
-      setSubtitle(post.subtitle);
-      setTags(post.tags);
-      setCategoryId(post.categoryId);
+      let post = {
+        title: '',
+        subtitle: '',
+        tags: [],
+        categoryId: ''
+      };
+      if (props.match.params.id) {
+        post = await props.getOnePost(props.match.params.id);
+      }
+      setLocalVariables(post);
       setLoading(false);
     })();
   }, []);
 
+  function setLocalVariables(data) {
+    setPost(data);
+    setTitle(data.title);
+    setSubtitle(data.subtitle);
+    setTags(data.tags);
+    setCategoryId(data.categoryId);
+  }
+
   function canSave() {
-    if (
-      tags !== props.editing.tags
-      || categoryId !== props.editing.categoryId
-      || title !== props.editing.title
-      || subtitle !== props.editing.subtitle
-    ) return true;
-    return false;
+    console.log('post:::', post);
+    return true;
+    // if (
+    //   tags !== post.tags
+    //   || categoryId !== post.categoryId
+    //   || title !== post.title
+    //   || subtitle !== post.subtitle
+    // ) return true;
+    // return false;
   }
 
   function handleInputChange({ target }) {
@@ -51,30 +71,47 @@ const FullPageEditor = props => {
   }
 
   function addNewTags() {
-    console.log('tagsToAdd:::', tagsToAdd);
-    setTags([...tags, tagsToAdd])
+    const toAdd = tagsToAdd.split(',');
+    setTags([...tags, ...toAdd]);
     setTagsToAdd('')
-    setShowAddTag(false)
+    setShowTagInput(false)
   }
 
-  function save(bodyText) {
-    console.log('yeah fuck what');
+  async function save(bodyText) {
+    setSaving(true);
     const update = {
-      id: props.editing.id,
       tags,
       categoryId,
       title,
       subtitle
     };
+    if (post.id) update.id = post.id;
     if (bodyText) update.body = bodyText;
-    props.savePost(update, true);
+    const savedPost = await props.savePost(update, true);
+    setLocalVariables(savedPost);
+    setTimeout(() => setSaving(false), 1200);
+  }
+
+  function cancel() {
+    const { state } = history.location;
+    if (state && state.from) {
+      history.push(state.from);
+    } else {
+      history.push('/');
+    }
   }
 
   return (
     <PageWrapper>
+      {saving && (
+        <SpinnerWrap>
+          <Spinner size="120" border="10" style={{ zIndex: '999' }} />
+        </SpinnerWrap>
+      )}
+
       {!loading && (
         <>
-          <div>
+          <InputWrapper>
             <label htmlFor="title-edit">Title:</label>
             <input
               id="title-edit"
@@ -83,9 +120,9 @@ const FullPageEditor = props => {
               value={title}
               onChange={handleInputChange}
             />
-          </div>
+          </InputWrapper>
 
-          <div>
+          <InputWrapper>
             <label htmlFor="subtitle-edit">Subtitle:</label>
             <input
               id="subtitle-edit"
@@ -94,37 +131,39 @@ const FullPageEditor = props => {
               value={subtitle}
               onChange={handleInputChange}
             />
-          </div>
+          </InputWrapper>
 
-          <div>
+          <InputWrapper>
             <label htmlFor="category-select">Category:</label>
             <select name="categoryId" id="category-select" value={categoryId} onChange={handleInputChange}>
-              <option value="">none</option>
               {props.categories.map((c, i) => {
                 return <option value={c.id} key={`category-${i}`}>{c.name}</option>
               })}
             </select>
-          </div>
+          </InputWrapper>
 
-          <div>
-            <div>
-              <label htmlFor="tags-edit">Tags: {!showAddTag ? <AddTag onClick={() => setShowAddTag(true)}>+</AddTag> : null}</label>
-              {showAddTag
-                ? (
-                  <div>
-                    <input name="tagsToAdd" value={tagsToAdd} type="text" onChange={handleInputChange} />
-                    <button onClick={addNewTags}>add</button>
-                  </div>
-                ) : null}
-            </div>
-            <div>
-              {tags && tags.map((t, i) => {
-                let comma = i < tags.length - 1 ? ',' : '';
-                return <Tag key={`tag-${i}`}>{t} <span onClick={() => deleteTag(i)}>x</span>{comma}</Tag>
-              })}
-            </div>
-          </div>
-          <Editor post={props.editing} canSave={canSave()} save={save} />
+          {/* <div> */}
+          <InputWrapper>
+            <label htmlFor="tags-edit">Tags: {!showTagInput ? <AddTag onClick={() => setShowTagInput(true)}>+</AddTag> : null}</label>
+            {showTagInput
+              ? (
+                <div>
+                  <input name="tagsToAdd" value={tagsToAdd} type="text" onChange={handleInputChange} />
+                  <button onClick={addNewTags}>add</button>
+                  <button onClick={() => setShowTagInput(false)}>cancel</button>
+                </div>
+              ) : null}
+          </InputWrapper>
+          
+          <InputWrapper>
+            {tags && tags.map((t, i) => {
+              let comma = i < tags.length - 1 ? ',' : '';
+              return <Tag key={`tag-${i}`}>{t} <span onClick={() => deleteTag(i)}>x</span>{comma}</Tag>
+            })}
+          </InputWrapper>
+          {/* </div> */}
+
+          <Editor post={post} canSave={canSave()} save={save} cancel={cancel} />
         </>
       )}
     </PageWrapper>
@@ -133,7 +172,6 @@ const FullPageEditor = props => {
 
 function mapStateToProps(state) {
   return {
-    editing: state.editing,
     categories: state.categories
   }
 }
@@ -148,6 +186,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(FullPageEditor);
 export const PageWrapper = styled.div`
   min-height: 100vh;
   padding-top: 50px;
+`;
+
+const InputWrapper = styled.div`
+  margin: auto;
+  width: 900px;
 `;
 
 const Tag = styled.p`

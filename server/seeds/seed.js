@@ -12,8 +12,9 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
 
 (async function () {
   try {
-    await prisma.category.deleteMany();
     await prisma.post.deleteMany();
+    await prisma.category.deleteMany();
+    await prisma.blog.deleteMany();
     await prisma.user.deleteMany();
 
     userSeed.forEach(user => {
@@ -24,11 +25,47 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
       user.username = user.username.toLowerCase();
     });
 
+    await prisma.blog.create({
+      data: {
+        title: "we can't get there from here...",
+        subtitle: "a personal blog",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        bio: JSON.stringify([
+          {
+            type: 'paragraph',
+            children: [
+              { text: "Hello there." }
+            ]
+          },
+          {
+            type: 'paragraph',
+            children: [
+              {
+                text: "Welcome to my blawg - a collection of writings on whatever the hell I feel like. It's a repository for facts n factoids I want to remember & ideas I want to develop. It's a forum for rants, ramblings, rarities, and revelations, mine and otherwise. It's a sucker's bet, a fool's errand. How you doin?"
+              }
+            ]
+          },
+          {
+            type: 'paragraph',
+            children: [
+              {
+                text: "I am a proponent of science, a student of the perennial philosophy, and a keeper of my own god damned counsel. Many would say I lean left, but I would say I simply want the truth. So buckle up and suck it up, cupcake - the truth may well set you free, but not until it's had its way with you."
+              }
+            ]
+          }
+        ])
+      }
+    });
+
+    const blog = await prisma.blog.findMany();
+
     await prisma.user.createMany({ data: userSeed, skipDuplicates: true });
     const users = await prisma.user.findMany();
 
     categorySeed.forEach(c => {
       c.userId = users[0].id;
+      c.blogId = blog[0].id;
     });
     await prisma.category.createMany({ data: categorySeed, skipDuplicates: true });
     const categories = await prisma.category.findMany({});
@@ -48,10 +85,11 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
         }
       }));
       if (i % 2 === 0) {
-        p.categoryId = categories[0].id;
-      }
-      if ((i+2) % 3 === 0) {
         p.categoryId = categories[1].id;
+      } else if ((i + 2) % 3 === 0) {
+        p.categoryId = categories[2].id;
+      } else {
+        p.categoryId = categories[0].id;
       }
     });
 
@@ -60,10 +98,12 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
 
     await prisma.user.update({
       where: { id: users[2].id },
-      data: { tags: [
-        { id: posts[0].id, tags: ["high", "low"] },
-        { id: posts[3].id, tags: ["left", "right"] }
-      ]}
+      data: {
+        tags: [
+          { id: posts[0].id, tags: ["high", "low"] },
+          { id: posts[3].id, tags: ["left", "right"] }
+        ]
+      }
     });
 
     process.exit(0);

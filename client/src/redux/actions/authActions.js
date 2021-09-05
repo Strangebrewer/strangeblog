@@ -9,7 +9,6 @@ export function getCurrentUser() {
          const response = await API.user.me();
          dispatch({ type: Auth.AUTHENTICATED });
          dispatch({ type: Auth.SET_CURRENT_USER, payload: response.data.user });
-         dispatch({ type: SET_ALL_CATEGORIES, payload: response.data.user.categories });
       } catch (e) {
          dispatch({ type: Auth.UNAUTHENTICATED });
       }
@@ -52,6 +51,7 @@ export function logout() {
    return dispatch => {
       resetAuthToken();
       dispatch({ type: Auth.UNAUTHENTICATED });
+      dispatch({ type: Auth.LOGOUT });
    }
 }
 

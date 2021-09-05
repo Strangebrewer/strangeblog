@@ -55,7 +55,7 @@ export default {
   
   async post(req: Request, res: Response): Promise<void> {
     try {
-      req.body.user_id = req.user?.id;
+      req.body.userId = req.user.id;
       const response = await postModel.create(req.body);
       res.status(201).json(response);
     } catch (err) {

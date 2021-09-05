@@ -7,8 +7,7 @@ type PartialUser = {
   id: number;
   email: string;
   username: string;
-  acl: string,
-  categories?: { id: number, name: string, userId: number }
+  acl: string
 };
 
 type Tokenized = {
@@ -17,6 +16,12 @@ type Tokenized = {
 }
 
 export default class UserModel {
+  private readonly select = {
+    id: true,
+    email: true,
+    username: true,
+    acl: true
+  }
 
   constructor(private readonly client: IDatabaseClient) { }
 
@@ -43,27 +48,28 @@ export default class UserModel {
   public async findOne(id: number): Promise<Tokenized> {
     const user = await this.client.user.findUnique({
       where: { id },
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        acl: true,
-        categories: true
-      }
+      select: this.select
     });
     if (!user) throw new Error('That user does not exist');
     return this.tokenize(user);
   }
 
   public async update(id: number, data = {}): Promise<User> {
-    return await this.client.user.update({ where: { id }, data });
+    return await this.client.user.update({
+      where: { id },
+      data,
+      select: this.select
+    });
   }
 
   public async create(data: User): Promise<Tokenized> {
     this.validateEmail(data.email);
     data.password = this.hashPassword(data.password);
     data.normalizedEmail = data.email.toLowerCase();
-    const user = await this.client.user.create({ data });
+    const user = await this.client.user.create({
+      data,
+      select: this.select
+    });
     return this.tokenize(user);
   }
 
@@ -72,12 +78,17 @@ export default class UserModel {
   }
 
   public async login(email: string, password: string): Promise<Tokenized> {
-    const user = await this.client.user.findUnique({
+    let user = await this.client.user.findUnique({
       where: { normalizedEmail: email.toLowerCase() }
     });
+    console.log('user in login:::', user);
     if (!user) throw new Error('Can\'t find a user with that email');
     const passwordValid = this.checkPassword(password, user.password);
     if (passwordValid) {
+      user = await this.client.user.findUnique({
+        where: { normalizedEmail: email.toLowerCase() },
+        select: this.select
+      });
       return this.tokenize(user);
     } else {
       throw new Error('That password does not match');

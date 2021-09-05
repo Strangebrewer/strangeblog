@@ -24,7 +24,7 @@ const Element = ({ attributes, children, element }) => {
     default:
       return <P {...attributes}>{children}</P>
   }
-}
+};
 
 const Leaf = ({ attributes, children, leaf }) => {
   if (leaf.bold) children = <strong>{children}</strong>
@@ -32,19 +32,19 @@ const Leaf = ({ attributes, children, leaf }) => {
   if (leaf.italic) children = <em>{children}</em>
   if (leaf.strikethrough) children = <del>{children}</del>
   if (leaf.underline) children = <u>{children}</u>
-  if (leaf.red) children = <span style={{ color: '#bd0000' }}>{children}</span>
-  if (leaf.blue) children = <span style={{ color: '#1111ff' }}>{children}</span>
-  if (leaf.green) children = <span style={{ color: '#39ff14' }}>{children}</span>
-  if (leaf.yellow) children = <span style={{ color: '#fffb00' }}>{children}</span>
-  if (leaf.purple) children = <span style={{ color: '#660d8a' }}>{children}</span>
+  if (leaf.red) children = <RedSpan>{children}</RedSpan>
+  if (leaf.blue) children = <BlueSpan>{children}</BlueSpan>
+  if (leaf.green) children = <GreenSpan>{children}</GreenSpan>
+  if (leaf.yellow) children = <YellowSpan>{children}</YellowSpan>
+  if (leaf.purple) children = <PurpleSpan>{children}</PurpleSpan>
 
   return <span {...attributes}>{children}</span>
-}
+};
 
 export { Element, Leaf };
 
 const BlockQuote = styled.div`
-  border-left: 2px solid #e1e1e1;
+  border-left: 2px solid ${props => props.theme.mainRed};
   margin: 40px 0 40px 50px;
   padding: 0 100px 0 50px;
   opacity: .8;
@@ -55,6 +55,26 @@ const BlockQuote = styled.div`
   blockquote {
     text-indent: 25px;
   }
+`;
+
+const RedSpan = styled.span`
+  color: ${props => props.theme.mainRed};
+`;
+
+const BlueSpan = styled.span`
+  color: ${props => props.theme.nBlue};
+`;
+
+const GreenSpan = styled.span`
+  color: ${props => props.theme.nGreen};
+`;
+
+const YellowSpan = styled.span`
+  color: ${props => props.theme.nYellow};
+`;
+
+const PurpleSpan = styled.span`
+  color: ${props => props.theme.nPurple};
 `;
 
 const H1 = styled.h1`

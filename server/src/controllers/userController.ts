@@ -26,6 +26,7 @@ export default {
 
   async login(req: Request, res: Response): Promise<void> {
     try {
+      console.log('req.body:::', req.body);
       const data = await userModel.login(req.body.email, req.body.password);
       res.status(200).json(data);
     } catch (err) {
