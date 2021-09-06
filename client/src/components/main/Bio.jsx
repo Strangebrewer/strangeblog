@@ -24,6 +24,7 @@ const Bio = props => {
   const renderElement = useCallback(props => <Element {...props} />, []);
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const [readonly, setReadonly] = useState(true);
 
   function honKeyDown(e) {
     for (const hotkey in HOTKEYS) {
@@ -48,7 +49,11 @@ const Bio = props => {
   }
 
   function cancelBio() {
-    props.setBioEditable(false);
+    setReadonly(true);
+  }
+
+  function setEditable() {
+    if (props.admin) setReadonly(false);
   }
 
   const editorFieldStyle = {
@@ -58,18 +63,19 @@ const Bio = props => {
   return (
     <Wrapper>
       <Slate editor={editor} value={value} onChange={v => setValue(v)}>
-        {props.bioEditable && <RenderButtons visible />}
+        {!readonly && <RenderButtons visible />}
         <Editable
           style={editorFieldStyle}
           renderElement={renderElement}
           renderLeaf={renderLeaf}
           placeholder="Sup, sucka..."
-          readOnly={!props.bioEditable}
+          readOnly={readonly}
           onKeyDown={honKeyDown}
+          onDoubleClick={setEditable}
         />
       </Slate>
 
-      {props.bioEditable && (
+      {!readonly && (
         <Buttons>
           <button onClick={saveBio}>Save</button>
           <button onClick={saveBioAndClose}>Save &amp; Close</button>
@@ -82,6 +88,7 @@ const Bio = props => {
 
 function mapPropsToState(state) {
   return {
+    admin: state.user.acl === "admin",
     blog: state.blog
   }
 }
@@ -92,7 +99,7 @@ export default connect(mapPropsToState, mapDispatchToState)(Bio);
 
 const Wrapper = styled.section`
   width: 700px;
-  margin: auto;
+  margin: 12px auto;
   padding: 20px 0;
   border-bottom: 2px solid ${props => props.theme.mainRed};
   color: #aaa;

@@ -1,5 +1,6 @@
 import BaseAPI from './baseApi';
 import axios from '../plugins/axios';
+import querystring from 'querystring';
 
 class PostAPI extends BaseAPI {
   constructor() {
@@ -11,8 +12,10 @@ class PostAPI extends BaseAPI {
   }
 
   // may find this one useful...
-  listPublicPosts(query) {    
-    return axios.get(`${this.endpoint}/public`);
+  listPublicPosts(query) {
+    console.log('query:::', query);
+    console.log('querystring.stringify(query):::', querystring.stringify(query));
+    return axios.get(`${this.endpoint}/public${query ? '?' + querystring.stringify(query) : ''}`);
   }
 }
 

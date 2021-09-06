@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import slugify from 'slugify';
+import { format } from 'date-fns';
 import InlineEditor from '../slate/InlineEditor';
 import {
   savePost,
@@ -14,21 +15,24 @@ import {
 
 const Posts = props => {
   const history = useHistory();
+  const [take, setTake] = useState(10);
+  const [count, setCount] = useState(0);
 
   const { admin, friend, authenticated } = props;
 
   useEffect(() => {
     (async function () {
+      let result;
       if (admin || friend) {
-        props.listPosts();
+        result = await props.listPosts({ skip: 0, take, orderBy: 'updatedAt', order: 'desc' });
       } else {
-        props.listPublicPosts();
+        result = await props.listPublicPosts({ skip: 0, take, orderBy: 'updatedAt', order: 'desc', tags: 'advaita' });
       }
+      setCount(result.count);
     })();
   }, [admin, friend, authenticated]);
 
   function save(update) {
-    console.log('update:::', update);
     props.savePost(update);
   }
 
@@ -52,17 +56,27 @@ const Posts = props => {
     }
   }
 
+  async function nextTenPosts() {
+    const plus10 = take + 10
+    if (admin || friend) {
+      props.listPosts({ skip: 0, take: plus10, orderBy: 'updatedAt', order: 'desc' });
+    } else {
+      props.listPublicPosts({ skip: 0, take: plus10, orderBy: 'updatedAt', order: 'desc', tags: 'advaita' });
+    }
+    setTake(plus10);
+  }
+
   return (
     <Wrapper>
       {props.posts && props.posts.map((p) => {
         return (
           <Post key={`post-${p.id}`}>
             <div style={{ display: 'flex' }}>
-              <h2 onClick={() => getPost(p)} style={{ cursor: 'pointer' }}>{p.title}</h2>
+              <h2 className="post-title" onClick={() => getPost(p)} style={{ cursor: 'pointer' }}>{p.title}</h2>
               {props.admin && <span><button onClick={() => openSingleEdit(p.id)}><i className="fas fa-external-link-alt" /></button></span>}
             </div>
-            <h4>{p.subtitle}</h4>
-            <p>{p.createdAt}</p>
+            <h4 className="post-subtitle">{p.subtitle}</h4>
+            <p className="post-date">{format(new Date(p.createdAt), 'MMM dd, yyyy - hh:mm aaaa')}</p>
             <InlineEditor
               post={p}
               save={save}
@@ -72,6 +86,7 @@ const Posts = props => {
           </Post>
         )
       })}
+      {(count >= take) && <button onClick={nextTenPosts}>Load More...</button>}
     </Wrapper>
   )
 };
@@ -101,22 +116,23 @@ const Wrapper = styled.main`
 `;
 
 const Post = styled.article`
-  > div > h2 {
-    font-size: 28px;
+  .post-title {
+    font-size: 1.8rem;
     font-weight: bold;
     margin-bottom: 4px;
   }
 
-  > h4 {
-    font-size: 14px;
-    border-bottom: 1px solid grey;
+  .post-subtitle {
+    font-size: .88rem;
+    border-bottom: 1px solid ${props => props.theme.mainGrey};
     padding-bottom: 8px;
     margin-bottom: 4px;
     text-indent: 20px;
+    color: ${props => props.theme.mainRed};
   }
 
-  > p {
-    font-size: 10px;
+  .post-date {
+    font-size: .68rem;
     margin-bottom: 12px;
   }
 `;

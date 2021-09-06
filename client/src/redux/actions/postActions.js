@@ -17,7 +17,7 @@ export function listPosts(query = {}) {
   return async dispatch => {
     try {
       const response = await API.post.get(query);
-      dispatch({ type: Post.SET_ALL_POSTS, payload: response.data });
+      dispatch({ type: Post.SET_ALL_POSTS, payload: response.data.posts });
       return response.data;
     } catch (e) {
 
@@ -40,8 +40,8 @@ export function getOnePublicPost(id) {
 export function listPublicPosts(query = {}) {
   return async dispatch => {
     try {
-      const response = await API.post.listPublicPosts();
-      dispatch({ type: Post.SET_ALL_POSTS, payload: response.data });
+      const response = await API.post.listPublicPosts(query);
+      dispatch({ type: Post.SET_ALL_POSTS, payload: response.data.posts });
       return response.data;
     } catch (e) {
 

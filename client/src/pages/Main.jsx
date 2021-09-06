@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -7,8 +6,6 @@ import Nav from '../components/main/Nav';
 import Posts from '../components/main/Posts';
 
 const Main = (props) => {
-  const [bioEditable, setBioEditable] = useState(false);
-
   return (
     <PageWrapper>
       <Header>
@@ -16,9 +13,9 @@ const Main = (props) => {
         <p>{props.blog.subtitle}</p>
       </Header>
 
-      <Nav setBioEditable={setBioEditable} />
+      <Nav />
 
-      <Bio bioEditable={bioEditable} setBioEditable={setBioEditable} />
+      <Bio />
 
       <Posts />
     </PageWrapper>
@@ -46,13 +43,13 @@ const Header = styled.header`
   margin: auto;
 
   > h1 {
-    font-size: 48px;
+    font-size: 3rem;
     font-weight: 800;
     line-height: 1.8;
   }
 
   > p {
-    font-size: 22px;
+    font-size: 1.35rem;
     text-indent: 10px;
     color: ${props => props.theme.mainRed};
   }

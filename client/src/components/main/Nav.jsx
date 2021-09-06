@@ -8,8 +8,9 @@ import { logout } from '../../redux/actions/authActions';
 const Nav = props => {
   const history = useHistory();
   const [categoryId, setCategoryId] = useState('');
-
-  const { setBioEditable } = props;
+  const [searchHeight, setSearchHeight] = useState('56px');
+  const [searchWidth, setSearchWidth] = useState('360px');
+  const [transition, setTransition] = useState('max-width .2s ease-in-out, height .3s ease-in-out .06s')
 
   function handleSelectChange({ target }) {
     const { name, value } = target;
@@ -20,17 +21,24 @@ const Nav = props => {
   }
 
   function goTo(route, state) {
-    history.push(route, state)
+    history.push(route, state);
   }
 
   function openSearch() {
-    console.log('opening search');
-    console.log('props.authenticated:::', props.authenticated);
+    if (searchHeight === "150px") {
+      setTransition('max-width .2s ease-in-out .14s, height .3s ease-in-out');
+      setSearchHeight("56px");
+      setSearchWidth("360px");
+    } else {
+      setTransition('max-width .2s ease-in-out, height .3s ease-in-out .06s')
+      setSearchHeight("150px");
+      setSearchWidth("500px");
+    }
   }
 
   return (
-    <Wrapper>
-      <button>Home</button>
+    <Wrapper height={searchHeight} width={searchWidth} transition={transition}>
+      {/* <button>Home</button> */}
       <select name="category" onChange={handleSelectChange} value={categoryId}>
         <option value="None">Filter by Category</option>
         {props.categories.map((c, i) => {
@@ -40,7 +48,6 @@ const Nav = props => {
       </select>
       <button onClick={openSearch}>Search</button>
       {props.admin && <button onClick={() => goTo('/editor')}>New</button>}
-      {props.admin && <button onClick={() => setBioEditable(true)}>Edit</button>}
       {props.authenticated
         ? <button onClick={props.logout}>Logout</button>
         : <button onClick={() => goTo('/login')}>Login</button>
@@ -64,12 +71,19 @@ const mapDispatchToState = {
 export default connect(mapPropsToState, mapDispatchToState)(Nav);
 
 const Wrapper = styled.nav`
-  max-width: 420px;
-  margin: 30px auto;
+  max-width:  ${props => props.width};
+  margin: 30px auto 0 auto;
   padding: 16px 32px;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   background-color: #ffffff22;
   border-radius: 12px;
+  height: ${props => props.height};
+  transition: ${props => props.transition};
+
+  > button, > select {
+    height: 24px;
+  }
 `;
 

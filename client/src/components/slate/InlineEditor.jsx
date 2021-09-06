@@ -33,6 +33,12 @@ const DisplayEditor = props => {
     }
   }
 
+  function toggleEditable() {
+    if (props.isAdmin) {
+      setReadOnly(false);
+    }
+  }
+
   async function save() {
     const update = { body: JSON.stringify(value) };
     if (props.post && props.post.id) update.id = props.post.id;
@@ -49,16 +55,21 @@ const DisplayEditor = props => {
     setReadOnly(true);
   }
 
+  const editorStyles = {
+    fontSize: '1.2rem'
+  }
+
   return (
-    <>
-      {props.isAdmin && <button onClick={() => setReadOnly(false)}><i className="fas fa-edit" /></button>}
+    <div style={{ marginBottom: '60px' }}>
       <Slate editor={editor} value={value} onChange={v => setValue(v)}>
         {!readOnly && <RenderButtons visible />}
         <Editable
+          style={editorStyles}
           renderElement={renderElement}
           renderLeaf={renderLeaf}
           readOnly={readOnly}
           onKeyDown={honKeyDown}
+          onDoubleClick={toggleEditable}
         />
       </Slate>
 
@@ -69,7 +80,7 @@ const DisplayEditor = props => {
           <button onClick={cancel}>Cancel</button>
         </Buttons>
       )}
-    </>
+    </div>
   )
 }
 

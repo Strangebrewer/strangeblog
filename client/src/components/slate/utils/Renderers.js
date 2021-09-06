@@ -46,10 +46,10 @@ export { Element, Leaf };
 const BlockQuote = styled.div`
   border-left: 2px solid ${props => props.theme.mainRed};
   margin: 40px 0 40px 50px;
-  padding: 0 100px 0 50px;
+  padding: 0 50px 0 12px;
   opacity: .8;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: 2.2rem;
+  font-size: 1.4rem;
   font-style: italic;
 
   blockquote {

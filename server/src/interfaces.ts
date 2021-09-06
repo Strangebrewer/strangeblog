@@ -20,6 +20,7 @@ export interface IDatabaseClient {
     delete(query: Record<string, unknown>): Promise<Category>;
   },
   post: {
+    count(query: Record<string, unknown>): Promise<number>;
     findFirst(query: Record<string, unknown>): Promise<Post | null>;
     findUnique(query: Record<string, unknown>): Promise<Post | null>;
     findMany(query: Record<string, unknown>): Promise<Post[]>;

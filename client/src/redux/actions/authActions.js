@@ -1,5 +1,4 @@
 import * as Auth from '../action-types/authTypes';
-import { SET_ALL_CATEGORIES } from '../action-types/otherTypes';
 import * as API from '../../api';
 import { setAuthToken, resetAuthToken } from '../../utils/token';
 

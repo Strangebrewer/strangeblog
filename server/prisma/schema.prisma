@@ -36,8 +36,8 @@ model Blog {
   subtitle   String
   bio        String
   categories Category[]
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz
+  createdAt  DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime   @updatedAt @map("updated_at") @db.Timestamptz
 }
 
 model Post {
@@ -56,13 +56,13 @@ model Post {
 }
 
 model Category {
-  id     Int    @id @default(autoincrement())
-  name   String
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int    @map("user_id")
-  posts  Post[]
-  Blog   Blog   @relation(fields: [blogId], references: [id])
-  blogId Int    @map("blog_id")
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz
+  id        Int      @id @default(autoincrement())
+  name      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      @map("user_id")
+  posts     Post[]
+  Blog      Blog     @relation(fields: [blogId], references: [id])
+  blogId    Int      @map("blog_id")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 }

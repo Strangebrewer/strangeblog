@@ -15,7 +15,7 @@ export default {
   async listPublic(req: Request, res: Response): Promise<void> {
     try {
       console.log('req.query:::', req.query);
-      const response = await postModel.findPublicPosts(req.query);
+      const response = await postModel.findManyPublic(req.query);
       res.status(200).json(response);
     } catch (err) {
       console.log('err in postController listPublic:::', err);
