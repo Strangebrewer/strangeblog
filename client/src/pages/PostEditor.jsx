@@ -45,7 +45,6 @@ const FullPageEditor = props => {
   }
 
   function canSave() {
-    console.log('post:::', post);
     return true;
     // if (
     //   tags !== post.tags

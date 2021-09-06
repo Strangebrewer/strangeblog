@@ -24,9 +24,9 @@ const Posts = props => {
     (async function () {
       let result;
       if (admin || friend) {
-        result = await props.listPosts({ skip: 0, take, orderBy: 'updatedAt', order: 'desc' });
+        result = await props.listPosts({ skip: 0, take, orderBy: 'createdAt', order: 'desc' });
       } else {
-        result = await props.listPublicPosts({ skip: 0, take, orderBy: 'updatedAt', order: 'desc', tags: 'advaita' });
+        result = await props.listPublicPosts({ skip: 0, take, orderBy: 'createdAt', order: 'desc', tags: 'advaita' });
       }
       setCount(result.count);
     })();
@@ -59,9 +59,9 @@ const Posts = props => {
   async function nextTenPosts() {
     const plus10 = take + 10
     if (admin || friend) {
-      props.listPosts({ skip: 0, take: plus10, orderBy: 'updatedAt', order: 'desc' });
+      await props.listPosts({ skip: 0, take: plus10, orderBy: 'createdAt', order: 'desc' });
     } else {
-      props.listPublicPosts({ skip: 0, take: plus10, orderBy: 'updatedAt', order: 'desc', tags: 'advaita' });
+      await props.listPublicPosts({ skip: 0, take: plus10, orderBy: 'createdAt', order: 'desc', tags: 'advaita' });
     }
     setTake(plus10);
   }
@@ -76,7 +76,13 @@ const Posts = props => {
               {props.admin && <span><button onClick={() => openSingleEdit(p.id)}><i className="fas fa-external-link-alt" /></button></span>}
             </div>
             <h4 className="post-subtitle">{p.subtitle}</h4>
-            <p className="post-date">{format(new Date(p.createdAt), 'MMM dd, yyyy - hh:mm aaaa')}</p>
+            <Tags>
+              <h5>{format(new Date(p.createdAt), 'MMM dd, yyyy - hh:mm aaaa')} <span>-</span></h5>
+              <div>
+                <h4>Tags<span>:</span> </h4>
+                <p>{p.tags.map((t, i) => <span>{t}</span>)}</p>
+              </div>
+            </Tags>
             <InlineEditor
               post={p}
               save={save}
@@ -130,9 +136,40 @@ const Post = styled.article`
     text-indent: 20px;
     color: ${props => props.theme.mainRed};
   }
+`;
 
-  .post-date {
+const Tags = styled.div`
+  display: flex;
+  font-size: .68rem;
+  margin-bottom: 24px;
+
+  > h5 {
     font-size: .68rem;
-    margin-bottom: 12px;
+    margin-right: 8px;
+    padding: 3px 0;
+    align-self: flex-start;
+
+    > span {
+      color: ${props => props.theme.mainRed};
+      padding-left: 8px;
+    }
+  }
+
+  > div {
+    display: flex;
+
+    > h4 {
+      padding: 3px 8px 0 3px;
+    }
+
+    > p {
+      > span {
+        background-color: #444;
+        border-radius: 3px;
+        display: inline-block;
+        margin: 2px;
+        padding: 2px 4px;
+      }
+    }
   }
 `;

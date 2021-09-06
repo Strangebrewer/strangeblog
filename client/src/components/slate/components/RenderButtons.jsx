@@ -157,9 +157,9 @@ const EditorBtnArray = styled.div`
   &:hover {
     opacity: 1;
   }
-  button span {
+  > button > span {
     font-family: 'Times New Roman', Times, serif;
-    font-size: 1rem;
+    font-size: .75rem;
     font-weight: bold;
     line-height: 0.5;
     margin: 0;
@@ -170,7 +170,7 @@ const EditorBtnArray = styled.div`
 const EditorBtn = styled.button`
   box-shadow: 2px 2px 1px #222;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: .75rem;
   height: ${props => props.inline ? '25px' : '30px'};
   margin: 0 5px 0 0;
   opacity: ${props => props.active ? 1 : 0.6};
