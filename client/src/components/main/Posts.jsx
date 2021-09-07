@@ -15,8 +15,8 @@ import {
 
 const Posts = props => {
   const history = useHistory();
-  const [take, setTake] = useState(10);
   const [count, setCount] = useState(0);
+  const [searchCriteria, setSearchCriteria] = useState(getBasicSearchCriteria());
 
   const { admin, friend, authenticated } = props;
 
@@ -24,9 +24,9 @@ const Posts = props => {
     (async function () {
       let result;
       if (admin || friend) {
-        result = await props.listPosts({ skip: 0, take, orderBy: 'createdAt', order: 'desc' });
+        result = await props.listPosts(getBasicSearchCriteria());
       } else {
-        result = await props.listPublicPosts({ skip: 0, take, orderBy: 'createdAt', order: 'desc', tags: 'advaita' });
+        result = await props.listPublicPosts(getBasicSearchCriteria());
       }
       setCount(result.count);
     })();
@@ -57,13 +57,34 @@ const Posts = props => {
   }
 
   async function nextTenPosts() {
-    const plus10 = take + 10
+    const plus10 = searchCriteria.take + 10
     if (admin || friend) {
-      await props.listPosts({ skip: 0, take: plus10, orderBy: 'createdAt', order: 'desc' });
+      await props.listPosts({ ...searchCriteria, take: plus10 });
     } else {
-      await props.listPublicPosts({ skip: 0, take: plus10, orderBy: 'createdAt', order: 'desc', tags: 'advaita' });
+      await props.listPublicPosts({ ...searchCriteria, take: plus10 });
     }
-    setTake(plus10);
+    setSearchCriteria({ ...searchCriteria, take: plus10 });
+  }
+
+  async function searchByTag(tag) {
+    const search = { ...getBasicSearchCriteria(), tags: tag };
+    setSearchCriteria(search);
+    let result;
+    if (admin || friend) {
+      result = await props.listPosts(search);
+    } else {
+      result = await props.listPublicPosts(search);
+    }
+    setCount(result.count);
+  }
+
+  function getBasicSearchCriteria() {
+    return {
+      skip: 0,
+      take: 10,
+      orderBy: 'createdAt',
+      order: 'desc'
+    };
   }
 
   return (
@@ -76,13 +97,15 @@ const Posts = props => {
               {props.admin && <span><button onClick={() => openSingleEdit(p.id)}><i className="fas fa-external-link-alt" /></button></span>}
             </div>
             <h4 className="post-subtitle">{p.subtitle}</h4>
+
             <Tags>
               <h5>{format(new Date(p.createdAt), 'MMM dd, yyyy - hh:mm aaaa')} <span>-</span></h5>
               <div>
                 <h4>Tags<span>:</span> </h4>
-                <p>{p.tags.map((t, i) => <span>{t}</span>)}</p>
+                <p>{p.tags.map((t, i) => <span onClick={() => searchByTag(t)}>{t}</span>)}</p>
               </div>
             </Tags>
+
             <InlineEditor
               post={p}
               save={save}
@@ -92,7 +115,7 @@ const Posts = props => {
           </Post>
         )
       })}
-      {(count >= take) && <button onClick={nextTenPosts}>Load More...</button>}
+      {(count >= searchCriteria.take) && <button onClick={nextTenPosts}>Load More...</button>}
     </Wrapper>
   )
 };
@@ -166,6 +189,7 @@ const Tags = styled.div`
       > span {
         background-color: #444;
         border-radius: 3px;
+        cursor: pointer;
         display: inline-block;
         margin: 2px;
         padding: 2px 4px;
