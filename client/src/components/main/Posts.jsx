@@ -78,6 +78,18 @@ const Posts = props => {
     setCount(result.count);
   }
 
+  async function searchByUserTag(tag) {
+    const search = { ...getBasicSearchCriteria(), tags: tag, byUserTag: true };
+    setSearchCriteria(search);
+    let result;
+    if (admin || friend) {
+      result = await props.listPosts(search);
+    } else {
+      result = await props.listPublicPosts(search);
+    }
+    setCount(result.count);
+  }
+
   function getBasicSearchCriteria() {
     return {
       skip: 0,
@@ -87,24 +99,50 @@ const Posts = props => {
     };
   }
 
+  function deletePost(id) {
+    console.log('id in deletePost:::', id);
+  }
+
+  function addTag(id) {
+    console.log('id in addTag:::', id);
+  }
+
   return (
     <Wrapper>
       {props.posts && props.posts.map((p) => {
         return (
           <Post key={`post-${p.id}`}>
-            <div style={{ display: 'flex' }}>
+            <MetaData>
               <h2 className="post-title" onClick={() => getPost(p)} style={{ cursor: 'pointer' }}>{p.title}</h2>
-              {props.admin && <span><button onClick={() => openSingleEdit(p.id)}><i className="fas fa-external-link-alt" /></button></span>}
-            </div>
-            <h4 className="post-subtitle">{p.subtitle}</h4>
+              <h4 className="post-subtitle">{p.subtitle}</h4>
 
-            <Tags>
+              {props.admin && (
+                <div className="post-buttons">
+                  <button onClick={() => openSingleEdit(p.id)}>
+                    <i className="fas fa-external-link-alt" title="open in editor" />
+                  </button>
+                  <button onClick={() => deletePost(p.id)}>
+                    <i className="far fa-trash-alt" title="delete this post" />
+                  </button>
+                  <button onClick={() => addTag(p.id)}>
+                    <i className="fas fa-tag" title="add tag" />
+                  </button>
+                </div>
+              )}
+            </MetaData>
+
+            <TagWrapper>
               <h5>{format(new Date(p.createdAt), 'MMM dd, yyyy - hh:mm aaaa')} <span>-</span></h5>
-              <div>
-                <h4>Tags<span>:</span> </h4>
-                <p>{p.tags.map((t, i) => <span onClick={() => searchByTag(t)}>{t}</span>)}</p>
-              </div>
-            </Tags>
+              {
+                p.tags.length
+                  ? (
+                    <Tags>
+                      <h4>Tags<span>:</span> </h4>
+                      <p>{p.tags.map((t, i) => <span onClick={() => searchByTag(t)} key={`tag-${i}`}>{t}</span>)}</p>
+                    </Tags>
+                  ) : null
+              }
+            </TagWrapper>
 
             <InlineEditor
               post={p}
@@ -112,11 +150,20 @@ const Posts = props => {
               isAdmin={props.admin}
               edit={openSingleEdit}
             />
+
+            {
+              p.userTags && (
+                <Tags userTags>
+                  <h4>My Tags<span>:</span> </h4>
+                  <p>{p.userTags.map((t, i) => <span onClick={() => searchByUserTag(t)} key={`my-tag-${i}`}>{t}</span>)}</p>
+                </Tags>
+              )
+            }
           </Post>
         )
       })}
       {(count >= searchCriteria.take) && <button onClick={nextTenPosts}>Load More...</button>}
-    </Wrapper>
+    </Wrapper >
   )
 };
 
@@ -124,7 +171,8 @@ function mapPropsToState(state) {
   return {
     admin: state.user.acl === "admin",
     friend: state.user.acl === "friend",
-    posts: state.posts
+    posts: state.posts,
+    user: state.user
   }
 }
 
@@ -144,7 +192,9 @@ const Wrapper = styled.main`
   padding: 20px 0;
 `;
 
-const Post = styled.article`
+const MetaData = styled.div`
+  position: relative;
+
   .post-title {
     font-size: 1.8rem;
     font-weight: bold;
@@ -159,9 +209,28 @@ const Post = styled.article`
     text-indent: 20px;
     color: ${props => props.theme.mainRed};
   }
+
+  .post-buttons {
+    position: absolute;
+    right: 0;
+    top: 8px;
+
+    > button {
+      background-color: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin-right: 4px;
+      outline: transparent;
+    }
+  }
 `;
 
-const Tags = styled.div`
+const Post = styled.article`
+  margin-bottom: 60px;
+`;
+
+const TagWrapper = styled.div`
   display: flex;
   font-size: .68rem;
   margin-bottom: 24px;
@@ -177,23 +246,25 @@ const Tags = styled.div`
       padding-left: 8px;
     }
   }
+`;
 
-  > div {
-    display: flex;
+const Tags = styled.div`
+  display: flex;
+  font-size: .68rem;
+  margin-top: ${props => props.userTags && '24px'};
 
-    > h4 {
-      padding: 3px 8px 0 3px;
-    }
+  > h4 {
+    padding: 3px 8px 0 3px;
+  }
 
-    > p {
-      > span {
-        background-color: #444;
-        border-radius: 3px;
-        cursor: pointer;
-        display: inline-block;
-        margin: 2px;
-        padding: 2px 4px;
-      }
+  > p {
+    > span {
+      background-color: #444;
+      border-radius: 3px;
+      cursor: pointer;
+      display: inline-block;
+      margin: 2px;
+      padding: 2px 4px;
     }
   }
 `;

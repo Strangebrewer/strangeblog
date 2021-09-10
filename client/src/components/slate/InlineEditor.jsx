@@ -60,7 +60,7 @@ const DisplayEditor = props => {
   }
 
   return (
-    <div style={{ marginBottom: '60px' }}>
+    <div>
       <Slate editor={editor} value={value} onChange={v => setValue(v)}>
         {!readOnly && <RenderButtons visible />}
         <Editable
