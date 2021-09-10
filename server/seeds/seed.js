@@ -99,10 +99,24 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
     await prisma.user.update({
       where: { id: users[2].id },
       data: {
-        tags: [
-          { id: posts[0].id, tags: ["high", "low"] },
-          { id: posts[3].id, tags: ["left", "right"] }
-        ]
+        tags: posts.map((p, index) => {
+          if (index === 0) return { id: p.id, tags: ["high", "low", "derp", "feck"] }
+          else if (index === 3) return { id: p.id, tags: ["narf", "derp", "feck"] }
+          else if (index < posts.length - 3) return { id: p.id, tags: ["derp", "feck"] }
+          else return { id: p.id, tags: ["narf", "derp"] }
+        })
+      }
+    });
+
+    await prisma.user.update({
+      where: { id: users[0].id },
+      data: {
+        tags: posts.map((p, index) => {
+          if (index === 0) return { id: p.id, tags: ["high", "low", "derp", "feck"] }
+          else if (index === 3) return { id: p.id, tags: ["narf", "derp", "feck"] }
+          else if (index < posts.length - 3) return { id: p.id, tags: ["derp", "feck"] }
+          else return { id: p.id, tags: ["narf", "derp"] }
+        })
       }
     });
 

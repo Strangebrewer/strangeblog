@@ -1,18 +1,18 @@
 import express from 'express';
 const router = express.Router();
 import userController from '../controllers/userController';
-import isAuthenticated from '../utils/isAuthenticated';
+import authenticate from '../utils/authenticate';
 
 router.route('/')
-  .get(isAuthenticated, userController.getCurrentUser)
+  .get(authenticate, userController.getCurrentUser)
   .post(userController.register);
 
 router.post('/login', userController.login);
 
-router.put('/password/:id', isAuthenticated, userController.updatePassword);
+router.put('/password/:id', authenticate, userController.updatePassword);
 
 router.route('/:id')
-  .put(isAuthenticated, userController.update)
-  .delete(isAuthenticated, userController.destroy);
+  .put(authenticate, userController.update)
+  .delete(authenticate, userController.destroy);
 
 export default router;

@@ -9,15 +9,18 @@ interface IInitialData {
   take?: string;
   orderBy?: string;
   order?: string;
+  byUserTag?: boolean;
+  ids?: string[];
 }
 
 interface ISearch {
   category?: string;
   tags?: Record<string, unknown>;
   title?: Record<string, unknown>;
+  id?: Record<string, unknown>;
 }
 
-interface IQuery {
+interface IOptions {
   skip?: number;
   take?: number;
   orderBy?: Record<string, unknown>;
@@ -26,18 +29,22 @@ interface IQuery {
 export default class PostModel {
   public constructor(private readonly client: IDatabaseClient) { }
 
-  private buildQuery(data: IInitialData = {}): { search: ISearch, query: IQuery } {
+  private buildQuery(data: IInitialData = {}): { search: ISearch, options: IOptions } {
     const search: ISearch = {};
-    if (data.tags) search.tags = { hasEvery: data.tags.split(',') };
+    if (data.ids && data.ids.length) {
+      const ids = data.ids.map(id => parseInt(id));
+      search.id = { in: ids }
+    }
+    if (data.tags && !data.byUserTag) search.tags = { hasEvery: data.tags.split(',') };
     if (data.category) search.category = data.category;
     if (data.title) search.title = { contains: data.title, mode: 'insensitive' };
 
-    const query: IQuery = {};
-    if (data.skip) query.skip = parseInt(data.skip);
-    if (data.take) query.take = parseInt(data.take);
-    if (data.orderBy) query.orderBy = { [data.orderBy]: data.order };
+    const options: IOptions = {};
+    if (data.skip) options.skip = parseInt(data.skip);
+    if (data.take) options.take = parseInt(data.take);
+    if (data.orderBy) options.orderBy = { [data.orderBy]: data.order };
 
-    return { search, query };
+    return { search, options };
   }
 
   public async findOne(id: number): Promise<Post | null> {
@@ -45,10 +52,10 @@ export default class PostModel {
   }
 
   public async findMany(data: IInitialData = {}): Promise<{ posts: Post[], count: number }> {
-    const { search, query } = this.buildQuery(data);
+    const { search, options } = this.buildQuery(data);
     const posts = await this.client.post.findMany({
       where: { ...search },
-      ...query
+      ...options
     });
     const count = await this.client.post.count({ where: { ...search } });
 
@@ -60,11 +67,11 @@ export default class PostModel {
   }
 
   public async findManyPublic(data: IInitialData = {}): Promise<{ posts: Post[], count: number }> {
-    const { search, query } = this.buildQuery(data);
+    const { search, options } = this.buildQuery(data);
 
     const posts = await this.client.post.findMany({
       where: { ...search, public: true },
-      ...query
+      ...options
     });
     const count = await this.client.post.count({ where: { ...search, public: true } });
 

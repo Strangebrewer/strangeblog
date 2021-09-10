@@ -45,6 +45,13 @@ export default class UserModel {
     return bcrypt.compareSync(given, original);
   }
 
+  public async getUserTags(userId: number): Promise<User> {
+    return await this.client.user.findUnique({
+      where: { id: userId },
+      select: { tags: true }
+    })
+  }
+
   public async findOne(id: number): Promise<Tokenized> {
     const user = await this.client.user.findUnique({
       where: { id },

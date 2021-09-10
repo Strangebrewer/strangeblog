@@ -3,6 +3,7 @@ declare namespace Express {
     id: number;
     email: string;
     acl: string;
-    categories?: any
+    categories?: any;
+    tags?: any
   }
 }

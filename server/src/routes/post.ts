@@ -1,21 +1,21 @@
 import express from 'express';
 const router = express.Router();
 import postController from '../controllers/postController';
-import isAuthenticated from '../utils/isAuthenticated';
+import authenticate from '../utils/authenticate';
 import isAdmin from '../utils/isAdmin';
 import isAdminOrFriend from '../utils/isAdminOrFriend';
 
-router.get('/public', postController.listPublic);
+router.get('/public', authenticate, postController.listPublic);
 
-router.get('/public/:id', postController.getOnePublic);
+router.get('/public/:id', authenticate, postController.getOnePublic);
 
 router.route('/')
-  .get(isAuthenticated, isAdminOrFriend, postController.list)
-  .post(isAuthenticated, isAdmin, postController.post);
+  .get(authenticate, isAdminOrFriend, postController.list)
+  .post(authenticate, isAdmin, postController.post);
 
 router.route('/:id')
-  .get(isAuthenticated, isAdminOrFriend, postController.getOne)
-  .put(isAuthenticated, isAdmin, postController.put)
-  .delete(isAuthenticated, isAdmin, postController.destroy);
+  .get(authenticate, isAdminOrFriend, postController.getOne)
+  .put(authenticate, isAdmin, postController.put)
+  .delete(authenticate, isAdmin, postController.destroy);
 
 export default router;
