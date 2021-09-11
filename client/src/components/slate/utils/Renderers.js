@@ -28,7 +28,7 @@ const Element = ({ attributes, children, element }) => {
 
 const Leaf = ({ attributes, children, leaf }) => {
   if (leaf.bold) children = <strong>{children}</strong>
-  if (leaf.code) children = <code style={{ background: '#eeeeee', borderRadius: '2px' }}>{children}</code>
+  if (leaf.code) children = <code style={{ background: '#ccc', color: '#222', borderRadius: '2px' }}>{children}</code>
   if (leaf.italic) children = <em>{children}</em>
   if (leaf.strikethrough) children = <del>{children}</del>
   if (leaf.underline) children = <u>{children}</u>
@@ -99,4 +99,5 @@ const H3 = styled.h1`
 const P = styled.p`
   line-height: 1.5;
   text-indent: 30px;
+  margin: 16px 0;
 `;

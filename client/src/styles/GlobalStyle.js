@@ -44,6 +44,9 @@ export const GlobalStyle = createGlobalStyle`
     content: '';
     content: none;
   }
+  code {
+    font-family: monospace;
+  }
   table {
     border-collapse: collapse;
     border-spacing: 0;

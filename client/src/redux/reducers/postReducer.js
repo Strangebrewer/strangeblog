@@ -15,6 +15,13 @@ export function postReducer(state = [], action) {
             }
             return a;
          });
+      case Post.EDIT_USER_TAGS_IN_POST:
+         return state.map(a => {
+            if (a.id === action.payload.id) {
+               a.userTags = action.payload.tags;
+            }
+            return a;
+         })
       default: return state;
    }
 }

@@ -1,4 +1,5 @@
 import * as Post from '../action-types/postTypes';
+import * as Auth from '../action-types/authTypes';
 import * as API from '../../api';
 
 export function getOnePost(id) {
@@ -73,6 +74,20 @@ export function savePost(data) {
       return response.data;
     } catch (e) {
       console.log('e in savePost:::', e);
+    }
+  }
+}
+
+export function saveUserTags(userId, data) {
+  return async dispatch => {
+    try {
+      console.log('data in saveUserTags:::', data);
+      const response = await API.user.updateUserTags(userId, data);
+      dispatch({ type: Auth.SET_CURRENT_USER, payload: response.data });
+      dispatch({ type: Post.EDIT_USER_TAGS_IN_POST, payload: data });
+      console.log('response:::', response);
+    } catch (e) {
+      
     }
   }
 }
