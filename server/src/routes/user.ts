@@ -10,6 +10,7 @@ router.route('/')
 router.post('/login', userController.login);
 
 router.put('/password/:id', authenticate, userController.updatePassword);
+router.put('/tags/:id', authenticate, userController.updateUserTags);
 
 router.route('/:id')
   .put(authenticate, userController.update)

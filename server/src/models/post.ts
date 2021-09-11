@@ -29,6 +29,46 @@ interface IOptions {
 export default class PostModel {
   public constructor(private readonly client: IDatabaseClient) { }
 
+  public async findOne(id: number): Promise<Post | null> {
+    return await this.client.post.findUnique({ where: { id } });
+  }
+
+  public async findMany(data: IInitialData = {}): Promise<{ posts: Post[], count: number }> {
+    const { search, options } = this.buildQuery(data);    
+    const posts = await this.client.post.findMany({
+      where: { ...search },
+      ...options
+    });
+    const count = await this.client.post.count({ where: { ...search } });
+    return { posts, count };
+  }
+
+  public async findOnePublic(id: number): Promise<Post | null> {
+    return await this.client.post.findUnique({ where: { id, public: true } });
+  }
+
+  public async findManyPublic(data: IInitialData = {}): Promise<{ posts: Post[], count: number }> {
+    const { search, options } = this.buildQuery(data);
+    const posts = await this.client.post.findMany({
+      where: { ...search, public: true },
+      ...options
+    });
+    const count = await this.client.post.count({ where: { ...search, public: true } });
+    return { posts, count };
+  }
+
+  public async update(id: number, data: Partial<Post>): Promise<Post> {
+    return await this.client.post.update({ where: { id }, data });
+  }
+
+  public async create(data: Post): Promise<Post> {
+    return await this.client.post.create({ data });
+  }
+
+  public async delete(id: number): Promise<Post> {
+    return await this.client.post.delete({ where: { id } });
+  }
+
   private buildQuery(data: IInitialData = {}): { search: ISearch, options: IOptions } {
     const search: ISearch = {};
     if (data.ids && data.ids.length) {
@@ -45,48 +85,5 @@ export default class PostModel {
     if (data.orderBy) options.orderBy = { [data.orderBy]: data.order };
 
     return { search, options };
-  }
-
-  public async findOne(id: number): Promise<Post | null> {
-    return await this.client.post.findUnique({ where: { id } });
-  }
-
-  public async findMany(data: IInitialData = {}): Promise<{ posts: Post[], count: number }> {
-    const { search, options } = this.buildQuery(data);
-    const posts = await this.client.post.findMany({
-      where: { ...search },
-      ...options
-    });
-    const count = await this.client.post.count({ where: { ...search } });
-
-    return { posts, count };
-  }
-
-  public async findOnePublic(id: number): Promise<Post | null> {
-    return await this.client.post.findUnique({ where: { id, public: true } });
-  }
-
-  public async findManyPublic(data: IInitialData = {}): Promise<{ posts: Post[], count: number }> {
-    const { search, options } = this.buildQuery(data);
-
-    const posts = await this.client.post.findMany({
-      where: { ...search, public: true },
-      ...options
-    });
-    const count = await this.client.post.count({ where: { ...search, public: true } });
-
-    return { posts, count };
-  }
-
-  public async update(id: number, data: Partial<Post>): Promise<Post> {
-    return await this.client.post.update({ where: { id }, data });
-  }
-
-  public async create(data: Post): Promise<Post> {
-    return await this.client.post.create({ data });
-  }
-
-  public async delete(id: number): Promise<Post> {
-    return await this.client.post.delete({ where: { id } });
   }
 }

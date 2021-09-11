@@ -26,7 +26,6 @@ export default {
 
   async login(req: Request, res: Response): Promise<void> {
     try {
-      console.log('req.body:::', req.body);
       const data = await userModel.login(req.body.email, req.body.password);
       res.status(200).json(data);
     } catch (err) {
@@ -37,9 +36,20 @@ export default {
 
   async update(req: Request, res: Response): Promise<void> {
     try {
-      console.log('Hello from user update');
+      const data = await userModel.update(req.body);
+      res.status(200).json(data);
     } catch (err) {
       console.log('err in userController update:::', err);
+      res.status(400).send({ message: err.message });
+    }
+  },
+
+  async updateUserTags(req: Request, res: Response): Promise<void> {
+    try {
+      const data = await userModel.updateUserTags(req.user.id, req.body);
+      res.status(200).json(data);
+    } catch (err) {
+      console.log('err in userController updateUserTags:::', err);
       res.status(400).send({ message: err.message });
     }
   },

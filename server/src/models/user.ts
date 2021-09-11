@@ -15,6 +15,11 @@ type Tokenized = {
   user: PartialUser;
 }
 
+type UserTag = {
+  id: number;
+  tags: string[];
+}
+
 export default class UserModel {
   private readonly select = {
     id: true,
@@ -24,26 +29,6 @@ export default class UserModel {
   }
 
   constructor(private readonly client: IDatabaseClient) { }
-
-  private tokenize(user: User): Tokenized {
-    const token = sign({ id: user.id, email: user.email });
-    return { token, user };
-  }
-
-  private validateEmail(email: string): void {
-    const test = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email);
-    if (!test)
-      throw new Error('That is not a valid email.');
-    return;
-  }
-
-  private hashPassword(password: string): string {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-  }
-
-  private checkPassword(given: string, original: string): boolean {
-    return bcrypt.compareSync(given, original);
-  }
 
   public async getUserTags(userId: number): Promise<User> {
     return await this.client.user.findUnique({
@@ -69,14 +54,25 @@ export default class UserModel {
     });
   }
 
+  public async updateUserTags(userId: number, data: UserTag) {
+    const user = await this.client.user.findUnique({ where: { id: userId } });
+    const tags = user.tags ? [...user.tags] : [];
+    const index = tags.findIndex((tag: UserTag) => tag.id === data.id);
+    tags.splice(index, 1, data);
+    return this.update(userId, { tags });
+  }
+
   public async create(data: User): Promise<Tokenized> {
     this.validateEmail(data.email);
+
     data.password = this.hashPassword(data.password);
     data.normalizedEmail = data.email.toLowerCase();
+
     const user = await this.client.user.create({
       data,
       select: this.select
     });
+
     return this.tokenize(user);
   }
 
@@ -88,17 +84,39 @@ export default class UserModel {
     let user = await this.client.user.findUnique({
       where: { normalizedEmail: email.toLowerCase() }
     });
-    console.log('user in login:::', user);
+    
     if (!user) throw new Error('Can\'t find a user with that email');
+
     const passwordValid = this.checkPassword(password, user.password);
     if (passwordValid) {
       user = await this.client.user.findUnique({
         where: { normalizedEmail: email.toLowerCase() },
         select: this.select
       });
+
       return this.tokenize(user);
     } else {
       throw new Error('That password does not match');
     }
+  }
+
+  private tokenize(user: User): Tokenized {
+    const token = sign({ id: user.id, email: user.email });
+    return { token, user };
+  }
+
+  private validateEmail(email: string): void {
+    const test = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email);
+    if (!test)
+      throw new Error('That is not a valid email.');
+    return;
+  }
+
+  private hashPassword(password: string): string {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  }
+
+  private checkPassword(given: string, original: string): boolean {
+    return bcrypt.compareSync(given, original);
   }
 }
