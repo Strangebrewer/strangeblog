@@ -1,4 +1,9 @@
-import { SET_BLOG_DATA, SET_ALL_CATEGORIES } from '../action-types/otherTypes';
+import {
+   SET_BLOG_DATA,
+   SET_ALL_CATEGORIES,
+   SET_SEARCH_CRITERIA,
+   SET_SEARCH_COUNT
+} from '../action-types/otherTypes';
 import * as API from '../../api';
 
 export function getCategories() {
@@ -35,5 +40,17 @@ export function saveBlogData(data) {
       } catch (e) {
          console.log('e in saveBlogData:::', e);
       }
+   }
+}
+
+export function setSearch(critieria) {
+   return async dispatch => {
+      dispatch({ type: SET_SEARCH_CRITERIA, payload: critieria });
+   }
+}
+
+export function setCount(count) {
+   return dispatch => {
+      dispatch({ type: SET_SEARCH_COUNT, payload: count });
    }
 }

@@ -98,11 +98,12 @@ const mapDispatchToState = { saveBlogData };
 export default connect(mapPropsToState, mapDispatchToState)(Bio);
 
 const Wrapper = styled.section`
-  width: 700px;
-  margin: 12px auto;
-  padding: 20px 0;
   border-bottom: 2px solid ${props => props.theme.mainRed};
   color: #aaa;
+  font-weight: 500;
+  margin: 12px auto;
+  padding: 20px 0;
+  width: 700px;
 
   p {
     font-size: 16px;

@@ -1,69 +1,48 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { listPublicPosts, listPosts } from '../../redux/actions/postActions';
+import { setSearch, setCount } from '../../redux/actions/otherActions';
+import { getBasicSearchCriteria } from '../../utils/halp';
 
 import Post from './Post';
 
 const Posts = props => {
-  const [count, setCount] = useState(0);
-  const [searchCriteria, setSearchCriteria] = useState(getBasicSearchCriteria());
-
   const { admin, friend } = props;
 
   useEffect(() => {
     (async function () {
       let result;
       if (admin || friend) {
-        result = await props.listPosts(getBasicSearchCriteria());
+        result = await props.listPosts(props.search);
       } else {
-        result = await props.listPublicPosts(getBasicSearchCriteria());
+        result = await props.listPublicPosts(props.search);
       }
-      setCount(result.count);
+      props.setCount(result.count);
     })();
   }, [admin, friend]);
 
+  async function search(criteria) {
+    const search = { ...getBasicSearchCriteria(), ...criteria };
+    props.setSearch(search);
+    let result;
+    if (admin || friend) {
+      result = await props.listPosts(search);
+    } else {
+      result = await props.listPublicPosts(search);
+    }
+    props.setCount(result.count);
+    props.setSearch(criteria);
+  }
+
   async function nextTenPosts() {
-    const plus10 = searchCriteria.take + 10
+    const plus10 = props.search.take + 10
     if (admin || friend) {
-      await props.listPosts({ ...searchCriteria, take: plus10 });
+      await props.listPosts({ ...props.search, take: plus10 });
     } else {
-      await props.listPublicPosts({ ...searchCriteria, take: plus10 });
+      await props.listPublicPosts({ ...props.search, take: plus10 });
     }
-    setSearchCriteria({ ...searchCriteria, take: plus10 });
-  }
-
-  async function searchByTag(tag) {
-    const search = { ...getBasicSearchCriteria(), tags: tag };
-    setSearchCriteria(search);
-    let result;
-    if (admin || friend) {
-      result = await props.listPosts(search);
-    } else {
-      result = await props.listPublicPosts(search);
-    }
-    setCount(result.count);
-  }
-
-  async function searchByUserTag(tag) {
-    const search = { ...getBasicSearchCriteria(), tags: tag, byUserTag: true };
-    setSearchCriteria(search);
-    let result;
-    if (admin || friend) {
-      result = await props.listPosts(search);
-    } else {
-      result = await props.listPublicPosts(search);
-    }
-    setCount(result.count);
-  }
-
-  function getBasicSearchCriteria() {
-    return {
-      skip: 0,
-      take: 10,
-      orderBy: 'createdAt',
-      order: 'desc'
-    };
+    props.setSearch({ ...props.search, take: plus10 });
   }
 
   return (
@@ -73,12 +52,11 @@ const Posts = props => {
           <Post
             key={`post-${post.id}`}
             post={post}
-            searchByUserTag={searchByUserTag}
-            searchByTag={searchByTag}
+            search={search}
           />
         )
       })}
-      {(count >= searchCriteria.take) && <button onClick={nextTenPosts}>Load More...</button>}
+      {(props.count >= props.search.take) && <button onClick={nextTenPosts}>Load More...</button>}
     </Wrapper >
   )
 };
@@ -86,14 +64,18 @@ const Posts = props => {
 function mapPropsToState(state) {
   return {
     admin: state.user.acl === "admin",
+    count: state.count,
     friend: state.user.acl === "friend",
-    posts: state.posts
+    posts: state.posts,
+    search: state.search
   }
 }
 
 const mapDispatchToState = {
   listPosts,
-  listPublicPosts
+  listPublicPosts,
+  setCount,
+  setSearch
 };
 
 export default connect(mapPropsToState, mapDispatchToState)(Posts);

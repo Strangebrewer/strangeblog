@@ -1,19 +1,25 @@
 import { combineReducers } from 'redux';
 
 import { authReducer, userReducer } from './authReducer';
-import { categoryReducer } from './categoryReducer';
 import { postReducer, currentPostReducer } from './postReducer';
-import { blogReducer } from './blogReducer';
+import {
+   blogReducer,
+   categoryReducer,
+   countReducer,
+   searchReducer
+} from './otherReducer';
 
 // import { UNAUTHENTICATED } from '../action-types/authTypes';
 
 const appReducer = combineReducers({
    auth: authReducer,
+   blog: blogReducer,
+   categories: categoryReducer,
+   count: countReducer,
    post: currentPostReducer,
    posts: postReducer,
+   search: searchReducer,
    user: userReducer,
-   categories: categoryReducer,
-   blog: blogReducer
 });
 
 const rootReducer = (state, action) => {

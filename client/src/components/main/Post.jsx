@@ -24,8 +24,7 @@ const Post = props => {
 
   const {
     post,
-    searchByTag,
-    searchByUserTag,
+    search,
   } = props;
 
   function handleInputChange({ target }) {
@@ -150,7 +149,7 @@ const Post = props => {
       </MetaData>
 
       <TagWrapper>
-        <h5>{format(new Date(post.createdAt), 'MMM dd, yyyy - hh:mm aaaa')} <span>-</span></h5>
+        <h5>{format(new Date(post.createdAt), 'MMM dd, yyyy - hh:mm aaaa')} {post.tags.length ? <span>-</span> : null}</h5>
         {
           post.tags.length
             ? (
@@ -159,8 +158,8 @@ const Post = props => {
                 <p>
                   {post.tags.map((tag, i) => (
                     <span key={`tag-${i}`}>
-                      <span className="tag" onClick={() => searchByTag(tag)}>{tag}</span>
-                      <span className="tag-delete" onClick={() => removeTag(i)}>&times;</span>
+                      <span className="tag" onClick={() => search({ tags: tag })}>{tag}</span>
+                      {props.admin && <span className="tag-delete" onClick={() => removeTag(i)}>&times;</span>}
                     </span>
                   ))}
                 </p>
@@ -184,7 +183,7 @@ const Post = props => {
               <p>
                 {post.userTags.map((tag, i) => (
                   <span key={`my-tag-${i}`}>
-                    <span className="tag" onClick={() => searchByUserTag(tag)}>{tag}</span>
+                    <span className="tag" onClick={() => search({ tags: tag, byUserTag: true })}>{tag}</span>
                     <span className="tag-delete" onClick={() => removeUserTag(i)}>&times;</span>
                   </span>
                 ))}
@@ -194,24 +193,26 @@ const Post = props => {
         }
       </Tags>
 
-      <UserActions>
-        <button onClick={toggleUserTagInput}>
-          <i className="fas fa-tag" title="add tags" />
-        </button>
+      {props.authenticated && (
+        <UserActions>
+          <button onClick={toggleUserTagInput}>
+            <i className="fas fa-tag" title="add tags" />
+          </button>
 
-        {showUserTagInput && (
-          <TagInput userTags>
-            <input
-              type="text"
-              name="newUserTags"
-              value={newUserTags}
-              onChange={handleInputChange}
-              placeholder="comma-separated tags..."
-            />
-            <button onClick={addUserTags}>add</button>
-          </TagInput>
-        )}
-      </UserActions>
+          {showUserTagInput && (
+            <TagInput userTags>
+              <input
+                type="text"
+                name="newUserTags"
+                value={newUserTags}
+                onChange={handleInputChange}
+                placeholder="comma-separated tags..."
+              />
+              <button onClick={addUserTags}>add</button>
+            </TagInput>
+          )}
+        </UserActions>
+      )}
     </Wrapper>
   )
 }
@@ -220,6 +221,7 @@ function mapPropsToState(state) {
   return {
     admin: state.user.acl === "admin",
     friend: state.user.acl === "friend",
+    authenticated: state.auth.authenticated,
     user: state.user
   }
 }

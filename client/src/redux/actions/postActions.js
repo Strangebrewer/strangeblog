@@ -1,5 +1,6 @@
-import * as Post from '../action-types/postTypes';
 import * as Auth from '../action-types/authTypes';
+import { SET_SEARCH_COUNT } from '../action-types/otherTypes';
+import * as Post from '../action-types/postTypes';
 import * as API from '../../api';
 
 export function getOnePost(id) {

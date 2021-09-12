@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import Bio from '../components/main/Bio';
+import Criteria from '../components/main/Criteria';
 import Nav from '../components/main/Nav';
 import Posts from '../components/main/Posts';
 
@@ -14,6 +15,8 @@ const Main = (props) => {
       </Header>
 
       <Nav />
+
+      <Criteria />
 
       <Bio />
 
@@ -39,12 +42,12 @@ const PageWrapper = styled.div`
 `;
 
 const Header = styled.header`
-  width: 760px;
   margin: auto;
+  width: 760px;
 
   > h1 {
     font-size: 3rem;
-    font-weight: 800;
+    font-weight: 900;
     line-height: 1.8;
   }
 

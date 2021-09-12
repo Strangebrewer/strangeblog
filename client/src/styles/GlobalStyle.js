@@ -27,6 +27,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     border: 0;
     font-family: Roboto, Helvetica, sans-serif;
+    font-weight: 300;
     line-height: 1;
     margin: 0;
     padding: 0;

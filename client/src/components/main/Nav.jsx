@@ -14,6 +14,7 @@ const Nav = props => {
   const [opacity, setOpacity] = useState('0');
   const [opacityTransition, setOpacityTransition] = useState('.2s ease-in-out .25s');
   const [visibility, setVisiblity] = useState('hidden');
+  const [shadow, setShadow] = useState(null);
 
   function handleSelectChange({ target }) {
     const { name, value } = target;
@@ -29,19 +30,21 @@ const Nav = props => {
 
   function openSearch() {
     if (searchHeight === "300px") {
-      setTransition('max-width .2s ease-in-out .14s, height .3s ease-in-out');
+      setTransition('max-width .2s ease-in-out .14s, height .3s ease-in-out, box-shadow .2s ease-in-out .15s');
       setSearchHeight("56px");
       setSearchWidth("360px");
       setOpacity('0');
       setVisiblity('hidden');
       setOpacityTransition('.15s ease-in-out');
+      setShadow(null);
     } else {
-      setTransition('max-width .2s ease-in-out, height .3s ease-in-out .06s')
+      setTransition('max-width .2s ease-in-out, height .3s ease-in-out .06s, box-shadow .2s ease-in-out .05s')
       setSearchHeight("300px");
       setSearchWidth("500px");
       setOpacity('1');
       setVisiblity('visible');
       setOpacityTransition('.2s ease-in-out .25s');
+      setShadow(true);
     }
   }
 
@@ -60,7 +63,7 @@ const Nav = props => {
   }
 
   return (
-    <Wrapper height={searchHeight} width={searchWidth} transition={transition}>
+    <Wrapper height={searchHeight} width={searchWidth} transition={transition} shadow={shadow}>
       {/* <button>Home</button> */}
       <div className="nav-buttons">
         <select name="category" onChange={handleSelectChange} value={categoryId}>
@@ -132,12 +135,13 @@ const mapDispatchToState = {
 export default connect(mapPropsToState, mapDispatchToState)(Nav);
 
 const Wrapper = styled.nav`
-  max-width:  ${props => props.width};
-  margin: 30px auto 0 auto;
-  padding: 16px 0;
   background-color: #ffffff22;
   border-radius: 12px;
+  ${props => props.shadow && 'box-shadow: 0 0 5px white'};
   height: ${props => props.height};
+  margin: 30px auto 0 auto;
+  max-width:  ${props => props.width};
+  padding: 16px 0;
   transition: ${props => props.transition};
 
   .nav-buttons {
