@@ -25,7 +25,7 @@ export function categoryReducer(state = {}, action) {
 export function searchReducer(state = getBasicSearchCriteria(), action) {
   switch (action.type) {
     case SET_SEARCH_CRITERIA:
-      return { ...state, ...action.payload };
+      return action.payload;
     default: return state;
   }
 }

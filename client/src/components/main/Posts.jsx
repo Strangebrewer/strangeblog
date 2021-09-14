@@ -32,7 +32,6 @@ const Posts = props => {
       result = await props.listPublicPosts(search);
     }
     props.setCount(result.count);
-    props.setSearch(criteria);
   }
 
   async function nextTenPosts() {

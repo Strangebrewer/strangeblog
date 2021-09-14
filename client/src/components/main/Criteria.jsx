@@ -5,9 +5,22 @@ import { setSearch, setCount } from '../../redux/actions/otherActions';
 import { getBasicSearchCriteria } from '../../utils/halp';
 
 const Criteria = props => {
+  async function resetSearch() {
+    const search = getBasicSearchCriteria();
+    props.setSearch(search);
+    let result;
+    if (props.admin || props.friend) {
+      result = await props.listPosts(search);
+    } else {
+      result = await props.listPublicPosts(search);
+    }
+    props.setCount(result.count);
+  }
+
   return (
     <Wrapper>
       <div>
+        <button onClick={resetSearch}>reset</button>
         <p>{JSON.stringify(props.search)}</p>
       </div>
     </Wrapper>
@@ -38,10 +51,12 @@ const Wrapper = styled.div`
   position: relative;
 
   > div {
+    display: flex;
+    justify-content: center;
     position: absolute;
     top: 0;
-    left: 100px;
-    right: 100px;
+    left: 0;
+    right: 0;
 
     p {
       text-align: center;
