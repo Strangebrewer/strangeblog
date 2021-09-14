@@ -14,11 +14,8 @@
 # ToDo
 
 ## Next
-- Change how user tags work:
-  - should be its own schema/table:
-    - userId: number
-    - postId: number
-    - tags: string[]
+- setup search by date range
+- search by category works, but it needs to be tied together with the reset button below the nav
 - Criteria.jsx:
   - Display the full count
   - Display each search criteria:

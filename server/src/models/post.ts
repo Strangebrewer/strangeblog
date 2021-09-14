@@ -2,7 +2,7 @@ import { Post } from '@prisma/client';
 import { IDatabaseClient } from '../interfaces';
 
 interface IInitialData {
-  category?: string;
+  categoryId?: string;
   tags?: string;
   title?: string;
   skip?: string;
@@ -14,7 +14,7 @@ interface IInitialData {
 }
 
 interface ISearch {
-  category?: string;
+  categoryId?: number;
   tags?: Record<string, unknown>;
   title?: Record<string, unknown>;
   id?: Record<string, unknown>;
@@ -75,8 +75,12 @@ export default class PostModel {
       const ids = data.ids.map(id => parseInt(id));
       search.id = { in: ids }
     }
-    if (data.tags && !data.byUserTag) search.tags = { hasEvery: data.tags.split(',') };
-    if (data.category) search.category = data.category;
+    if (data.tags && !data.byUserTag) {
+      let tags = data.tags.split(',');
+      tags = tags.map(tag => tag.trim());
+      search.tags = { hasEvery: tags };
+    }
+    if (data.categoryId) search.categoryId = parseInt(data.categoryId);
     if (data.title) search.title = { contains: data.title, mode: 'insensitive' };
 
     const options: IOptions = {};
