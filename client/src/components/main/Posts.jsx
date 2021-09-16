@@ -9,6 +9,7 @@ import Post from './Post';
 
 const Posts = props => {
   const { admin, friend } = props;
+  const { skip, take } = props.search;
 
   useEffect(() => {
     (async function () {
@@ -35,13 +36,13 @@ const Posts = props => {
   }
 
   async function nextTenPosts() {
-    const plus10 = props.search.take + 10
+    const plus10 = skip + 10;
     if (admin || friend) {
-      await props.listPosts({ ...props.search, take: plus10 });
+      await props.listPosts({ ...props.search, skip: plus10 }, true);
     } else {
-      await props.listPublicPosts({ ...props.search, take: plus10 });
+      await props.listPublicPosts({ ...props.search, skip: plus10 }, true);
     }
-    props.setSearch({ ...props.search, take: plus10 });
+    props.setSearch({ ...props.search, skip: plus10 });
   }
 
   return (
@@ -55,7 +56,7 @@ const Posts = props => {
           />
         )
       })}
-      {(props.count >= props.search.take) && <button onClick={nextTenPosts}>Load More...</button>}
+      {(props.count >= (skip + take)) && <button onClick={nextTenPosts}>Load More...</button>}
     </Wrapper >
   )
 };

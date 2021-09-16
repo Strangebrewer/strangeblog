@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import Bio from '../components/main/Bio';
-import Criteria from '../components/main/Criteria';
 import Nav from '../components/main/Nav';
 import Posts from '../components/main/Posts';
 
@@ -15,8 +14,6 @@ const Main = (props) => {
       </Header>
 
       <Nav />
-
-      <Criteria />
 
       <Bio />
 

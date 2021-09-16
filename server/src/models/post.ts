@@ -5,6 +5,9 @@ interface IInitialData {
   categoryId?: string;
   tags?: string;
   title?: string;
+  byDate?: boolean;
+  startDate?: string;
+  endDate?: string;
   skip?: string;
   take?: string;
   orderBy?: string;
@@ -18,6 +21,8 @@ interface ISearch {
   tags?: Record<string, unknown>;
   title?: Record<string, unknown>;
   id?: Record<string, unknown>;
+  createdAt?: Record<string, unknown>;
+  AND?: Record<string, unknown>[]
 }
 
 interface IOptions {
@@ -34,7 +39,7 @@ export default class PostModel {
   }
 
   public async findMany(data: IInitialData = {}): Promise<{ posts: Post[], count: number }> {
-    const { search, options } = this.buildQuery(data);    
+    const { search, options } = this.buildQuery(data);
     const posts = await this.client.post.findMany({
       where: { ...search },
       ...options
@@ -79,6 +84,19 @@ export default class PostModel {
       let tags = data.tags.split(',');
       tags = tags.map(tag => tag.trim());
       search.tags = { hasEvery: tags };
+    }
+
+    if (data.byDate) {
+      if (data.startDate && !data.endDate) {
+        search.createdAt = { gte: new Date(data.startDate) };
+      } else if (!data.startDate && data.endDate) {
+        search.createdAt = { lte: new Date(data.endDate) };
+      } else if (data.startDate && data.endDate) {
+        search.AND = [
+          { createdAt: { gte: new Date(data.startDate) } },
+          { createdAt: { lte: new Date(data.endDate) } }
+        ]
+      }
     }
     if (data.categoryId) search.categoryId = parseInt(data.categoryId);
     if (data.title) search.title = { contains: data.title, mode: 'insensitive' };

@@ -17,6 +17,10 @@ class PostAPI extends BaseAPI {
     console.log('querystring.stringify(query):::', querystring.stringify(query));
     return axios.get(`${this.endpoint}/public${query ? '?' + querystring.stringify(query) : ''}`);
   }
+
+  listPosts(data) {
+    return axios.post(`${this.endpoint}/list`, data);
+  }
 }
 
 export default new PostAPI();

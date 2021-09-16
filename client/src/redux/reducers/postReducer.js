@@ -21,7 +21,9 @@ export function postReducer(state = [], action) {
                a.userTags = action.payload.tags;
             }
             return a;
-         })
+         });
+      case Post.ADD_MORE_POSTS:
+         return [...state, ...action.payload];
       default: return state;
    }
 }

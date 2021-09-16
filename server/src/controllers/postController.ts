@@ -48,6 +48,18 @@ export default {
     }
   },
 
+  async listThisShit(req: Request, res: Response): Promise<void> {
+    try {
+      if (req.query.byUserTag) req.query.ids = getPostQueryIds(req);
+      const response = await postModel.findMany(req.body);
+      addUserTagsToPosts(response.posts, req.user.tags);
+      res.status(200).json(response);
+    } catch (err) {
+      console.log('err in postController list:::', err);
+      res.status(400).send(err);
+    }
+  },
+
   async getOne(req: Request, res: Response): Promise<void> {
     try {
       const post: PostPlus = await postModel.findOne(parseInt(req.params.id));

@@ -13,6 +13,9 @@ router.route('/')
   .get(authenticate, isAdminOrFriend, postController.list)
   .post(authenticate, isAdmin, postController.post);
 
+router.route('/list')
+  .post(authenticate, isAdminOrFriend, postController.listThisShit);
+
 router.route('/:id')
   .get(authenticate, isAdminOrFriend, postController.getOne)
   .put(authenticate, isAdmin, postController.put)

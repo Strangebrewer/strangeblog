@@ -5,4 +5,5 @@ export const ADD_POST_TO_POSTS = 'add_post_to_posts';
 export const DELETE_POST = 'delete_post';
 export const EDIT_POST_IN_POSTS = 'edit_post_in_posts';
 export const SET_EDITING_POST = 'set_editing_post';
-export const EDIT_USER_TAGS_IN_POST = 'edit_usre_tags_in_post';
+export const EDIT_USER_TAGS_IN_POST = 'edit_user_tags_in_post';
+export const ADD_MORE_POSTS = 'add_more_posts';

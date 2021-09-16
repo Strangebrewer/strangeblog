@@ -2,6 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { addHours } from 'date-fns';
+import Criteria from './Criteria';
 
 import { logout } from '../../redux/actions/authActions';
 import { listPublicPosts, listPosts } from '../../redux/actions/postActions';
@@ -18,6 +20,7 @@ const Nav = props => {
   const [opacityTransition, setOpacityTransition] = useState('.2s ease-in-out .25s');
   const [visibility, setVisiblity] = useState('hidden');
   const [shadow, setShadow] = useState(null);
+  const [showSearch, setShowSearch] = useState(false);
 
   // inputs
   const [tags, setTags] = useState('');
@@ -26,34 +29,41 @@ const Nav = props => {
   const [endDate, setEndDate] = useState('');
 
   function toggleSearch() {
-    if (searchHeight === "360px") {
-      setTransition('max-width .2s ease-in-out .14s, height .3s ease-in-out, box-shadow .2s ease-in-out .15s');
+    if (showSearch === true) {
+      setTransition('max-width .2s ease-in-out .18s, height .3s ease-in-out, box-shadow .2s ease-in-out .15s');
       setSearchHeight("56px");
       setSearchWidth("360px");
       setOpacity('0');
       setVisiblity('hidden');
       setOpacityTransition('.15s ease-in-out');
       setShadow(null);
+      setShowSearch(false);
     } else {
-      setTransition('max-width .2s ease-in-out, height .3s ease-in-out .06s, box-shadow .2s ease-in-out .05s')
+      setTransition('max-width .2s ease-in-out, height .3s ease-in-out .06s, box-shadow .2s ease-in-out .1s')
       setSearchHeight("360px");
       setSearchWidth("500px");
       setOpacity('1');
       setVisiblity('visible');
       setOpacityTransition('.2s ease-in-out .25s');
       setShadow(true);
+      setShowSearch(true);
     }
   }
 
-  function handleSelectChange({ target }) {
-    const { name, value } = target;
+  function handleSelectChange(e) {
+    const { value } = e.target;
     setCategoryId(value);
-    const criteria = { ...getBasicSearchCriteria() };
-    if (value !== "None") {
-      criteria.categoryId = value;
+    let criteria;
+    if (!showSearch) {
+      criteria = { ...getBasicSearchCriteria() };
+      if (value !== "None") {
+        criteria.categoryId = value;
+        const category = props.categories.find(cat => cat.id === parseInt(value));
+        criteria.category = category.name;
+      }
+      search(criteria);
+      props.setSearch(criteria);
     }
-    setSearch(criteria);
-    search(criteria);
   }
 
   function handleInputChange({ target }) {
@@ -70,7 +80,6 @@ const Nav = props => {
 
   async function search(criteria) {
     if (!criteria) criteria = getSearchCriteria();
-    console.log('criteria:::', criteria);
     props.setSearch(criteria);
     let result;
     if (props.admin || props.friend) {
@@ -85,19 +94,57 @@ const Nav = props => {
     const search = { ...getBasicSearchCriteria() };
     if (tags) search.tags = tags;
     if (title) search.title = title;
-    if (startDate) search.startDate = startDate;
-    if (endDate) search.endDate = endDate;
+    if (categoryId && categoryId !== "None")
+      search.categoryId = categoryId;
+    if (startDate || endDate) {
+      search.byDate = true;
+      const offset = new Date().getTimezoneOffset();
+      if (startDate) {
+        const start = addHours(new Date(startDate), (offset / 60));
+        search.startDate = start;
+      }
+      if (endDate) {
+        const end = addHours(new Date(endDate), (offset / 60));
+        search.endDate = end;
+      }
+    }
     return search;
   }
 
-  function clearSearch() {
-    // return all search fields to blank;
+  function clearAll() {
     setTags('');
     setTitle('');
     setStartDate('');
     setEndDate('');
-    setCategoryId('None')
+    setCategoryId('None');
     setSearch(getBasicSearchCriteria());
+  }
+
+  function clearSearch(criterion) {
+    if (!criterion) {
+      clearAll();
+    } else {
+      switch (criterion) {
+        case 'tags':
+          setTags('');
+          break;
+        case 'title':
+          setTitle('');
+          break;
+        case 'startDate':
+          setStartDate('');
+          break;
+        case 'endDate':
+          setEndDate('');
+          break;
+        default:
+          setCategoryId('None');
+          break;
+      }
+      const criteria = getSearchCriteria();
+      delete criteria[criterion];
+      setSearch(criteria);
+    }
   }
 
   function cancelSearch() {
@@ -106,85 +153,90 @@ const Nav = props => {
   }
 
   return (
-    <Wrapper height={searchHeight} width={searchWidth} transition={transition} shadow={shadow}>
-      {/* <button>Home</button> */}
-      <div className="nav-buttons">
-        <select name="category" onChange={handleSelectChange} value={categoryId}>
-          <option value="None">Filter by Category</option>
-          {props.categories.map((c, i) => {
-            if (c.name !== 'None')
-              return <option key={`cat-${i}`} value={c.id}>{c.name}</option>
-          })}
-        </select>
-        <button onClick={toggleSearch}>Search</button>
-        {props.admin && <button onClick={() => goTo('/editor')}>New</button>}
-        {props.authenticated
-          ? <button onClick={props.logout}>Logout</button>
-          : <button onClick={() => goTo('/login')}>Login</button>
-        }
-      </div>
-
-      <SearchWrapper
-        opacity={opacity}
-        visibility={visibility}
-        transition={opacityTransition}
-      >
-        <div className="title-search">
-          <label>by Title:</label>
-          <input
-            type="text"
-            name="title"
-            value={title}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="tag-search">
-          <label>by Tags:</label>
-          <input
-            type="text"
-            name="tags"
-            value={tags}
-            onChange={handleInputChange}
-          />
+    <FuckFuck>
+      <Wrapper height={searchHeight} width={searchWidth} transition={transition} shadow={shadow}>
+        {/* <button>Home</button> */}
+        <div className="nav-buttons">
+          <select name="category" onChange={handleSelectChange} value={categoryId} data-dafuq="fuq">
+            <option value="None" data-dafuq="None">Filter by Category</option>
+            {props.categories.map((c, i) => {
+              if (c.name !== 'None')
+                return <option key={`cat-${i}`} value={c.id}>{c.name}</option>
+            })}
+          </select>
+          <button onClick={toggleSearch}>Search</button>
+          {props.admin && <button onClick={() => goTo('/editor')}>New</button>}
+          {props.authenticated
+            ? <button onClick={props.logout}>Logout</button>
+            : <button onClick={() => goTo('/login')}>Login</button>
+          }
         </div>
 
-        <div className="date-search">
-          <label>by Date:</label>
+        <SearchWrapper
+          opacity={opacity}
+          visibility={visibility}
+          transition={opacityTransition}
+        >
+          <div className="title-search">
+            <label>by Title:</label>
+            <input
+              type="text"
+              name="title"
+              value={title}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="tag-search">
+            <label>by Tags:</label>
+            <input
+              type="text"
+              name="tags"
+              value={tags}
+              onChange={handleInputChange}
+            />
+            <p>search by multiple tags by separating them with commas</p>
+          </div>
 
-          <div className="date-inputs">
-            <div className="start-date">
-              <label>start:</label>
-              <input
-                type="date"
-                name="startDate"
-                value={startDate}
-                onChange={handleInputChange}
-              />
-            </div>
+          <div className="date-search">
+            <label>by Date:</label>
 
-            <div className="end-date">
-              <label>end:</label>
-              <input
-                type="date"
-                name="endDate"
-                value={endDate}
-                onChange={handleInputChange}
-              />
+            <div className="date-inputs">
+              <div className="start-date">
+                <label>start:</label>
+                <input
+                  type="date"
+                  name="startDate"
+                  value={startDate}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="end-date">
+                <label>end:</label>
+                <input
+                  type="date"
+                  name="endDate"
+                  value={endDate}
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        <p>leave the end date blank to search from the start date until the present moment</p>
-        <p>leave the start date blank to search for everything prior to the end date</p>
+          <p>leave the end date blank to search from the start date until the present moment</p>
+          <p>leave the start date blank to search for everything prior to the end date</p>
 
-        <div className="search-buttons">
-          {/* the search below is called this way to avoid passing the event to the function */}
-          <button onClick={() => search()}>Search</button>
-          <button onClick={clearSearch}>Clear</button>
-          <button onClick={cancelSearch}>Cancel</button>
-        </div>
-      </SearchWrapper>
-    </Wrapper>
+          <div className="search-buttons">
+            {/* search and clearSearch below are called this way to avoid passing the event to the function */}
+            <button onClick={() => search()}>Search</button>
+            <button onClick={() => clearSearch()}>Clear</button>
+            <button onClick={cancelSearch}>Cancel</button>
+          </div>
+        </SearchWrapper>
+      </Wrapper>
+
+      <Criteria clearSearch={clearSearch} />
+    </FuckFuck>
   );
 };
 
@@ -207,10 +259,14 @@ const mapDispatchToState = {
 
 export default connect(mapPropsToState, mapDispatchToState)(Nav);
 
+const FuckFuck = styled.div`
+
+`;
+
 const Wrapper = styled.nav`
   background-color: #ffffff22;
   border-radius: 12px;
-  ${props => props.shadow && 'box-shadow: 0 0 8px #ffffff'};
+  ${props => props.shadow && 'box-shadow: 0 0 4px #ffffff'};
   height: ${props => props.height};
   margin: 30px auto 0 auto;
   max-width:  ${props => props.width};
@@ -248,6 +304,12 @@ const SearchWrapper = styled.div`
     > input {
       display: block;
       width: 100%;
+    }
+
+    > p {
+      font-size: .7rem;
+      margin: 4px auto;
+      padding: 0 12px;
     }
   }
 

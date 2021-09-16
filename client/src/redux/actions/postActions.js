@@ -15,11 +15,15 @@ export function getOnePost(id) {
   }
 }
 
-export function listPosts(query = {}) {
+export function listPosts(query = {}, add) {
   return async dispatch => {
     try {
-      const response = await API.post.get(query);
-      dispatch({ type: Post.SET_ALL_POSTS, payload: response.data.posts });
+      const response = await API.post.listPosts(query);
+      if (add) {
+        dispatch({ type: Post.ADD_MORE_POSTS, payload: response.data.posts });
+      } else {
+        dispatch({ type: Post.SET_ALL_POSTS, payload: response.data.posts });
+      }
       return response.data;
     } catch (e) {
 
@@ -39,11 +43,15 @@ export function getOnePublicPost(id) {
   }
 }
 
-export function listPublicPosts(query = {}) {
+export function listPublicPosts(query = {}, add) {
   return async dispatch => {
     try {
       const response = await API.post.listPublicPosts(query);
-      dispatch({ type: Post.SET_ALL_POSTS, payload: response.data.posts });
+      if (add) {
+        dispatch({ type: Post.ADD_MORE_POSTS, payload: response.data.posts });
+      } else {
+        dispatch({ type: Post.SET_ALL_POSTS, payload: response.data.posts });
+      }
       return response.data;
     } catch (e) {
 
@@ -88,7 +96,7 @@ export function saveUserTags(userId, data) {
       dispatch({ type: Post.EDIT_USER_TAGS_IN_POST, payload: data });
       console.log('response:::', response);
     } catch (e) {
-      
+
     }
   }
 }

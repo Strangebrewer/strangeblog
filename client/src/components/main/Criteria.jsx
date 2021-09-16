@@ -9,17 +9,21 @@ const Criteria = props => {
   const [searchDisplay, setSearchDisplay] = useState({});
 
   useEffect(() => {
-    (function() {
-      const search = {};
-      const { title, tags, byUserTag, dateRange } = props.search;
-      if (title) search.title = `Title: ${title.substr(0, 12)}${title.length > 12 ? '...' : ''}`;
-      if (tags) search.tags = tags;
-      if (dateRange) search.dateRange = dateRange;
-      setSearchDisplay(search);
+    (function () {
+      const display = {};
+      const { title, tags, byUserTag, dateRange, categoryId } = props.search;
+      if (title) display.title = `Title: ${title.substr(0, 12)}${title.length > 12 ? '...' : ''}`;
+      if (tags) display.tags = tags;
+      if (dateRange) display.dateRange = dateRange;
+      if (categoryId) {
+        const category = props.categories.find(cat => cat.id === parseInt(categoryId))
+        display.category = category.name;
+      }
+      setSearchDisplay(display);
     })();
   }, [props.search]);
 
-  async function search(criteria) {
+  async function searchPosts(criteria) {
     let result;
     if (props.admin || props.friend) {
       result = await props.listPosts(criteria);
@@ -31,27 +35,29 @@ const Criteria = props => {
 
   function resetSearch() {
     const criteria = getBasicSearchCriteria();
-    props.setSearch(criteria);
-    search(criteria);
+    setSearchDisplay({});
+    props.clearSearch();
+    searchPosts(criteria);
   }
 
   function removeCriteria(criterion) {
-    console.log('criterion:::', criterion);
     const criteria = { ...props.search };
     delete criteria[criterion];
+    props.clearSearch(criterion);
     props.setSearch(criteria);
-    search(criteria);
+    searchPosts(criteria);
   }
 
   return (
     <Wrapper>
-      <div>
+      {Object.keys(searchDisplay).length ? <div>
         <button onClick={resetSearch}>reset</button>
         <p>
-          {searchDisplay.title ? <span>{searchDisplay.title}&nbsp;<span style={{ cursor: 'pointer' }} onClick={() => removeCriteria("title")}>&times;</span></span> : null},
+          {searchDisplay.title ? <span>{searchDisplay.title}&nbsp;<span style={{ cursor: 'pointer' }} onClick={() => removeCriteria("title")}>&times;</span></span> : null}
           &nbsp;
+          {searchDisplay.category ? <span>Category: {searchDisplay.category}&nbsp;<span style={{ cursor: 'pointer' }} onClick={() => removeCriteria("categoryId")}>&times;</span></span> : null}
         </p>
-      </div>
+      </div> : null}
     </Wrapper>
   );
 };
@@ -61,7 +67,8 @@ function mapPropsToState(state) {
     admin: state.user.acl === "admin",
     count: state.count,
     friend: state.user.acl === "friend",
-    search: state.search
+    search: state.search,
+    categories: state.categories
   }
 }
 
