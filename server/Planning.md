@@ -16,17 +16,6 @@
 ## Next
 - Criteria.jsx:
   - Display the full count
-  - Display each search criteria:
-    - Category
-    - Title
-    - Tags
-    - Date Range
-  - Tags can be eliminated individually or entirely
-    - Something like: "Tags x: (fnord x, flarp x)"
-- create a Search component for the Main page, something to go in the expanding search box
-  - DONE: Add notice thing that appears under the nav that shows what the current search criteria are
-  - each criteria should have an "x" that allows to remove just that part of the search criteria
-  - DONE: add a reset button for resetting the search to baseline
 - refactor the PostEditor page
   - move save buttons from the Editor component to the PostEditor page, OR
   - move the title and other input fields into the Editor component
@@ -55,8 +44,6 @@
 
 
 ## DONE:
-- setup search by date range
-- search by category works, but it needs to be tied together with the reset button below the nav
 - Add functionality for allowing friends to see all posts instead of just the public ones
   - it could also be an "acl" array field on the schema:
     - "admin"
@@ -65,14 +52,27 @@
   - the only thing this will change is what posts they see; it will still require "admin" to create, edit, or delete
 - add save, save & close, and cancel functionality to the "/editor" page
 
-- on the Main.jsx page:
-  - add tags to the display
-  - add functionality for adding and removing tags (mine and users') to Posts
-  - add deletePost functionality to Posts component
-  - add functionality for filtering by category
-  - add search functionality:
-    - this should unfold a search box that expands the grey buttons area
+### Main.jsx:
+- DONE: create a Search component for the Main page, something to go in the expanding search box
+  - DONE: Add notice thing that appears under the nav that shows what the current search criteria are
+  - DONE: each criteria should have an "x" that allows to remove just that part of the search criteria
+  - DONE: add a reset button for resetting the search to baseline
+  
+- Criteria.jsx
+  - DONE: Display each search criteria:
+    - DONE: Category
+    - DONE: Title
+    - DONE: Tags
+    - DONE: Dates
+- Post.jsx
+  - DONE: add tags to the display
+  - DONE: add functionality for adding and removing tags (mine and users') to Posts
+  - DONE: add deletePost functionality to Posts component
+  - DONE: add functionality for filtering by category
+  - DONE: add search functionality:
+    - DONE: this should unfold a search box that expands the grey buttons area
         - it should have:
-          - title input box
-          - tags input box
-          - date range inputs
+          - DONE: title input box
+          - DONE: tags input box
+          - DONE: date range inputs
+
