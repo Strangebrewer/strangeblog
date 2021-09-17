@@ -1,26 +1,32 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { format } from 'date-fns';
 import { listPublicPosts, listPosts } from '../../redux/actions/postActions';
 import { setSearch, setCount } from '../../redux/actions/otherActions';
 import { getBasicSearchCriteria } from '../../utils/halp';
 
 const Criteria = props => {
-  const [searchDisplay, setSearchDisplay] = useState({});
+  const [display, setDisplay] = useState({});
 
   useEffect(() => {
-    (function () {
+    function setInitialDisplay() {
       const display = {};
-      const { title, tags, byUserTag, dateRange, categoryId } = props.search;
+      const { title, tags, byUserTag, startDate, endDate, categoryId } = props.search;
       if (title) display.title = `Title: ${title.substr(0, 12)}${title.length > 12 ? '...' : ''}`;
-      if (tags) display.tags = tags;
-      if (dateRange) display.dateRange = dateRange;
+      if (tags) {
+        const tagsArray = tags.split(',');
+        display.tags = tagsArray;
+      }
+      if (startDate) display.startDate = format(startDate, 'MMM dd, yyyy');
+      if (endDate) display.endDate = format(endDate, 'MMM dd, yyyy');
       if (categoryId) {
         const category = props.categories.find(cat => cat.id === parseInt(categoryId))
-        display.category = category.name;
+        display.category = `Category: ${category.name}`;
       }
-      setSearchDisplay(display);
-    })();
+      setDisplay(display);
+    }
+    setInitialDisplay();
   }, [props.search]);
 
   async function searchPosts(criteria) {
@@ -35,7 +41,7 @@ const Criteria = props => {
 
   function resetSearch() {
     const criteria = getBasicSearchCriteria();
-    setSearchDisplay({});
+    setDisplay({});
     props.clearSearch();
     searchPosts(criteria);
   }
@@ -48,16 +54,73 @@ const Criteria = props => {
     searchPosts(criteria);
   }
 
+  function removeTag(index) {
+    let tagsCopy = [...display.tags];
+    tagsCopy.splice(index, 1);
+    const criteria = { ...props.search, tags: tagsCopy.join(', ') };
+    setDisplay({ ...display, tags: tagsCopy });
+    props.clearSearch('tags', tagsCopy.join(', '));
+    props.setSearch(criteria);
+    searchPosts(criteria);
+  }
+
   return (
     <Wrapper>
-      {Object.keys(searchDisplay).length ? <div>
-        <button onClick={resetSearch}>reset</button>
-        <p>
-          {searchDisplay.title ? <span>{searchDisplay.title}&nbsp;<span style={{ cursor: 'pointer' }} onClick={() => removeCriteria("title")}>&times;</span></span> : null}
-          &nbsp;
-          {searchDisplay.category ? <span>Category: {searchDisplay.category}&nbsp;<span style={{ cursor: 'pointer' }} onClick={() => removeCriteria("categoryId")}>&times;</span></span> : null}
-        </p>
-      </div> : null}
+      {Object.keys(display).length ? (
+        <div>
+          <button onClick={resetSearch}>reset</button>
+
+          <div>
+            {display.title && (
+              <p>
+                {display.title}
+                &nbsp;
+                <Remover onClick={() => removeCriteria('title')}>&times;</Remover>
+              </p>
+            )}
+
+            {display.category && (
+              <p>
+                {display.category}
+                &nbsp;
+                <Remover onClick={() => removeCriteria('categoryId')}>&times;</Remover>
+              </p>
+            )}
+
+            {display.tags && display.tags.length ? (
+              <p>
+                Tags:
+                &nbsp;
+                {display.tags.map((tag, i) => (
+                  <span key={`search-tag-${tag}`}>
+                    {tag} <Remover onClick={() => removeTag(i)}>&times;</Remover>
+                  </span>
+                ))}
+              </p>
+            ) : null}
+
+            {display.startDate && (
+              <p>
+                Start Date:
+                &nbsp;
+                {format(new Date(display.startDate), 'MMM dd, yyyy')}
+                &nbsp;
+                <Remover onClick={() => removeCriteria('startDate')}>&times;</Remover>
+              </p>
+            )}
+
+            {display.endDate && (
+              <p>
+                End Date:
+                &nbsp;
+                {format(new Date(display.endDate), 'MMM dd, yyyy')}
+                &nbsp;
+                <Remover onClick={() => removeCriteria('endDate')}>&times;</Remover>
+              </p>
+            )}
+          </div>
+        </div>
+      ) : null}
     </Wrapper>
   );
 };
@@ -94,8 +157,37 @@ const Wrapper = styled.div`
     left: 0;
     right: 0;
 
-    p {
-      text-align: center;
+    > button {
+      background: #111;
+      border: 1px solid ${props => props.theme.nPurple};
+      border-radius: 5px;
+      box-shadow: 4px 4px 4px ${props => props.theme.nPurple}77;
+      color: ${props => props.theme.nGreen};
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 16px;
+      outline: transparent;
+      padding: 4px 8px;
+      min-width: 60px;
+    }
+    
+    > div {
+      display: flex;
+      flex-wrap: wrap;
+
+      > p {
+        margin-right: 12px;
+        align-self: center;
+        font-size: .9rem;
+        background-color: #222;
+        padding: 3px 6px;
+        border-radius: 3px;
+      }
     }
   }
+`;
+
+const Remover = styled.span`
+  cursor: pointer;
+  color: ${props => props.theme.nRed};
 `;

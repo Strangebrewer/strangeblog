@@ -14,7 +14,7 @@ const Nav = props => {
   const history = useHistory();
   const [categoryId, setCategoryId] = useState('');
   const [searchHeight, setSearchHeight] = useState('56px');
-  const [searchWidth, setSearchWidth] = useState('360px');
+  const [searchWidth, setSearchWidth] = useState('260px');
   const [transition, setTransition] = useState('max-width .2s ease-in-out, height .3s ease-in-out .06s');
   const [opacity, setOpacity] = useState('0');
   const [opacityTransition, setOpacityTransition] = useState('.2s ease-in-out .25s');
@@ -32,19 +32,19 @@ const Nav = props => {
     if (showSearch === true) {
       setTransition('max-width .2s ease-in-out .18s, height .3s ease-in-out, box-shadow .2s ease-in-out .15s');
       setSearchHeight("56px");
-      setSearchWidth("360px");
+      setSearchWidth("260px");
       setOpacity('0');
       setVisiblity('hidden');
       setOpacityTransition('.15s ease-in-out');
       setShadow(null);
       setShowSearch(false);
     } else {
-      setTransition('max-width .2s ease-in-out, height .3s ease-in-out .06s, box-shadow .2s ease-in-out .1s')
-      setSearchHeight("360px");
+      setTransition('max-width .2s ease-in-out, height .3s ease-in-out .1s, box-shadow .2s ease-in-out .12s')
+      setSearchHeight("420px");
       setSearchWidth("500px");
       setOpacity('1');
       setVisiblity('visible');
-      setOpacityTransition('.2s ease-in-out .25s');
+      setOpacityTransition('.2s ease-in-out .28s');
       setShadow(true);
       setShowSearch(true);
     }
@@ -120,13 +120,13 @@ const Nav = props => {
     setSearch(getBasicSearchCriteria());
   }
 
-  function clearSearch(criterion) {
+  function clearSearch(criterion, tags = '') {
     if (!criterion) {
       clearAll();
     } else {
       switch (criterion) {
         case 'tags':
-          setTags('');
+          setTags(tags);
           break;
         case 'title':
           setTitle('');
@@ -153,23 +153,25 @@ const Nav = props => {
   }
 
   return (
-    <FuckFuck>
+    <Outer>
       <Wrapper height={searchHeight} width={searchWidth} transition={transition} shadow={shadow}>
-        {/* <button>Home</button> */}
         <div className="nav-buttons">
-          <select name="category" onChange={handleSelectChange} value={categoryId} data-dafuq="fuq">
-            <option value="None" data-dafuq="None">Filter by Category</option>
-            {props.categories.map((c, i) => {
-              if (c.name !== 'None')
-                return <option key={`cat-${i}`} value={c.id}>{c.name}</option>
-            })}
-          </select>
-          <button onClick={toggleSearch}>Search</button>
-          {props.admin && <button onClick={() => goTo('/editor')}>New</button>}
+          <button onClick={toggleSearch} title="toggle search">
+            <i className="fas fa-search" />
+          </button>
+          {props.admin && <button onClick={() => goTo('/editor')} title="new post">
+            <i className="fas fa-plus" />
+          </button>}
           {props.authenticated
-            ? <button onClick={props.logout}>Logout</button>
-            : <button onClick={() => goTo('/login')}>Login</button>
-          }
+            ? (
+              <button onClick={props.logout} title="logout">
+                <i className="fas fa-sign-out-alt" />
+              </button>
+            ) : (
+              <button onClick={() => goTo('/login')} title="login">
+                <i className="fas fa-sign-in-alt" />
+              </button>
+            )}
         </div>
 
         <SearchWrapper
@@ -186,15 +188,29 @@ const Nav = props => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="tag-search">
-            <label>by Tags:</label>
-            <input
-              type="text"
-              name="tags"
-              value={tags}
-              onChange={handleInputChange}
-            />
-            <p>search by multiple tags by separating them with commas</p>
+
+          <div className="tag-category-wrapper">
+            <div className="tag-search">
+              <label>by Tags:</label>
+              <input
+                type="text"
+                name="tags"
+                value={tags}
+                onChange={handleInputChange}
+              />
+              <p>separate tags with commas</p>
+            </div>
+
+            <div className="category-search">
+              <label>by Category:</label>
+              <select name="category" onChange={handleSelectChange} value={categoryId}>
+                <option value="None">None</option>
+                {props.categories.map((c, i) => {
+                  if (c.name !== 'None')
+                    return <option key={`cat-${i}`} value={c.id}>{c.name}</option>
+                })}
+              </select>
+            </div>
           </div>
 
           <div className="date-search">
@@ -236,7 +252,7 @@ const Nav = props => {
       </Wrapper>
 
       <Criteria clearSearch={clearSearch} />
-    </FuckFuck>
+    </Outer>
   );
 };
 
@@ -259,8 +275,10 @@ const mapDispatchToState = {
 
 export default connect(mapPropsToState, mapDispatchToState)(Nav);
 
-const FuckFuck = styled.div`
-
+const Outer = styled.div`
+  width: 700px;
+  margin: 0 auto 30px auto;
+  padding: 30px 0 16px 0;
 `;
 
 const Wrapper = styled.nav`
@@ -268,7 +286,7 @@ const Wrapper = styled.nav`
   border-radius: 12px;
   ${props => props.shadow && 'box-shadow: 0 0 4px #ffffff'};
   height: ${props => props.height};
-  margin: 30px auto 0 auto;
+  margin: 0 auto;
   max-width:  ${props => props.width};
   padding: 16px 0;
   transition: ${props => props.transition};
@@ -278,10 +296,33 @@ const Wrapper = styled.nav`
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    margin-bottom: 16px;
 
-    > button, > select {
-      height: 24px;
+    > button {
+      background: transparent;
+      border: 1px solid ${props => props.theme.mainRed};
+      border-radius: 5px;
+      box-shadow: 0px 0px 8px ${props => props.theme.mainRed}77;
+      color: ${props => props.theme.nBlue};
+      cursor: pointer;
+      font-weight: bold;
+      margin: 0 12px;
+      outline: transparent;
+      height: 26px;
+      min-width: 50px;
+      display: flex;
+      > i {
+        display: block;
+        align-self: center;
+        margin: auto;
+      }
+    }
+
+    > button:first-of-type {
+      margin-left: 0;
+    }
+
+    > button:last-of-type {
+      margin-right: 0;
     }
   }
 `;
@@ -292,24 +333,42 @@ const SearchWrapper = styled.div`
   transition: opacity ${props => props.transition};
   padding: 12px 40px;
 
-  .title-search, .tag-search {
+  input, select {
+    height: 32px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 2px solid ${props => props.theme.mainRed};
+    box-shadow: inset 3px 3px 2px #777,
+      inset -3px -3px 2px #fff;
+    background-color: #ccc;
+    color: ${props => props.theme.nBlue};
+    font-weight: 700;
+    outline: transparent;
+  }
+
+  label, input, select {
+    width: 100%;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  p {
+    font-size: .7rem;
+    margin: 4px auto;
+    padding: 0 12px;
+  }
+
+  .title-search {
     margin-bottom: 12px;
+  }
 
-    > label {
-      width: 100%;
-      display: block;
-      margin-bottom: 4px;
-    }
+  .tag-category-wrapper {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
 
-    > input {
-      display: block;
-      width: 100%;
-    }
-
-    > p {
-      font-size: .7rem;
-      margin: 4px auto;
-      padding: 0 12px;
+    .tag-search, .category-search {
+      width: 48%;
     }
   }
 
@@ -320,32 +379,10 @@ const SearchWrapper = styled.div`
       justify-content: space-between;
       padding: 0 12px;
 
-      .start-date {
+      .start-date, .end-date {
         width: 48%;
-
-        > label, > input {
-          width: 100%;
-          display: block;
-          margin-bottom: 4px;
-        }
-      }
-
-      .end-date {
-        width: 48%;
-        
-        > label, > input {
-          width: 100%;
-          display: block;
-          margin-bottom: 4px;
-        }
       }
     }
-  }
-
-  > p {
-    font-size: .7rem;
-    margin: 4px auto;
-    padding: 0 12px;
   }
 
   .search-buttons {

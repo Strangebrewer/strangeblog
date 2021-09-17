@@ -13,9 +13,9 @@ const Main = (props) => {
         <p>{props.blog.subtitle}</p>
       </Header>
 
-      <Nav />
-
       <Bio />
+
+      <Nav />
 
       <Posts />
     </PageWrapper>

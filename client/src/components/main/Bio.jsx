@@ -49,6 +49,7 @@ const Bio = props => {
   }
 
   function cancelBio() {
+    setValue(props.blog && props.blog.bio ? JSON.parse(props.blog.bio) : initialValue)
     setReadonly(true);
   }
 
@@ -99,10 +100,11 @@ export default connect(mapPropsToState, mapDispatchToState)(Bio);
 
 const Wrapper = styled.section`
   border-bottom: 2px solid ${props => props.theme.mainRed};
+  border-top: 2px solid ${props => props.theme.mainRed};
   color: #aaa;
   font-weight: 500;
-  margin: 12px auto;
-  padding: 20px 0;
+  margin: 24px auto 0 auto;
+  padding: 0;
   width: 700px;
 
   p {
