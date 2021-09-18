@@ -5,6 +5,7 @@ import { Editable, withReact, Slate } from 'slate-react';
 import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
 import styled from 'styled-components';
+import { SearchButtons } from '../../styles/components';
 
 import RenderButtons, { toggleMark } from '../slate/components/RenderButtons';
 import { Element, Leaf } from '../slate/utils/Renderers';
@@ -77,11 +78,11 @@ const Bio = props => {
       </Slate>
 
       {!readonly && (
-        <Buttons>
+        <SearchButtons className="search-buttons">
           <button onClick={saveBio}>Save</button>
           <button onClick={saveBioAndClose}>Save &amp; Close</button>
           <button onClick={cancelBio}>Cancel</button>
-        </Buttons>
+        </SearchButtons>
       )}
     </Wrapper>
   );
@@ -113,35 +114,8 @@ const Wrapper = styled.section`
     line-height: 1.3;
     text-indent: 0;
   }
-`;
 
-const Buttons = styled.div`
-  margin-left: 16px;
-  margin-top: 16px;
-
-  > button {
-    background: #222;
-    border: 1px solid ${props => props.theme.nBlue};
-    border-radius: 5px;
-    box-shadow: 4px 4px 4px ${props => props.theme.nBlue}77;
-    color: ${props => props.theme.nBlue};
-    cursor: pointer;
-    font-weight: bold;
-    margin-right: 16px;
-    outline: transparent;
-    padding: 6px 12px;
-  }
-
-  > button:nth-child(2) {
-    border: 1px solid ${props => props.theme.nGreen};
-    box-shadow: 4px 4px 4px ${props => props.theme.nGreen}77;
-    color: ${props => props.theme.nGreen};
-  }
-
-  > button:last-of-type {
-    border: 1px solid ${props => props.theme.nRed};
-    box-shadow: 4px 4px 4px ${props => props.theme.nRed}77;
-    color: ${props => props.theme.nRed};
-    margin-right: 0;
+  .search-buttons {
+    margin-bottom: 24px;
   }
 `;

@@ -7,6 +7,7 @@ import Authoritaw from './pages/Authoritaw';
 import Main from './pages/Main';
 import PostEditor from './pages/PostEditor';
 import SinglePost from './pages/SinglePost';
+import Sources from './pages/Sources';
 
 import Authentication from './utils/Authentication';
 import { Spinner, SpinnerWrap } from './styles/Elements';
@@ -72,6 +73,12 @@ function App(props) {
               exact
               path="/admin"
               component={Authentication(Admin, { adminRequired: true, admin: props.admin })}
+            />
+
+            <Route
+              exact
+              path="/sources"
+              component={Sources}
             />
 
             <Route

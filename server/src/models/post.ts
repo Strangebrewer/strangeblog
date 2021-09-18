@@ -29,6 +29,7 @@ interface IOptions {
   skip?: number;
   take?: number;
   orderBy?: Record<string, unknown>;
+  include?: Record<string, unknown>;
 }
 
 export default class PostModel {
@@ -101,7 +102,7 @@ export default class PostModel {
     if (data.categoryId) search.categoryId = parseInt(data.categoryId);
     if (data.title) search.title = { contains: data.title, mode: 'insensitive' };
 
-    const options: IOptions = {};
+    const options: IOptions = { include: { category: true } };
     if (data.skip) options.skip = parseInt(data.skip);
     if (data.take) options.take = parseInt(data.take);
     if (data.orderBy) options.orderBy = { [data.orderBy]: data.order };

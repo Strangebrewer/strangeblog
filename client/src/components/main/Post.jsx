@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
-import slugify from 'slugify';
-import styled from 'styled-components';
 import InlineEditor from '../slate/InlineEditor';
 import Modal from '../Modal';
+import { RedBlueButton, Input, Tags } from '../../styles/components';
 import {
   destroyPost,
   getOnePost,
@@ -13,6 +12,16 @@ import {
   savePost,
   saveUserTags
 } from '../../redux/actions/postActions';
+
+import {
+  Wrapper,
+  MetaData,
+  Category,
+  UserActions,
+  DateWrapper,
+  TagWrapper,
+  TagInput
+} from './styles/postStyles';
 
 const Post = props => {
   const history = useHistory();
@@ -39,15 +48,6 @@ const Post = props => {
 
   function goTo(route, state) {
     history.push(route, state)
-  }
-
-  async function getPost(post) {
-    if (props.admin || props.friend) {
-      await props.getOnePost(post.id);
-    } else {
-      await props.getOnePublicPost(post.id);
-    }
-    goTo(`/${slugify(post.title, { lower: true })}`);
   }
 
   async function openSingleEdit() {
@@ -118,8 +118,16 @@ const Post = props => {
       </Modal>
 
       <MetaData>
-        <h2 className="post-title" onClick={() => getPost(post)} style={{ cursor: 'pointer' }}>{post.title}</h2>
+        <h2
+          className="post-title"
+          onClick={() => goTo(`/${post.id}`)}
+          style={{ cursor: 'pointer' }}
+        >
+          {post.title}
+        </h2>
         <h4 className="post-subtitle">{post.subtitle}</h4>
+
+        {post.category && post.category.name !== 'None' ? <Category>Category: {post.category.name}</Category> : null}
 
         {props.admin && (
           <div className="post-buttons">
@@ -134,39 +142,42 @@ const Post = props => {
             </button>
             {showTagInput && (
               <TagInput>
-                <input
+                <Input
+                  height="26"
                   type="text"
                   name="newTags"
                   value={newTags}
                   onChange={handleInputChange}
                   placeholder="comma-separated tags..."
                 />
-                <button onClick={addTags}>add</button>
+                <RedBlueButton width="40" onClick={addTags}>
+                  <i className="fas fa-plus" />
+                </RedBlueButton>
               </TagInput>
             )}
           </div>
         )}
       </MetaData>
 
-      <TagWrapper>
+      <DateWrapper>
         <h5>{format(new Date(post.createdAt), 'MMM dd, yyyy - hh:mm aaaa')} {post.tags.length ? <span>-</span> : null}</h5>
         {
           post.tags.length
             ? (
-              <Tags>
+              <TagWrapper>
                 <h4>Tags<span>:</span> </h4>
-                <p>
+                <Tags>
                   {post.tags.map((tag, i) => (
                     <span key={`tag-${i}`}>
                       <span className="tag" onClick={() => search({ tags: tag })}>{tag}</span>
                       {props.admin && <span className="tag-delete" onClick={() => removeTag(i)}>&times;</span>}
                     </span>
                   ))}
-                </p>
-              </Tags>
+                </Tags>
+              </TagWrapper>
             ) : null
         }
-      </TagWrapper>
+      </DateWrapper>
 
       <InlineEditor
         post={post}
@@ -175,23 +186,23 @@ const Post = props => {
         edit={openSingleEdit}
       />
 
-      <Tags userTags>
+      <TagWrapper userTags>
         {
           post.userTags && (
             <>
               <h4>My Tags<span>:</span> </h4>
-              <p>
+              <Tags>
                 {post.userTags.map((tag, i) => (
                   <span key={`my-tag-${i}`}>
                     <span className="tag" onClick={() => search({ tags: tag, byUserTag: true })}>{tag}</span>
                     <span className="tag-delete" onClick={() => removeUserTag(i)}>&times;</span>
                   </span>
                 ))}
-              </p>
+              </Tags>
             </>
           )
         }
-      </Tags>
+      </TagWrapper>
 
       {props.authenticated && (
         <UserActions>
@@ -201,7 +212,8 @@ const Post = props => {
 
           {showUserTagInput && (
             <TagInput userTags>
-              <input
+              <Input
+                height="26"
                 type="text"
                 name="newUserTags"
                 value={newUserTags}
@@ -235,125 +247,3 @@ const mapDispatchToState = {
 };
 
 export default connect(mapPropsToState, mapDispatchToState)(Post);
-
-const Wrapper = styled.article`
-  margin-bottom: 60px;
-`;
-
-const MetaData = styled.div`
-  position: relative;
-
-  .post-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 4px;
-  }
-
-  .post-subtitle {
-    font-size: .88rem;
-    border-bottom: 1px solid ${props => props.theme.mainGrey};
-    padding-bottom: 8px;
-    margin-bottom: 4px;
-    text-indent: 20px;
-    color: ${props => props.theme.mainRed};
-  }
-
-  .post-buttons {
-    position: absolute;
-    right: 0;
-    top: 4px;
-
-    > button {
-      background-color: transparent;
-      border: none;
-      color: white;
-      cursor: pointer;
-      margin-right: 4px;
-      outline: transparent;
-
-      &:hover {
-        color: ${props => props.theme.nBlue};
-      }
-    }
-  }
-`;
-
-const UserActions = styled.div`
-  position: relative;
-
-  > button {
-      background-color: transparent;
-      border: none;
-      color: white;
-      cursor: pointer;
-      outline: transparent;
-
-      &:hover {
-        color: ${props => props.theme.nBlue};
-      }
-    }
-`;
-
-const TagWrapper = styled.div`
-  display: flex;
-  font-size: .68rem;
-  margin-bottom: 24px;
-
-  > h5 {
-    font-size: .68rem;
-    margin-right: 8px;
-    padding: 3px 0;
-    align-self: flex-start;
-
-    > span {
-      color: ${props => props.theme.mainRed};
-      padding-left: 8px;
-    }
-  }
-`;
-
-const Tags = styled.div`
-  display: flex;
-  font-size: .68rem;
-  margin-top: ${props => props.userTags && '24px'};
-
-  > h4 {
-    padding: 3px 8px 0 3px;
-  }
-
-  > p {
-    display: flex;
-
-    > span {
-      display: flex;
-    }
-
-    .tag {
-      background-color: #444;
-      border-radius: 3px;
-      cursor: pointer;
-      display: inline-block;
-      margin: 2px;
-      padding: 2px 4px;
-
-      &:hover {
-        box-shadow: 0px 0px 3px white;
-      }
-    }
-
-    .tag-delete {
-      color: ${props => props.theme.mainRed};
-      cursor: pointer;
-      margin: auto 8px auto 0;
-      font-size: 1rem;
-    }
-  }
-`;
-
-const TagInput = styled.div`
-  position: absolute;
-  ${props => props.userTags ? 'left: 0' : null};
-  ${props => props.userTags ? null : 'right: 0'};
-  top: 20px;
-  display: flex;
-`;

@@ -22,7 +22,7 @@ export function categoryReducer(state = {}, action) {
   }
 }
 
-export function searchReducer(state = getBasicSearchCriteria(), action) {
+export function searchCriteriaReducer(state = getBasicSearchCriteria(), action) {
   switch (action.type) {
     case SET_SEARCH_CRITERIA:
       return action.payload;

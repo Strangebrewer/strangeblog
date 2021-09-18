@@ -1,11 +1,56 @@
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import Bio from '../components/main/Bio';
-import Nav from '../components/main/Nav';
+import Searchbar from '../components/main/Searchbar';
 import Posts from '../components/main/Posts';
 
+import { listPublicPosts, listPosts } from '../redux/actions/postActions';
+import { setCount, setSearchCriteria } from '../redux/actions/otherActions';
+import { getBasicSearchCriteria } from '../utils/halp';
+
 const Main = (props) => {
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const [transition, setTransition] = useState('opacity .3s ease-in-out');
+
+  useEffect(() => {
+    let visible = false;
+    const listener = () => {
+      if (window.scrollY > 300 && !visible) {
+        setShowScrollButton(true);
+        setTransition('opacity .3s ease-in-out');
+        visible = true;
+      } else if (window.scrollY <= 300 && visible) {
+        setShowScrollButton(false);
+        setTransition('opacity .3s ease-in-out, visibility .5s ease-in-out .3s');
+        visible = false;
+      }
+    }
+    window.addEventListener('scroll', listener);
+
+    return () => window.removeEventListener('scroll', listener);
+  }, []);
+
+  async function search(criteria) {
+    const search = { ...getBasicSearchCriteria(), ...criteria };
+    props.setSearchCriteria(search);
+    let result;
+    if (props.admin || props.friend) {
+      result = await props.listPosts(search);
+    } else {
+      result = await props.listPublicPosts(search);
+    }
+    props.setCount(result.count);
+  }
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
   return (
     <PageWrapper>
       <Header>
@@ -15,20 +60,31 @@ const Main = (props) => {
 
       <Bio />
 
-      <Nav />
+      <Searchbar search={search} />
 
-      <Posts />
+      <Posts search={search} />
+
+      <ToTop onClick={scrollToTop} show={showScrollButton} transition={transition}>
+        <i className="fas fa-arrow-circle-up" />
+      </ToTop>
     </PageWrapper>
   )
 }
 
 function mapPropsToState(state) {
   return {
-    blog: state.blog
+    admin: state.user.acl === "admin",
+    blog: state.blog,
+    friend: state.user.acl === 'friend'
   }
 }
 
-const mapDispatchToState = {};
+const mapDispatchToState = {
+  listPublicPosts,
+  listPosts,
+  setCount,
+  setSearchCriteria
+};
 
 export default connect(mapPropsToState, mapDispatchToState)(Main);
 
@@ -53,4 +109,19 @@ const Header = styled.header`
     text-indent: 10px;
     color: ${props => props.theme.mainRed};
   }
+`;
+
+const ToTop = styled.button`
+  background: transparent;
+  outline: transparent;
+  border: none;
+  color: ${props => props.theme.nBlue};
+  cursor: pointer;
+  font-size: 30px;
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  visibility: ${props => props.show ? 'visible' : 'hidden'};
+  opacity: ${props => props.show ? '1' : '0'};
+  transition: ${props => props.transition};
 `;

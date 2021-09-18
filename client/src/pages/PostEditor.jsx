@@ -4,6 +4,13 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Editor from '../components/slate/Editor';
 import { Spinner, SpinnerWrap } from '../styles/Elements';
+import {
+  RedBlueButton,
+  Label,
+  Input,
+  Select,
+  Tags
+} from '../styles/components';
 
 import { getOnePost, savePost } from '../redux/actions/postActions';
 
@@ -42,17 +49,6 @@ const FullPageEditor = props => {
     setSubtitle(data.subtitle);
     setTags(data.tags);
     setCategoryId(data.categoryId);
-  }
-
-  function canSave() {
-    return true;
-    // if (
-    //   tags !== post.tags
-    //   || categoryId !== post.categoryId
-    //   || title !== post.title
-    //   || subtitle !== post.subtitle
-    // ) return true;
-    // return false;
   }
 
   function handleInputChange({ target }) {
@@ -110,59 +106,77 @@ const FullPageEditor = props => {
 
       {!loading && (
         <>
-          <InputWrapper>
-            <label htmlFor="title-edit">Title:</label>
-            <input
-              id="title-edit"
-              type="text"
-              name="title"
-              value={title}
-              onChange={handleInputChange}
-            />
-          </InputWrapper>
+          <YeOldeInputs>
+            <InputWrapper>
+              <Label htmlFor="title-edit">Title:</Label>
+              <Input
+                full
+                id="title-edit"
+                type="text"
+                name="title"
+                value={title}
+                onChange={handleInputChange}
+              />
+            </InputWrapper>
 
-          <InputWrapper>
-            <label htmlFor="subtitle-edit">Subtitle:</label>
-            <input
-              id="subtitle-edit"
-              type="text"
-              name="subtitle"
-              value={subtitle}
-              onChange={handleInputChange}
-            />
-          </InputWrapper>
+            <InputWrapper>
+              <Label htmlFor="subtitle-edit">Subtitle:</Label>
+              <Input
+                full
+                id="subtitle-edit"
+                type="text"
+                name="subtitle"
+                value={subtitle}
+                onChange={handleInputChange}
+              />
+            </InputWrapper>
 
-          <InputWrapper>
-            <label htmlFor="category-select">Category:</label>
-            <select name="categoryId" id="category-select" value={categoryId} onChange={handleInputChange}>
-              {props.categories.map((c, i) => {
-                return <option value={c.id} key={`category-${i}`}>{c.name}</option>
-              })}
-            </select>
-          </InputWrapper>
+            <InputWrapper>
+              <Label htmlFor="category-select">Category:</Label>
+              <Select
+                full
+                name="categoryId"
+                id="category-select"
+                value={categoryId}
+                onChange={handleInputChange}
+              >
+                {props.categories.map((c, i) => {
+                  return <option value={c.id} key={`category-${i}`}>{c.name}</option>
+                })}
+              </Select>
+            </InputWrapper>
+          </YeOldeInputs>
 
-          {/* <div> */}
-          <InputWrapper>
-            <label htmlFor="tags-edit">Tags: {!showTagInput ? <AddTag onClick={() => setShowTagInput(true)}>+</AddTag> : null}</label>
+          <YeOldeTagInputs>
+            <InputWrapper>
+              <TagWrapper>
+                <h4>Tags<span>:</span>&nbsp;
+                  <AddTag onClick={() => setShowTagInput(!showTagInput)} red={showTagInput}>
+                    {showTagInput ? '-' : '+'}
+                  </AddTag>
+                </h4>
+                <Tags>
+                  {tags.map((tag, i) => (
+                    <span key={`tag-${i}`}>
+                      <span className="tag">{tag}</span>
+                      {props.admin && <span onClick={() => deleteTag(i)}>&times;</span>}
+                    </span>
+                  ))}
+                </Tags>
+              </TagWrapper>
+            </InputWrapper>
+
             {showTagInput
               ? (
-                <div>
-                  <input name="tagsToAdd" value={tagsToAdd} type="text" onChange={handleInputChange} />
-                  <button onClick={addNewTags}>add</button>
-                  <button onClick={() => setShowTagInput(false)}>cancel</button>
-                </div>
+                <InputWrapper className="tag-input-wrapper">
+                  <Input height="26" name="tagsToAdd" value={tagsToAdd} type="text" onChange={handleInputChange} />
+                  <RedBlueButton onClick={addNewTags}>add</RedBlueButton>
+                  <RedBlueButton onClick={() => setShowTagInput(false)}>cancel</RedBlueButton>
+                </InputWrapper>
               ) : null}
-          </InputWrapper>
-          
-          <InputWrapper>
-            {tags && tags.map((t, i) => {
-              let comma = i < tags.length - 1 ? ',' : '';
-              return <Tag key={`tag-${i}`}>{t} <span onClick={() => deleteTag(i)}>x</span>{comma}</Tag>
-            })}
-          </InputWrapper>
-          {/* </div> */}
+          </YeOldeTagInputs>
 
-          <Editor post={post} canSave={canSave()} save={save} cancel={cancel} />
+          <Editor post={post} save={save} cancel={cancel} />
         </>
       )}
     </PageWrapper>
@@ -185,23 +199,68 @@ export default connect(mapStateToProps, mapDispatchToProps)(FullPageEditor);
 export const PageWrapper = styled.div`
   min-height: 100vh;
   padding-top: 50px;
+  background: black;
+`;
+
+const YeOldeInputs = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 900px;
+  margin: auto;
+
+  > div {
+    width: 32%;
+  }
+`;
+
+const YeOldeTagInputs = styled.div`
+  width: 800px;
+  margin: auto;
+  display: flex;
+  position: relative;
+
+  .tag-input-wrapper {
+    position: absolute;
+    top: 40px;
+    width: 360px;
+    display: flex;
+    align-items: center;
+
+    > input {
+      margin-bottom: 0;
+    }
+
+    > button {
+      margin: 0 4px;
+      padding: 4px 8px;
+    }
+  }
 `;
 
 const InputWrapper = styled.div`
   margin: auto;
   width: 900px;
-`;
 
-const Tag = styled.p`
-  span {
-    color: red;
-    cursor: pointer;
-    font-size: 12px;
+  label {
+    color: white;
   }
 `;
 
 const AddTag = styled.span`
-  color: green;
+  color: ${props => props.red ? 'red' : 'green'};
   cursor: pointer;
-  font-size: 12px;
+  font-size: 18px;
+  font-weight: 700;
+`;
+
+const TagWrapper = styled.div`
+  display: flex;
+  font-size: .68rem;
+  margin: 12px 0 6px 0;
+
+  > h4 {
+    color: white;
+    font-size: 16px;
+    padding: 3px 8px;
+  }
 `;

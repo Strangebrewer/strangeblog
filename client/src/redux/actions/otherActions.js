@@ -43,7 +43,7 @@ export function saveBlogData(data) {
    }
 }
 
-export function setSearch(critieria) {
+export function setSearchCriteria(critieria) {
    return async dispatch => {
       dispatch({ type: SET_SEARCH_CRITERIA, payload: critieria });
    }

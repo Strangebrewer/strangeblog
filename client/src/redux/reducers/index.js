@@ -6,7 +6,7 @@ import {
    blogReducer,
    categoryReducer,
    countReducer,
-   searchReducer
+   searchCriteriaReducer
 } from './otherReducer';
 
 // import { UNAUTHENTICATED } from '../action-types/authTypes';
@@ -18,7 +18,7 @@ const appReducer = combineReducers({
    count: countReducer,
    post: currentPostReducer,
    posts: postReducer,
-   search: searchReducer,
+   criteria: searchCriteriaReducer,
    user: userReducer,
 });
 

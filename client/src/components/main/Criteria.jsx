@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import { listPublicPosts, listPosts } from '../../redux/actions/postActions';
-import { setSearch, setCount } from '../../redux/actions/otherActions';
+import { setSearchCriteria, setCount } from '../../redux/actions/otherActions';
 import { getBasicSearchCriteria } from '../../utils/halp';
 
 const Criteria = props => {
@@ -12,7 +12,7 @@ const Criteria = props => {
   useEffect(() => {
     function setInitialDisplay() {
       const display = {};
-      const { title, tags, byUserTag, startDate, endDate, categoryId } = props.search;
+      const { title, tags, startDate, endDate, categoryId } = props.criteria;
       if (title) display.title = `Title: ${title.substr(0, 12)}${title.length > 12 ? '...' : ''}`;
       if (tags) {
         const tagsArray = tags.split(',');
@@ -27,41 +27,32 @@ const Criteria = props => {
       setDisplay(display);
     }
     setInitialDisplay();
-  }, [props.search]);
-
-  async function searchPosts(criteria) {
-    let result;
-    if (props.admin || props.friend) {
-      result = await props.listPosts(criteria);
-    } else {
-      result = await props.listPublicPosts(criteria);
-    }
-    props.setCount(result.count);
-  }
+  }, [props.criteria]);
 
   function resetSearch() {
     const criteria = getBasicSearchCriteria();
     setDisplay({});
     props.clearSearch();
-    searchPosts(criteria);
+    props.search(criteria);
   }
 
   function removeCriteria(criterion) {
-    const criteria = { ...props.search };
+    const criteria = { ...props.criteria };
     delete criteria[criterion];
     props.clearSearch(criterion);
-    props.setSearch(criteria);
-    searchPosts(criteria);
+    props.setSearchCriteria(criteria);
+    props.search(criteria);
   }
 
   function removeTag(index) {
     let tagsCopy = [...display.tags];
     tagsCopy.splice(index, 1);
-    const criteria = { ...props.search, tags: tagsCopy.join(', ') };
     setDisplay({ ...display, tags: tagsCopy });
-    props.clearSearch('tags', tagsCopy.join(', '));
-    props.setSearch(criteria);
-    searchPosts(criteria);
+    const joined = tagsCopy.join(', ');
+    const criteria = { ...props.criteria, tags: joined };
+    props.clearSearch('tags', joined);
+    props.setSearchCriteria(criteria);
+    props.search(criteria);
   }
 
   return (
@@ -130,7 +121,7 @@ function mapPropsToState(state) {
     admin: state.user.acl === "admin",
     count: state.count,
     friend: state.user.acl === "friend",
-    search: state.search,
+    criteria: state.criteria,
     categories: state.categories
   }
 }
@@ -139,7 +130,7 @@ const mapDispatchToState = {
   listPosts,
   listPublicPosts,
   setCount,
-  setSearch
+  setSearchCriteria
 };
 
 export default connect(mapPropsToState, mapDispatchToState)(Criteria);

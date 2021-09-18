@@ -14,20 +14,15 @@
 # ToDo
 
 ## Next
-- Criteria.jsx:
-  - Display the full count
-- refactor the PostEditor page
-  - move save buttons from the Editor component to the PostEditor page, OR
-  - move the title and other input fields into the Editor component
-  - whatever other refactors make sense
+- If there are usertags and you delete the last one, the "My Tags:" label still shows.
 - flesh out the SinglePost.jsx page:
+  - The point of this page is to make it so you can link directly to one post
+    - consequently, the url will need to use the postId rather than the name
   - functionality for adding tags
   - button to edit (should just go to the "/editor" page)
 
 ## Main.jsx:
 - on the Main.jsx page:
-  - add functionality for editing the title and summary
-  - add category to the display
   - add functionality for changing the category
 
 ## Admin page:
@@ -53,6 +48,8 @@
 - add save, save & close, and cancel functionality to the "/editor" page
 
 ### Main.jsx:
+- DONE: add category to the display
+- DONE: Top of page button on Main.jsx
 - DONE: create a Search component for the Main page, something to go in the expanding search box
   - DONE: Add notice thing that appears under the nav that shows what the current search criteria are
   - DONE: each criteria should have an "x" that allows to remove just that part of the search criteria
@@ -64,6 +61,7 @@
     - DONE: Title
     - DONE: Tags
     - DONE: Dates
+
 - Post.jsx
   - DONE: add tags to the display
   - DONE: add functionality for adding and removing tags (mine and users') to Posts

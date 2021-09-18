@@ -4,6 +4,7 @@ import { Editable, withReact, Slate } from 'slate-react';
 import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
 import styled from 'styled-components';
+import { SearchButtons } from '../../styles/components';
 
 import RenderButtons, { toggleMark } from './components/RenderButtons';
 import { Element, Leaf } from './utils/Renderers';
@@ -67,11 +68,11 @@ const PostEditor = props => {
       </Slate>
 
       {!props.readOnly && (
-        <Buttons disabled={!props.canSave}>
-          <button disabled={!props.canSave} onClick={save}>Save</button>
-          <button disabled={!props.canSave} onClick={saveAndClose}>Save &amp; Close</button>
+        <SearchButtons>
+          <button onClick={save}>Save</button>
+          <button onClick={saveAndClose}>Save &amp; Close</button>
           <button onClick={cancel}>Cancel</button>
-        </Buttons>
+        </SearchButtons>
       )}
     </EditorWrapper>
   )
@@ -81,40 +82,6 @@ export default PostEditor;
 
 const EditorWrapper = styled.div`
   margin: auto;
-  padding-top: 50px;
+  padding-top: 40px;
   width: 900px;
-`;
-
-const Buttons = styled.div`
-  margin-left: 16px;
-  margin-top: 16px;
-
-  button {
-    background: #222;
-    border: 1px solid ${props => props.disabled ? '#999' : props.theme.nBlue};
-    border-radius: 5px;
-    box-shadow: 4px 4px 4px ${props => props.disabled ? '#999' : props.theme.nBlue}77;
-    color: ${props => props.disabled ? '#999' : props.theme.nBlue};
-    cursor: ${props => props.disabled ? 'default' : 'pointer'};
-    font-weight: bold;
-    margin-right: 16px;
-    opacity: ${props => props.disabled ? '.6' : '1'};
-    outline: transparent;
-    padding: 6px 12px;
-  }
-
-  button:nth-child(2) {
-    border: 1px solid ${props => props.disabled ? '#999' : props.theme.nGreen};
-    box-shadow: 4px 4px 4px ${props => props.disabled ? '#999' : props.theme.nGreen}77;
-    color: ${props => props.disabled ? '#999' : props.theme.nGreen};
-  }
-
-  button:last-of-type {
-    border: 1px solid ${props => props.theme.nRed};
-    box-shadow: 4px 4px 4px ${props => props.theme.nRed}77;
-    color: ${props => props.theme.nRed};
-    cursor: pointer;
-    margin-right: 0;
-    opacity: 1;
-  }
 `;
