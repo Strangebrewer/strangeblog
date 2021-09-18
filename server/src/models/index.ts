@@ -21,8 +21,9 @@ prisma.$use(async (params, next) => {
 
   if (data) {
     if (data.id && typeof data.id === 'string') data.id = parseInt(data.id);
-    if (data.userId && typeof data.userId === 'string') data.userId = parseInt(data.userId);
+    if (data.blogId && typeof data.blogId === 'string') data.blogId = parseInt(data.blogId);
     if (data.categoryId && typeof data.categoryId === 'string') data.categoryId = parseInt(data.categoryId);
+    if (data.userId && typeof data.userId === 'string') data.userId = parseInt(data.userId);
   }
 
   const result = await next(params);
