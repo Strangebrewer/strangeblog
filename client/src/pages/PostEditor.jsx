@@ -23,6 +23,7 @@ const FullPageEditor = props => {
   const [categoryId, setCategoryId] = useState('');
   const [tags, setTags] = useState([]);
   const [post, setPost] = useState(null);
+  const [isPublic, setIsPublic] = useState(false);
 
   const [showTagInput, setShowTagInput] = useState(false);
   const [tagsToAdd, setTagsToAdd] = useState('');
@@ -49,14 +50,16 @@ const FullPageEditor = props => {
     setSubtitle(data.subtitle);
     setTags(data.tags);
     setCategoryId(data.categoryId);
+    setIsPublic(!!data.public);
   }
 
   function handleInputChange({ target }) {
-    const { name, value } = target;
+    const { name, value, checked } = target;
     if (name === 'categoryId') setCategoryId(value);
     if (name === 'tagsToAdd') setTagsToAdd(value);
     if (name === 'title') setTitle(value);
     if (name === 'subtitle') setSubtitle(value);
+    if (name === 'isPublic') setIsPublic(checked);
   }
 
   function deleteTag(index) {
@@ -72,19 +75,23 @@ const FullPageEditor = props => {
     setShowTagInput(false)
   }
 
-  async function save(bodyText) {
+  async function save(bodyText, saveAndClose) {
     setSaving(true);
+    const none = props.categories.find(cat => cat.name === 'None');
     const update = {
       tags,
-      categoryId,
+      categoryId: categoryId ? categoryId : none.id,
       title,
-      subtitle
+      subtitle,
+      public: isPublic
     };
     if (post.id) update.id = post.id;
     if (bodyText) update.body = bodyText;
     const savedPost = await props.savePost(update, true);
-    setLocalVariables(savedPost);
-    setTimeout(() => setSaving(false), 1200);
+    if (!saveAndClose) {
+      setLocalVariables(savedPost);
+      setTimeout(() => setSaving(false), 1200);
+    }
   }
 
   function cancel() {
@@ -107,48 +114,62 @@ const FullPageEditor = props => {
       {!loading && (
         <>
           <YeOldeInputs>
-            <InputWrapper>
-              <Label htmlFor="title-edit">Title:</Label>
-              <Input
-                full
-                id="title-edit"
-                type="text"
-                name="title"
-                value={title}
-                onChange={handleInputChange}
-              />
-            </InputWrapper>
+            <div>
+              <div>
+                <Label htmlFor="title-edit">Title:</Label>
+                <Input
+                  full
+                  id="title-edit"
+                  type="text"
+                  name="title"
+                  value={title}
+                  onChange={handleInputChange}
+                />
+              </div>
 
-            <InputWrapper>
-              <Label htmlFor="subtitle-edit">Subtitle:</Label>
-              <Input
-                full
-                id="subtitle-edit"
-                type="text"
-                name="subtitle"
-                value={subtitle}
-                onChange={handleInputChange}
-              />
-            </InputWrapper>
+              <div>
+                <Label htmlFor="subtitle-edit">Subtitle:</Label>
+                <Input
+                  full
+                  id="subtitle-edit"
+                  type="text"
+                  name="subtitle"
+                  value={subtitle}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
 
-            <InputWrapper>
-              <Label htmlFor="category-select">Category:</Label>
-              <Select
-                full
-                name="categoryId"
-                id="category-select"
-                value={categoryId}
-                onChange={handleInputChange}
-              >
-                {props.categories.map((c, i) => {
-                  return <option value={c.id} key={`category-${i}`}>{c.name}</option>
-                })}
-              </Select>
-            </InputWrapper>
+            <div>
+              <div>
+                <Label htmlFor="category-select">Category:</Label>
+                <Select
+                  full
+                  name="categoryId"
+                  id="category-select"
+                  value={categoryId}
+                  onChange={handleInputChange}
+                >
+                  {props.categories.map((c, i) => {
+                    return <option value={c.id} key={`category-${i}`}>{c.name}</option>
+                  })}
+                </Select>
+              </div>
+
+              <div>
+                <label>public: </label>
+                <input
+                  type="checkbox"
+                  name="isPublic"
+                  checked={isPublic}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
           </YeOldeInputs>
 
           <YeOldeTagInputs>
-            <InputWrapper>
+            <div>
               <TagWrapper>
                 <h4>Tags<span>:</span>&nbsp;
                   <AddTag onClick={() => setShowTagInput(!showTagInput)} red={showTagInput}>
@@ -164,15 +185,15 @@ const FullPageEditor = props => {
                   ))}
                 </Tags>
               </TagWrapper>
-            </InputWrapper>
+            </div>
 
             {showTagInput
               ? (
-                <InputWrapper className="tag-input-wrapper">
+                <div className="tag-input-wrapper">
                   <Input height="26" name="tagsToAdd" value={tagsToAdd} type="text" onChange={handleInputChange} />
                   <RedBlueButton onClick={addNewTags}>add</RedBlueButton>
                   <RedBlueButton onClick={() => setShowTagInput(false)}>cancel</RedBlueButton>
-                </InputWrapper>
+                </div>
               ) : null}
           </YeOldeTagInputs>
 
@@ -204,12 +225,23 @@ export const PageWrapper = styled.div`
 
 const YeOldeInputs = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   width: 900px;
   margin: auto;
 
   > div {
-    width: 32%;
+    display: flex;
+    width: 100%;
+
+    > div {
+      margin: auto;
+      width: 48%;
+
+      label {
+        color: white;
+      }
+    }
   }
 `;
 
@@ -234,15 +266,6 @@ const YeOldeTagInputs = styled.div`
       margin: 0 4px;
       padding: 4px 8px;
     }
-  }
-`;
-
-const InputWrapper = styled.div`
-  margin: auto;
-  width: 900px;
-
-  label {
-    color: white;
   }
 `;
 

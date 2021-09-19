@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { RedBlueButton } from '../../styles/components';import styled from 'styled-components';
+import { RedBlueButton } from '../../styles/components';
+import styled from 'styled-components';
+import { logout } from '../../redux/actions/authActions';
 
 const Nav = props => {
   const history = useHistory();
@@ -20,7 +22,7 @@ const Nav = props => {
         opacity: '0',
         transition: '.15s ease-in-out',
         visibility: 'hidden'
-      });
+      }, 'none');
       setShadow(null);
       setShowSearch(false);
     } else {
@@ -31,7 +33,7 @@ const Nav = props => {
         opacity: '1',
         transition: '.2s ease-in-out .28s',
         visibility: 'visible'
-      });
+      }, 'block');
       setShadow(true);
       setShowSearch(true);
     }
@@ -87,7 +89,7 @@ function mapPropsToState(state) {
   }
 }
 
-export default connect(mapPropsToState)(Nav);
+export default connect(mapPropsToState, { logout })(Nav);
 
 export const Wrapper = styled.nav`
   background-color: #ffffff22;
@@ -98,12 +100,14 @@ export const Wrapper = styled.nav`
   max-width:  ${props => props.width};
   padding: 16px 0;
   transition: ${props => props.transition};
+  z-index: 1;
 
   .nav-buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
+    z-index: 1;
 
     > button:first-of-type {
       margin-left: 0;

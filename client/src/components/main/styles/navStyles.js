@@ -10,6 +10,7 @@ export const SearchWrapper = styled.div`
   visibility: ${props => props.visiblity};
   opacity: ${props => props.opacity};
   transition: opacity ${props => props.transition};
+  display: ${props => props.display};
   padding: 12px 40px;
   z-index: 0;
   margin-top: 12px;

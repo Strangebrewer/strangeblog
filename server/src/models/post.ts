@@ -64,11 +64,11 @@ export default class PostModel {
   }
 
   public async update(id: number, data: Partial<Post>): Promise<Post> {
-    return await this.client.post.update({ where: { id }, data });
+    return await this.client.post.update({ where: { id }, data, include: { category: true } });
   }
 
   public async create(data: Post): Promise<Post> {
-    return await this.client.post.create({ data });
+    return await this.client.post.create({ data, include: { category: true } });
   }
 
   public async delete(id: number): Promise<Post> {

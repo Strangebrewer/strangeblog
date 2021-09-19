@@ -4,31 +4,30 @@
 - Main Page:
   - Should look similar to my last portfolio page, except it will list articles in descending order, starting with my most recent.
     - Isn't actually a portfolio page and won't have my real name on it.
-  - Each article should have a title (required), a subtitle (optional), a main body, a creation date, a last-edited date, and tags
-    - Consider adding a category - it will allow for sorting articles into subject areas (e.g. Climate Change or Advaita). It can default to "none" or something like that.
+  - Each article should have a title (required), a subtitle (optional), a category (defaults to "None"), a main body, a creation date, a last-edited date, and tags
   - Logged in users should be able to privately tag posts for their own future reference
-  - There should be a search feature to search by title, author, or tag(s)
-    - title and author search should work with partial searches and should be searchable together (i.e. this article by this author)
+  - There should be a search feature to search by title, date range, or tag(s)
+    - title search should work with partial searches
+    - all searches should be searchable together (i.e. this title after this date)
     - search by multiple tags will only find articles with both tags
 
 # ToDo
 
 ## Next
-- If there are usertags and you delete the last one, the "My Tags:" label still shows.
 - flesh out the SinglePost.jsx page:
   - The point of this page is to make it so you can link directly to one post
     - consequently, the url will need to use the postId rather than the name
-  - functionality for adding tags
-  - button to edit (should just go to the "/editor" page)
+  - button to edit (should just go to the "/editor/:id" page)
 
 ## Main.jsx:
 - on the Main.jsx page:
-  - add functionality for changing the category
 
 ## Admin page:
-  - functionality for adding or removing categories
-  - functionality for editing user accounts (to add "friend" to the acl field)
-  - functionality for editing the blog title and subtitle
+- functionality for:
+  - adding or removing sources
+  - adding or removing categories
+  - editing user accounts (to add "friend" to the acl field)
+  - editing the blog title and subtitle
 
 ## Some kind of "Sources" page
   - a list of news and data sources I like (the one from my spread sheet)
@@ -48,7 +47,9 @@
 - add save, save & close, and cancel functionality to the "/editor" page
 
 ### Main.jsx:
+- FIXED: If there are usertags and you delete the last one, the "My Tags:" label still shows.
 - DONE: add category to the display
+- DONE: add functionality for changing the category
 - DONE: Top of page button on Main.jsx
 - DONE: create a Search component for the Main page, something to go in the expanding search box
   - DONE: Add notice thing that appears under the nav that shows what the current search criteria are

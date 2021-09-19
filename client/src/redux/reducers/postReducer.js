@@ -7,20 +7,20 @@ export function postReducer(state = [], action) {
       case Post.ADD_POST_TO_POSTS:
          return [...state, action.payload];
       case Post.DELETE_POST:
-         return state.filter(a => a.id !== action.payload);
+         return state.filter(post => post.id !== action.payload);
       case Post.EDIT_POST_IN_POSTS:
-         return state.map(a => {
-            if (a.id === action.payload.id) {
+         return state.map(post => {
+            if (post.id === action.payload.id) {
                return action.payload;
             }
-            return a;
+            return post;
          });
       case Post.EDIT_USER_TAGS_IN_POST:
-         return state.map(a => {
-            if (a.id === action.payload.id) {
-               a.userTags = action.payload.tags;
+         return state.map(post => {
+            if (post.id === action.payload.id) {
+               post = { ...post, userTags: action.payload.tags }
             }
-            return a;
+            return post;
          });
       case Post.ADD_MORE_POSTS:
          return [...state, ...action.payload];

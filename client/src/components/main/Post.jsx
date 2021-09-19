@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
 import InlineEditor from '../slate/InlineEditor';
 import Modal from '../Modal';
+import PostMetaEdit from './PostMetaEdit';
 import { RedBlueButton, Input, Tags } from '../../styles/components';
 import {
   destroyPost,
@@ -20,7 +21,8 @@ import {
   UserActions,
   DateWrapper,
   TagWrapper,
-  TagInput
+  TagInput,
+  EditWrapper
 } from './styles/postStyles';
 
 const Post = props => {
@@ -30,6 +32,7 @@ const Post = props => {
   const [showTagInput, setShowTagInput] = useState(false);
   const [showUserTagInput, setShowUserTagInput] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showMetaEdit, setShowMetaEdit] = useState(false);
 
   const {
     post,
@@ -38,8 +41,12 @@ const Post = props => {
 
   function handleInputChange({ target }) {
     const { name, value } = target;
-    if (name === "newTags") setNewTags(value);
-    if (name === "newUserTags") setNewUserTags(value);
+    switch (name) {
+      case "newTags":
+        return setNewTags(value);
+      case "newUserTags":
+        return setNewUserTags(value);
+    }
   }
 
   function save(update) {
@@ -69,6 +76,7 @@ const Post = props => {
     });
     save({ id: post.id, tags });
     setShowTagInput(false);
+    setNewTags('');
   }
 
   function addUserTags() {
@@ -78,7 +86,9 @@ const Post = props => {
       tags.push(tag.trim());
     });
     props.saveUserTags(props.user.id, { id: post.id, tags });
+    post.userTags = tags;
     setShowUserTagInput(false);
+    setNewUserTags('');
   }
 
   function removeTag(index) {
@@ -94,6 +104,7 @@ const Post = props => {
   }
 
   function toggleTagInput() {
+    if (showMetaEdit) setShowMetaEdit(false);
     setShowTagInput(!showTagInput);
   }
 
@@ -103,6 +114,11 @@ const Post = props => {
 
   function closeModal() {
     setShowDeleteModal(false);
+  }
+
+  function metaEditOpen() {
+    if (showTagInput) setShowTagInput(false);
+    setShowMetaEdit(!showMetaEdit);
   }
 
   return (
@@ -118,21 +134,35 @@ const Post = props => {
       </Modal>
 
       <MetaData>
-        <h2
-          className="post-title"
-          onClick={() => goTo(`/${post.id}`)}
-          style={{ cursor: 'pointer' }}
-        >
-          {post.title}
-        </h2>
-        <h4 className="post-subtitle">{post.subtitle}</h4>
+        {showMetaEdit ? (
+          <PostMetaEdit
+            categories={props.categories}
+            post={post}
+            close={() => setShowMetaEdit(false)}
+            save={save}
+          />
+        ) : (
+          <>
+            <h2
+              className="post-title"
+              onClick={() => goTo(`/${post.id}`)}
+              style={{ cursor: 'pointer' }}
+            >
+              {post.title}
+            </h2>
+            <h4 className="post-subtitle">{post.subtitle}</h4>
+          </>
+        )}
 
         {post.category && post.category.name !== 'None' ? <Category>Category: {post.category.name}</Category> : null}
 
         {props.admin && (
           <div className="post-buttons">
+            <button onClick={metaEditOpen}>
+              <i className="far fa-edit" title="edit title and etc" />
+            </button>
             <button onClick={openSingleEdit}>
-              <i className="fas fa-external-link-alt" title="open in editor" />
+              <i className="fas fa-link" title="open in editor" />
             </button>
             <button onClick={() => setShowDeleteModal(true)}>
               <i className="far fa-trash-alt" title="delete this post" />
@@ -143,12 +173,13 @@ const Post = props => {
             {showTagInput && (
               <TagInput>
                 <Input
-                  height="26"
+                  height="24"
                   type="text"
                   name="newTags"
                   value={newTags}
                   onChange={handleInputChange}
                   placeholder="comma-separated tags..."
+                  autoFocus
                 />
                 <RedBlueButton width="40" onClick={addTags}>
                   <i className="fas fa-plus" />
@@ -160,6 +191,7 @@ const Post = props => {
       </MetaData>
 
       <DateWrapper>
+        {console.log('post.createdAt:::', post.createdAt)}
         <h5>{format(new Date(post.createdAt), 'MMM dd, yyyy - hh:mm aaaa')} {post.tags.length ? <span>-</span> : null}</h5>
         {
           post.tags.length
@@ -187,8 +219,8 @@ const Post = props => {
       />
 
       <TagWrapper userTags>
-        {
-          post.userTags && (
+        {post.userTags && post.userTags.length
+          ? (
             <>
               <h4>My Tags<span>:</span> </h4>
               <Tags>
@@ -200,8 +232,7 @@ const Post = props => {
                 ))}
               </Tags>
             </>
-          )
-        }
+          ) : null}
       </TagWrapper>
 
       {props.authenticated && (
@@ -211,7 +242,7 @@ const Post = props => {
           </button>
 
           {showUserTagInput && (
-            <TagInput userTags>
+            <TagInput userTags submit={addUserTags}>
               <Input
                 height="26"
                 type="text"
@@ -219,8 +250,11 @@ const Post = props => {
                 value={newUserTags}
                 onChange={handleInputChange}
                 placeholder="comma-separated tags..."
+                autoFocus
               />
-              <button onClick={addUserTags}>add</button>
+              <RedBlueButton width="40" onClick={addUserTags}>
+                <i className="fas fa-plus" />
+              </RedBlueButton>
             </TagInput>
           )}
         </UserActions>
@@ -234,7 +268,8 @@ function mapPropsToState(state) {
     admin: state.user.acl === "admin",
     friend: state.user.acl === "friend",
     authenticated: state.auth.authenticated,
-    user: state.user
+    user: state.user,
+    categories: state.categories
   }
 }
 

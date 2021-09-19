@@ -33,8 +33,8 @@ const PostEditor = props => {
     }
   }
 
-  async function save() {
-    props.save(JSON.stringify(value));
+  function save(saveAndClose) {
+    return props.save(JSON.stringify(value), saveAndClose);
   }
 
   function cancel() {
@@ -42,7 +42,7 @@ const PostEditor = props => {
   }
 
   async function saveAndClose() {
-    save();
+    await save(true);
     cancel();
   }
 
@@ -69,7 +69,7 @@ const PostEditor = props => {
 
       {!props.readOnly && (
         <SearchButtons>
-          <button onClick={save}>Save</button>
+          <button onClick={() => save()}>Save</button>
           <button onClick={saveAndClose}>Save &amp; Close</button>
           <button onClick={cancel}>Cancel</button>
         </SearchButtons>

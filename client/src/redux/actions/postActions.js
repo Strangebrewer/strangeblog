@@ -63,13 +63,12 @@ export function savePost(data) {
   return async dispatch => {
     try {
       let response;
-      console.log('data:::', data);
+      console.log('data in postActions.js savePost:::', data);
 
       if (data.id) {
         // set immediately for smooth UI transition
-        // dispatch({ type: Post.EDIT_POST_IN_POSTS, payload: data });
-        // dispatch({ type: Post.SET_CURRENT_POST, payload: data });
         response = await API.post.edit(data);
+        console.log('response in postActions.js savePost:::', response);
 
         // set accurately with db response. They should be the same.
         dispatch({ type: Post.EDIT_POST_IN_POSTS, payload: response.data });
@@ -79,7 +78,6 @@ export function savePost(data) {
         response = await API.post.create(data);
         dispatch({ type: Post.ADD_POST_TO_POSTS, payload: response.data });
       }
-      console.log('response:::', response);
       return response.data;
     } catch (e) {
       console.log('e in savePost:::', e);

@@ -8,7 +8,6 @@ import SearchForm from './SearchForm';
 import { Outer, SearchWrapper } from './styles/navStyles';
 import { SearchButtons } from '../../styles/components';
 
-import { logout } from '../../redux/actions/authActions';
 import { listPublicPosts, listPosts } from '../../redux/actions/postActions';
 import { setSearchCriteria, setCount } from '../../redux/actions/otherActions';
 
@@ -24,9 +23,21 @@ const Searchbar = props => {
   });
   const [searchProps, setSearchProps] = useState({
     opacity: '0',
-    transition: '.2s ease-in-out .25s',
+    transition: '.2s ease-in-out .3s',
     visibility: 'hidden'
   });
+
+  const [display, setDisplay] = useState('none');
+
+  // If I don't do it this way, i.e. toggle display between 'none' and 'block',
+  //  the search form, though set to { visibility: 'hidden' }
+  //  will cover the top post below it, and if the post is short enough,
+  //  the inlineEditor buttons get covered up and won't work.
+  // And no, z-index doesn't help - and I tried putting it everywhere.
+  function setDisplayProps(props, display) {
+    setSearchProps(props);
+    setTimeout(() => setDisplay(display), 300);
+  }
 
   function handleInputChange({ target }) {
     const { name, value } = target;
@@ -102,9 +113,9 @@ const Searchbar = props => {
 
   return (
     <Outer>
-      <Nav setSearchProps={setSearchProps}>
+      <Nav setSearchProps={setDisplayProps}>
         {renderProps => (
-          <SearchWrapper {...searchProps}>
+          <SearchWrapper {...searchProps} display={display}>
             <SearchForm
               state={state}
               categories={props.categories}
@@ -142,7 +153,6 @@ function mapPropsToState(state) {
 const mapDispatchToState = {
   listPosts,
   listPublicPosts,
-  logout,
   setCount,
   setSearchCriteria,
 };

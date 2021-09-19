@@ -13,6 +13,7 @@ export const RedBlueButton = styled.button`
   ${props => props.height ? `height: ${props.height}px` : ''};
   ${props => props.width ? `min-width: ${props.width}px` : ''};
   display: flex;
+  ${props => props.text && 'padding: 4px 8px' };
   > i {
     display: block;
     align-self: center;

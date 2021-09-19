@@ -96,11 +96,42 @@ export const TagWrapper = styled.div`
   }
 `;
 
-export const TagInput = styled.div`
+export const TagInput = props => {
+  const { submit, userTags } = props;
+  return (
+    <TagInputForm onSubmit={submit} userTags={userTags}>
+      {props.children}
+      <input hidden type="submit" />
+    </TagInputForm>
+  );
+};
+
+const TagInputForm = styled.form`
   position: absolute;
-  ${props => props.userTags ? 'left: 0' : null};
-  ${props => props.userTags ? null : 'right: 0'};
-  bottom: -4px;
-  right: 100px;
+  ${props => props.userTags ? 'left: 0; top: 24px;' : null};
+  ${props => props.userTags ? null : 'right: 120px; top: 0;'};
   display: flex;
+`;
+
+export const PostMetaEditWrapper = styled.div`
+  width: 500px;
+  > input, > div > select {
+    margin-bottom: 6px;
+  }
+
+  > div:first-of-type {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  > div:first-of-type > input,
+  > div:first-of-type > select {
+    width: 49%;
+  }
+
+  > div > button {
+    margin: 4px 6px;
+    margin-bottom: 12px;
+  }
 `;
