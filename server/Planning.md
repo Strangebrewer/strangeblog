@@ -14,24 +14,28 @@
 # ToDo
 
 ## Next
-- flesh out the SinglePost.jsx page:
-  - The point of this page is to make it so you can link directly to one post
-    - consequently, the url will need to use the postId rather than the name
-  - button to edit (should just go to the "/editor/:id" page)
 
-## Main.jsx:
-- on the Main.jsx page:
+### Sources page:
+- style the cards on the Sources page
+- an explanation of what these sources are for (for me) and how I went about compiling the list
+- DONE: a list of news and data sources I like (the one from my spread sheet)
 
-## Admin page:
+### Admin page:
 - functionality for:
-  - adding or removing sources
+  - DONE: adding sources
+  - removing sources
   - adding or removing categories
   - editing user accounts (to add "friend" to the acl field)
   - editing the blog title and subtitle
 
-## Some kind of "Sources" page
-  - a list of news and data sources I like (the one from my spread sheet)
-  - an explanation of what these sources are for (for me) and how I went about compiling the list
+### SinglePost.jsx page:
+- The point of this page is to make it so you can link directly to one post
+  - consequently, the url will need to use the postId rather than the name
+- button to edit (should just go to the "/editor/:id" page)
+
+
+### Main.jsx:
+- The Main page is done.
 
 
 
