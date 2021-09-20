@@ -1,0 +1,308 @@
+[
+  {
+    "name": "Reason Foundation",
+    "bias": "Right_Center",
+    "category": "Conservative",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://reason.org",
+    "factCheckUrl": "https://mediabiasfactcheck.com/reason"
+  },
+  {
+    "name": "The Bulwark",
+    "bias": "Right_Center",
+    "category": "Conservative",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.thebulwark.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/the-bulwark"
+  },
+  {
+    "name": "CATO Institute",
+    "bias": "Right_Center",
+    "category": "Conservative",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.cato.org",
+    "factCheckUrl": "https://mediabiasfactcheck.com/cato-institute"
+  },
+  {
+    "name": "National Review",
+    "bias": "Right",
+    "category": "Conservative",
+    "factualReporting": "Mostly_Factual",
+    "credibility": "High",
+    "url": "https://www.nationalreview.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/national-review"
+  },
+  {
+    "name": "RealClearPolitics",
+    "bias": "Right_Center",
+    "category": "Conservative",
+    "factualReporting": "Mostly_Factual",
+    "credibility": "High",
+    "url": "https://www.realclearpolitics.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/real-clear-politics"
+  },
+  {
+    "name": "The American Conservative",
+    "bias": "Right_Center",
+    "category": "Conservative",
+    "factualReporting": "Mostly_Factual",
+    "credibility": "High",
+    "url": "https://www.theamericanconservative.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/the-american-conservative"
+  },
+  {
+    "name": "Wall Street Journal",
+    "bias": "Right_Center",
+    "category": "Conservative",
+    "factualReporting": "Mostly_Factual",
+    "credibility": "High",
+    "url": "https://www.wsj.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/wall-street-journal"
+  },
+  {
+    "name": "The American Spectator",
+    "bias": "Right",
+    "category": "Conservative",
+    "factualReporting": "Mixed",
+    "credibility": "Medium",
+    "url": "https://spectator.org",
+    "factCheckUrl": "https://mediabiasfactcheck.com/american-spectator"
+  },
+  {
+    "name": "Washington Times",
+    "bias": "Right_Center",
+    "category": "Conservative",
+    "factualReporting": "Mixed",
+    "credibility": "Low",
+    "url": "https://www.washingtontimes.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/washington-times"
+  },
+  {
+    "name": "Media Research Center",
+    "bias": "Hard_Right",
+    "category": "Conservative",
+    "factualReporting": "Mixed",
+    "credibility": "Low",
+    "url": "https://www.mrc.org",
+    "factCheckUrl": "https://mediabiasfactcheck.com/media-research-center-mrc"
+  },
+  {
+    "name": "Breitbart News Network",
+    "bias": "Hard_Right",
+    "category": "Conservative",
+    "factualReporting": "Mixed",
+    "credibility": "Low",
+    "url": "https://www.breitbart.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/breitbart"
+  },
+  {
+    "name": "The Federalist",
+    "bias": "Hard_Right",
+    "category": "Conservative",
+    "factualReporting": "Mixed",
+    "credibility": "Low",
+    "url": "https://thefederalist.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/the-federalist"
+  },
+  {
+    "name": "NPR",
+    "bias": "Left_Center",
+    "category": "Liberal",
+    "factualReporting": "Very_High",
+    "credibility": "High",
+    "url": "https://www.npr.org",
+    "factCheckUrl": "https://mediabiasfactcheck.com/npr/"
+  },
+  {
+    "name": "Democracy Now!",
+    "bias": "Left",
+    "category": "Liberal",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.democracynow.org/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/democracy-now/"
+  },
+  {
+    "name": "Slate Magazine",
+    "bias": "Left",
+    "category": "Liberal",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://slate.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/slate/"
+  },
+  {
+    "name": "POLITICO",
+    "bias": "Left_Center",
+    "category": "Liberal",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.politico.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/politico/"
+  },
+  {
+    "name": "The Atlantic",
+    "bias": "Left_Center",
+    "category": "Liberal",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.theatlantic.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/the-atlantic/"
+  },
+  {
+    "name": "Time Magazine",
+    "bias": "Left_Center",
+    "category": "Liberal",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://time.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/time/"
+  },
+  {
+    "name": "New York Times",
+    "bias": "Left_Center",
+    "category": "Liberal",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.nytimes.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/new-york-times/"
+  },
+  {
+    "name": "Salt Lake Tribune",
+    "bias": "Left_Center",
+    "category": "Liberal",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.sltrib.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/salt-lake-tribune/"
+  },
+  {
+    "name": "New Yorker",
+    "bias": "Left",
+    "category": "Liberal",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.newyorker.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/new-yorker/"
+  },
+  {
+    "name": "The Intercept",
+    "bias": "Left",
+    "category": "Liberal",
+    "factualReporting": "Mostly_Factual",
+    "credibility": "High",
+    "url": "https://theintercept.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/the-intercept/"
+  },
+  {
+    "name": "Salon.com",
+    "bias": "Left",
+    "category": "Liberal",
+    "factualReporting": "Mostly_Factual",
+    "credibility": "High",
+    "url": "https://www.salon.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/salon/"
+  },
+  {
+    "name": "The Young Turks",
+    "bias": "Hard_Left",
+    "category": "Liberal",
+    "factualReporting": "Mostly_Factual",
+    "credibility": "High",
+    "url": "https://tyt.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/the-young-turks/"
+  },
+  {
+    "name": "Associated Press",
+    "bias": "Least_Biased",
+    "category": "Neutral",
+    "factualReporting": "Very_High",
+    "credibility": "High",
+    "url": "https://www.ap.org/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/associated-press/"
+  },
+  {
+    "name": "Reuters",
+    "bias": "Least_Biased",
+    "category": "Neutral",
+    "factualReporting": "Very_High",
+    "credibility": "High",
+    "url": "https://www.reuters.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/reuters/"
+  },
+  {
+    "name": "Pew Research Center",
+    "bias": "Least_Biased",
+    "category": "Neutral",
+    "factualReporting": "Very_High",
+    "credibility": "High",
+    "url": "https://www.pewresearch.org/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/pew-research/"
+  },
+  {
+    "name": "PBS News Hour",
+    "bias": "Left_Center",
+    "category": "Neutral",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.pbs.org/newshour/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/pbs-news-hour/"
+  },
+  {
+    "name": "CBS News",
+    "bias": "Left_Center",
+    "category": "Neutral",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.cbsnews.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/cbs-news/"
+  },
+  {
+    "name": "BBC News",
+    "bias": "Left_Center",
+    "category": "Neutral",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.bbc.com/news",
+    "factCheckUrl": "https://mediabiasfactcheck.com/bbc/"
+  },
+  {
+    "name": "Christian Science Monitor",
+    "bias": "Least_Biased",
+    "category": "Neutral",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.csmonitor.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/christian-science-monitor/"
+  },
+  {
+    "name": "Council on Foreign Relations",
+    "bias": "Least_Biased",
+    "category": "Neutral",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.cfr.org/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/council-on-foreign-relations/"
+  },
+  {
+    "name": "Financial Times",
+    "bias": "Least_Biased",
+    "category": "Neutral",
+    "factualReporting": "High",
+    "credibility": "High",
+    "url": "https://www.ft.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/financial-times/"
+  },
+  {
+    "name": "The Hill",
+    "bias": "Least_Biased",
+    "category": "Neutral",
+    "factualReporting": "Mostly_Factual",
+    "credibility": "High",
+    "url": "https://thehill.com/",
+    "factCheckUrl": "https://mediabiasfactcheck.com/the-hill/"
+  }
+]

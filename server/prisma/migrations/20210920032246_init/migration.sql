@@ -1,6 +1,15 @@
 -- CreateEnum
 CREATE TYPE "ACLTypes" AS ENUM ('admin', 'friend', 'public');
 
+-- CreateEnum
+CREATE TYPE "BiasTypes" AS ENUM ('Hard_Left', 'Left', 'Left_Center', 'Least_Biased', 'Right_Center', 'Right', 'Hard_Right');
+
+-- CreateEnum
+CREATE TYPE "FactualReportingTypes" AS ENUM ('Very_High', 'High', 'Mostly_Factual', 'Mixed', 'Low', 'Very_Low');
+
+-- CreateEnum
+CREATE TYPE "CredibilityTypes" AS ENUM ('High', 'Medium', 'Low');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
@@ -50,6 +59,21 @@ CREATE TABLE "Category" (
     "name" TEXT NOT NULL,
     "user_id" INTEGER NOT NULL,
     "blog_id" INTEGER NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+
+    PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Source" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "bias" "BiasTypes" NOT NULL,
+    "factual_reporting" "FactualReportingTypes" NOT NULL,
+    "credibility" "CredibilityTypes" NOT NULL,
+    "url" TEXT NOT NULL,
+    "fact_check_url" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ NOT NULL,
 

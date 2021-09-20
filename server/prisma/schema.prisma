@@ -16,6 +16,37 @@ enum ACLTypes {
   public
 }
 
+enum BiasTypes {
+  Hard_Left
+  Left
+  Left_Center
+  Least_Biased
+  Right_Center
+  Right
+  Hard_Right
+}
+
+enum FactualReportingTypes {
+  Very_High
+  High
+  Mostly_Factual
+  Mixed
+  Low
+  Very_Low
+}
+
+enum CredibilityTypes {
+  High
+  Medium
+  Low
+}
+
+enum NewsCategoryTypes {
+  Conservative
+  Liberal
+  Neutral
+}
+
 model User {
   id              Int        @id @default(autoincrement())
   acl             ACLTypes   @default(public)
@@ -65,4 +96,17 @@ model Category {
   blogId    Int      @map("blog_id")
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+}
+
+model Source {
+  id               Int                   @id @default(autoincrement())
+  name             String
+  bias             BiasTypes
+  category         NewsCategoryTypes     @default(Conservative)
+  factualReporting FactualReportingTypes @map("factual_reporting")
+  credibility      CredibilityTypes
+  url              String
+  factCheckUrl     String                @map("fact_check_url")
+  createdAt        DateTime              @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime              @updatedAt @map("updated_at") @db.Timestamptz
 }

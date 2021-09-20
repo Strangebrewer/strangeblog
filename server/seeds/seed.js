@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 
 import categorySeed from './categories.json';
 import postSeed from './posts.json';
+import sourceSeed from './sources.json';
 import userSeed from './users.json';
 
 const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
@@ -16,6 +17,7 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
     await prisma.category.deleteMany();
     await prisma.blog.deleteMany();
     await prisma.user.deleteMany();
+    await prisma.source.deleteMany();
 
     userSeed.forEach(user => {
       user.password = pw;
@@ -95,6 +97,8 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
 
     await prisma.post.createMany({ data: postSeed, skipDuplicates: true });
     const posts = await prisma.post.findMany();
+
+    await prisma.source.createMany({ data: sourceSeed, skipDuplicates: true });
 
     await prisma.user.update({
       where: { id: users[2].id },

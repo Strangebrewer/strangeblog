@@ -1,4 +1,4 @@
-import { Blog, Category, Post, User } from '@prisma/client';
+import { Blog, Category, Post, Source, User } from '@prisma/client';
 
 export const TYPES = {
   IDatabaseClient: Symbol.for("IDatabaseClient"),
@@ -27,6 +27,13 @@ export interface IDatabaseClient {
     update(query: Record<string, unknown>): Promise<Post>;
     create(body: Record<string, unknown>): Promise<Post>;
     delete(query: Record<string, unknown>): Promise<Post>;
+  },
+  source: {
+    findUnique(query: Record<string, unknown>): Promise<Source | null>;
+    findMany(query: Record<string, unknown>): Promise<Source[]>;
+    update(query: Record<string, unknown>): Promise<Source>;
+    create(body: Record<string, unknown>): Promise<Source>;
+    delete(query: Record<string, unknown>): Promise<Source>;
   },
   user: {
     findFirst(query: Record<string, unknown>): Promise<User | null>;

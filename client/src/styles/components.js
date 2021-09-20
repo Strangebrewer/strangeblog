@@ -13,7 +13,7 @@ export const RedBlueButton = styled.button`
   ${props => props.height ? `height: ${props.height}px` : ''};
   ${props => props.width ? `min-width: ${props.width}px` : ''};
   display: flex;
-  ${props => props.text && 'padding: 4px 8px' };
+  ${props => props.text && 'padding: 4px 8px'};
   > i {
     display: block;
     align-self: center;
@@ -25,6 +25,7 @@ export const Label = styled.label`
   width: 100%;
   display: block;
   margin-bottom: 6px;
+  color: white;
 `;
 
 export const Input = styled.input`
@@ -59,6 +60,19 @@ export const Select = styled.select`
     ? 'width: 100%; display: block; margin-bottom: 6px;'
     : ''
   }
+`;
+
+export const Form = props => {
+  return (
+    <StyledForm onSubmit={props.submit} style={props.style}>
+      {props.children}
+      <input hidden type="submit" />
+    </StyledForm>
+  )
+};
+
+export const StyledForm = styled.form`
+
 `;
 
 export const TagDelete = styled.span`
