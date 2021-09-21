@@ -114,7 +114,7 @@
     "factualReporting": "Very_High",
     "credibility": "High",
     "url": "https://www.npr.org",
-    "factCheckUrl": "https://mediabiasfactcheck.com/npr/"
+    "factCheckUrl": "https://mediabiasfactcheck.com/npr"
   },
   {
     "name": "Democracy Now!",
@@ -122,8 +122,8 @@
     "category": "Liberal",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://www.democracynow.org/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/democracy-now/"
+    "url": "https://www.democracynow.org",
+    "factCheckUrl": "https://mediabiasfactcheck.com/democracy-now"
   },
   {
     "name": "Slate Magazine",
@@ -131,8 +131,8 @@
     "category": "Liberal",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://slate.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/slate/"
+    "url": "https://slate.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/slate"
   },
   {
     "name": "POLITICO",
@@ -140,8 +140,8 @@
     "category": "Liberal",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://www.politico.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/politico/"
+    "url": "https://www.politico.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/politico"
   },
   {
     "name": "The Atlantic",
@@ -149,8 +149,8 @@
     "category": "Liberal",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://www.theatlantic.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/the-atlantic/"
+    "url": "https://www.theatlantic.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/the-atlantic"
   },
   {
     "name": "Time Magazine",
@@ -158,8 +158,8 @@
     "category": "Liberal",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://time.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/time/"
+    "url": "https://time.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/time"
   },
   {
     "name": "New York Times",
@@ -167,8 +167,8 @@
     "category": "Liberal",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://www.nytimes.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/new-york-times/"
+    "url": "https://www.nytimes.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/new-york-times"
   },
   {
     "name": "Salt Lake Tribune",
@@ -176,8 +176,8 @@
     "category": "Liberal",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://www.sltrib.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/salt-lake-tribune/"
+    "url": "https://www.sltrib.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/salt-lake-tribune"
   },
   {
     "name": "New Yorker",
@@ -185,8 +185,8 @@
     "category": "Liberal",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://www.newyorker.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/new-yorker/"
+    "url": "https://www.newyorker.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/new-yorker"
   },
   {
     "name": "The Intercept",
@@ -194,8 +194,8 @@
     "category": "Liberal",
     "factualReporting": "Mostly_Factual",
     "credibility": "High",
-    "url": "https://theintercept.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/the-intercept/"
+    "url": "https://theintercept.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/the-intercept"
   },
   {
     "name": "Salon.com",
@@ -203,8 +203,8 @@
     "category": "Liberal",
     "factualReporting": "Mostly_Factual",
     "credibility": "High",
-    "url": "https://www.salon.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/salon/"
+    "url": "https://www.salon.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/salon"
   },
   {
     "name": "The Young Turks",
@@ -212,8 +212,8 @@
     "category": "Liberal",
     "factualReporting": "Mostly_Factual",
     "credibility": "High",
-    "url": "https://tyt.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/the-young-turks/"
+    "url": "https://tyt.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/the-young-turks"
   },
   {
     "name": "Associated Press",
@@ -221,8 +221,8 @@
     "category": "Neutral",
     "factualReporting": "Very_High",
     "credibility": "High",
-    "url": "https://www.ap.org/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/associated-press/"
+    "url": "https://www.ap.org",
+    "factCheckUrl": "https://mediabiasfactcheck.com/associated-press"
   },
   {
     "name": "Reuters",
@@ -230,8 +230,8 @@
     "category": "Neutral",
     "factualReporting": "Very_High",
     "credibility": "High",
-    "url": "https://www.reuters.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/reuters/"
+    "url": "https://www.reuters.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/reuters"
   },
   {
     "name": "Pew Research Center",
@@ -239,8 +239,8 @@
     "category": "Neutral",
     "factualReporting": "Very_High",
     "credibility": "High",
-    "url": "https://www.pewresearch.org/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/pew-research/"
+    "url": "https://www.pewresearch.org",
+    "factCheckUrl": "https://mediabiasfactcheck.com/pew-research"
   },
   {
     "name": "PBS News Hour",
@@ -248,8 +248,8 @@
     "category": "Neutral",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://www.pbs.org/newshour/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/pbs-news-hour/"
+    "url": "https://www.pbs.org/newshour",
+    "factCheckUrl": "https://mediabiasfactcheck.com/pbs-news-hour"
   },
   {
     "name": "CBS News",
@@ -257,8 +257,8 @@
     "category": "Neutral",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://www.cbsnews.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/cbs-news/"
+    "url": "https://www.cbsnews.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/cbs-news"
   },
   {
     "name": "BBC News",
@@ -267,7 +267,7 @@
     "factualReporting": "High",
     "credibility": "High",
     "url": "https://www.bbc.com/news",
-    "factCheckUrl": "https://mediabiasfactcheck.com/bbc/"
+    "factCheckUrl": "https://mediabiasfactcheck.com/bbc"
   },
   {
     "name": "Christian Science Monitor",
@@ -275,8 +275,8 @@
     "category": "Neutral",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://www.csmonitor.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/christian-science-monitor/"
+    "url": "https://www.csmonitor.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/christian-science-monitor"
   },
   {
     "name": "Council on Foreign Relations",
@@ -284,8 +284,8 @@
     "category": "Neutral",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://www.cfr.org/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/council-on-foreign-relations/"
+    "url": "https://www.cfr.org",
+    "factCheckUrl": "https://mediabiasfactcheck.com/council-on-foreign-relations"
   },
   {
     "name": "Financial Times",
@@ -293,8 +293,8 @@
     "category": "Neutral",
     "factualReporting": "High",
     "credibility": "High",
-    "url": "https://www.ft.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/financial-times/"
+    "url": "https://www.ft.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/financial-times"
   },
   {
     "name": "The Hill",
@@ -302,7 +302,7 @@
     "category": "Neutral",
     "factualReporting": "Mostly_Factual",
     "credibility": "High",
-    "url": "https://thehill.com/",
-    "factCheckUrl": "https://mediabiasfactcheck.com/the-hill/"
+    "url": "https://thehill.com",
+    "factCheckUrl": "https://mediabiasfactcheck.com/the-hill"
   }
 ]
