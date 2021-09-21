@@ -16,9 +16,7 @@
 ## Next
 
 ### Sources page:
-- style the cards on the Sources page
 - an explanation of what these sources are for (for me) and how I went about compiling the list
-- DONE: a list of news and data sources I like (the one from my spread sheet)
 
 ### Admin page:
 - functionality for:
@@ -78,4 +76,8 @@
           - DONE: title input box
           - DONE: tags input box
           - DONE: date range inputs
+
+### Sources.jsx
+- DONE: a list of news and data sources I like (the one from my spread sheet)
+- DONE: style the cards on the Sources page
 
