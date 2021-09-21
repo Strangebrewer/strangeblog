@@ -25,6 +25,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: inherit;
   }
   body {
+    background-color: black;
     border: 0;
     font-family: Roboto, Helvetica, sans-serif;
     font-weight: 300;
@@ -35,9 +36,9 @@ export const GlobalStyle = createGlobalStyle`
   li {
     margin: 6px 0;
   }
-  body::-webkit-scrollbar {
+  /* body::-webkit-scrollbar {
     display: none;
-  }
+  } */
   blockquote, q {
     quotes: none;
   }

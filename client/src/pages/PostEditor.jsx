@@ -220,7 +220,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(FullPageEditor);
 export const PageWrapper = styled.div`
   min-height: 100vh;
   padding-top: 50px;
-  background: black;
 `;
 
 const YeOldeInputs = styled.div`
