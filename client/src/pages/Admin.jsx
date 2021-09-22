@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import Navbar from "../components/Navbar";
 import SourceForm from '../components/admin/SourceForm';
 
 import { deleteSource, listSources, save } from '../redux/actions/sourceActions';
@@ -16,9 +17,12 @@ const Admin = props => {
 
   return (
     <Wrapper>
-      <h1>Welcome to the Admin page, sucka!</h1>
-      {console.log('props.sources:::', props.sources)}
-      <SourceForm />
+      <Navbar />
+      
+      <Main>
+        <h1>Welcome to the Admin page, sucka!</h1>
+        <SourceForm />
+      </Main>
     </Wrapper>
 
   )
@@ -35,13 +39,17 @@ function mapPropsToState(state) {
 const mapDispatchToState = {
   deleteSource,
   listSources,
-  save,
+  save, Navbar
 };
 
 export default connect(mapPropsToState, mapDispatchToState)(Admin);
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  background-color: black;
   color: white;
+`;
+
+const Main = styled.main`
+  width: 900px;
+  margin: auto;
 `;

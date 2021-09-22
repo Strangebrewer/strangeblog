@@ -16,10 +16,15 @@
 ## Next
 
 ### Sources page:
-- an explanation of what these sources are for (for me) and how I went about compiling the list
 
 ### Admin page:
 - functionality for:
+  - a button each for Users, Sources, and Categories
+    - the buttons will do a find all and bring up a list
+    - each item will have an edit and a delete button
+    - There will also be a create button for each, which will toggle a form
+  - Maybe there should be a search functionality for these. Or maybe that will come later...
+
   - DONE: adding sources
   - removing sources
   - adding or removing categories
@@ -40,6 +45,7 @@
 
 
 ## DONE:
+- DONE: Add navbar for all non-Main pages
 - Add functionality for allowing friends to see all posts instead of just the public ones
   - it could also be an "acl" array field on the schema:
     - "admin"
@@ -78,6 +84,7 @@
           - DONE: date range inputs
 
 ### Sources.jsx
+- DONE: an explanation of what these sources are for (for me) and how I went about compiling the list
 - DONE: a list of news and data sources I like (the one from my spread sheet)
 - DONE: style the cards on the Sources page
 

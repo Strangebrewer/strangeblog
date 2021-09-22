@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Editor from '../components/slate/Editor';
+import Navbar from '../components/Navbar';
 import { Spinner, SpinnerWrap } from '../styles/Elements';
 import {
   RedBlueButton,
@@ -104,15 +105,17 @@ const FullPageEditor = props => {
   }
 
   return (
-    <PageWrapper>
+    <Wrapper>
       {saving && (
         <SpinnerWrap>
           <Spinner size="120" border="10" style={{ zIndex: '999' }} />
         </SpinnerWrap>
       )}
 
+      <Navbar />
+
       {!loading && (
-        <>
+        <Main>
           <YeOldeInputs>
             <div>
               <div>
@@ -198,9 +201,9 @@ const FullPageEditor = props => {
           </YeOldeTagInputs>
 
           <Editor post={post} save={save} cancel={cancel} />
-        </>
+        </Main>
       )}
-    </PageWrapper>
+    </Wrapper>
   );
 }
 
@@ -217,8 +220,13 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(FullPageEditor);
 
-export const PageWrapper = styled.div`
+export const Wrapper = styled.div`
   min-height: 100vh;
+`;
+
+const Main = styled.main`
+  width: 900px;
+  margin: auto;
   padding-top: 50px;
 `;
 
@@ -226,8 +234,6 @@ const YeOldeInputs = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 900px;
-  margin: auto;
 
   > div {
     display: flex;

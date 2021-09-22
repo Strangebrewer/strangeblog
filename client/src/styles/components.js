@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 export const RedBlueButton = styled.button`
   background: #181818;
-  border: 1px solid ${props => props.theme.mainRed};
+  border: 1px solid ${props => props.disabled ? props.theme.mainRed + '99' : props.theme.mainRed};
   border-radius: 5px;
-  box-shadow: 0px 0px 8px ${props => props.theme.mainRed};
-  color: ${props => props.theme.nBlue};
-  cursor: pointer;
+  ${props => !props.disabled && `box-shadow: 0px 0px 8px ${props.theme.mainRed}`};
+  color: ${props => props.disabled ? props.theme.nBlue + '99' : props.theme.nBlue};
+  cursor: ${props => props.disabled ? 'default' : 'pointer'};
   font-weight: bold;
   margin: 0 12px;
   outline: transparent;
