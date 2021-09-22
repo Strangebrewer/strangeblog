@@ -87,9 +87,10 @@ export const Tags = styled.p`
 
   > span {
     display: flex;
+    margin: auto 2px;
 
-    > span:first-of-type {
-      background-color: #444;
+    > .tag {
+      background-color: #333;
       color: white;
       border-radius: 3px;
       display: inline-block;
@@ -98,7 +99,7 @@ export const Tags = styled.p`
       cursor: pointer;
     }
 
-    > span:last-of-type {
+    > .tag-delete {
       color: ${props => props.theme.mainRed};
       cursor: pointer;
       margin: 0 8px 2px 1px;
