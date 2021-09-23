@@ -15,17 +15,23 @@
 
 ## Next
 
+### Modal:
+- fuck around with the colors to see if it looks good with current theme
+  - it actually looks cool as it is, so not a big deal
+
 ### Sources page:
 
 ### Admin page:
 - functionality for:
-  - a button each for Users, Sources, and Categories
-    - the buttons will do a find all and bring up a list
-    - each item will have an edit and a delete button
+  - DONE: a button each for Users, Sources, Blog, Categories and Cray Cray
+    - DONE: the buttons will toggle which component is visible
+    - each component will fetch its own data
+    - each item for each category will have an edit and a delete button
     - There will also be a create button for each, which will toggle a form
+    - Cray Cray can be whatev - but it makes the rainbow of buttons look cool :)
   - Maybe there should be a search functionality for these. Or maybe that will come later...
 
-  - DONE: adding sources
+  - adding sources
   - removing sources
   - adding or removing categories
   - editing user accounts (to add "friend" to the acl field)
@@ -38,7 +44,8 @@
 
 
 ### Main.jsx:
-- The Main page is done.
+- tag z-index makes them appear over the delete modal.
+
 
 
 

@@ -44,13 +44,13 @@ const Bio = props => {
     })
   }
 
-  function saveBioAndClose() {
+  async function saveBioAndClose() {
     saveBio();
-    cancelBio();
+    setReadonly(true);
   }
 
   function cancelBio() {
-    setValue(props.blog && props.blog.bio ? JSON.parse(props.blog.bio) : initialValue)
+    setValue(props.blog && props.blog.bio ? JSON.parse(props.blog.bio) : initialValue);
     setReadonly(true);
   }
 

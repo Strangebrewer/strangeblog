@@ -21,6 +21,41 @@ export const RedBlueButton = styled.button`
   }
 `;
 
+export const PurpleGreenButton = styled.button`
+  background: #181818;
+  border: 1px solid ${props => props.disabled ? props.theme.nPurple + '99' : props.theme.nPurple};
+  border-radius: 5px;
+  ${props => !props.disabled && `box-shadow: 0px 0px 8px ${props.theme.nPurple}`};
+  color: ${props => props.disabled ? props.theme.nGreen + '99' : props.theme.nGreen};
+  cursor: ${props => props.disabled ? 'default' : 'pointer'};
+  font-weight: bold;
+  margin: 0 12px;
+  outline: transparent;
+  ${props => props.height ? `height: ${props.height}px` : ''};
+  ${props => props.width ? `min-width: ${props.width}px` : ''};
+  display: flex;
+  ${props => props.text && 'padding: 4px 8px'};
+  > i {
+    display: block;
+    align-self: center;
+    margin: auto;
+  }
+`;
+
+export const MainButton = styled.button`
+  background: #111;
+  border: 1px solid ${props => props.disabled ? '#333' : props.theme[props.color]};
+  border-radius: 5px;
+  box-shadow: 4px 4px 4px ${props => props.disabled ? '#333' : props.theme[props.color]}77;
+  color: ${props => props.disabled ? '#333' : props.theme[props.color]};
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 16px;
+  outline: transparent;
+  padding: 6px 12px;
+  min-width: 80px;
+`;
+
 export const Label = styled.label`
   width: 100%;
   display: block;

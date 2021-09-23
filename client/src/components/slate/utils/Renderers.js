@@ -46,7 +46,7 @@ export { Element, Leaf };
 const BlockQuote = styled.div`
   border-left: 2px solid ${props => props.theme.mainRed};
   margin: 40px 0 40px 50px;
-  padding: 0 50px 0 12px;
+  padding: 12px 50px 12px 36px;
   opacity: .8;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 1.4rem;

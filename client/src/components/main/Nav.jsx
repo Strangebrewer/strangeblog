@@ -49,19 +49,22 @@ const Nav = props => {
         <RedBlueButton width="50" height="26" onClick={toggleSearch} title="toggle search">
           <i className="fas fa-search" />
         </RedBlueButton>
+
+        <RedBlueButton width="50" height="26" onClick={() => goTo('/sources')} title="news sources">
+          <i className="fas fa-info" />
+        </RedBlueButton>
+        
         {props.admin && (
           <>
             <RedBlueButton width="50" height="26" onClick={() => goTo('/editor')} title="new post">
               <i className="fas fa-plus" />
             </RedBlueButton>
+            
             <RedBlueButton width="50" height="26" onClick={() => goTo('/admin')} title="admin">
               <i className="fas fa-cog" />
             </RedBlueButton>
           </>
         )}
-        <RedBlueButton width="50" height="26" onClick={() => goTo('/sources')} title="news sources">
-          <i className="fas fa-info" />
-        </RedBlueButton>
         {props.authenticated
           ? (
             <RedBlueButton width="50" height="26" onClick={props.logout} title="logout">

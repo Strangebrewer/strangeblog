@@ -1,12 +1,31 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Navbar from "../components/Navbar";
+import Blog from '../components/admin/Blog';
 import SourceForm from '../components/admin/SourceForm';
+import { MainButton } from '../styles/components';
 
 import { deleteSource, listSources, save } from '../redux/actions/sourceActions';
 
 const Admin = props => {
+  const [showing, setShowing] = useState({ ...falsetto(), blog: true });
+
+  function falsetto() {
+    return {
+      blog: false,
+      categories: false,
+      cray: false,
+      sources: false,
+      users: false,
+    }
+  }
+
+  function toggleView(type) {
+    setShowing({ ...falsetto(), [type]: true });
+  }
+
+
   useEffect(() => {
     (function () {
       if (props.admin) {
@@ -18,10 +37,30 @@ const Admin = props => {
   return (
     <Wrapper>
       <Navbar />
-      
+
+      <h1>It's My Admin Page! Yay!</h1>
+      <p>Come, let me do admin-y things to you...</p>
+
       <Main>
-        <h1>Welcome to the Admin page, sucka!</h1>
-        <SourceForm />
+        <div className="admin-buttons">
+          <MainButton onClick={() => toggleView('blog')} color="nRed">Blog</MainButton>
+          <MainButton onClick={() => toggleView('users')} color="nPurple">Users</MainButton>
+          <MainButton onClick={() => toggleView('categories')} color="nBlue">Categories</MainButton>
+          <MainButton onClick={() => toggleView('sources')} color="nGreen">Sources</MainButton>
+          <MainButton onClick={() => toggleView('cray')} color="nYellow">Cray Cray</MainButton>
+        </div>
+
+        {/* each of these should show a different component that fetches the relevant data */}
+        {showing.blog && <Blog />}
+
+        {showing.categories && <div>hi there, categories!</div>}
+
+        {/* this will show more than just the form - the form will be there, but hidden until needed, such as when a "create" button is clicked */}
+        {showing.sources && <SourceForm />}
+
+        {showing.users && <div>hi there, users!</div>}
+
+        {showing.cray && <div>hi there, Crayg!</div>}
       </Main>
     </Wrapper>
 
@@ -47,9 +86,37 @@ export default connect(mapPropsToState, mapDispatchToState)(Admin);
 const Wrapper = styled.div`
   min-height: 100vh;
   color: white;
+
+  > h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  > p {
+    font-size: 1.35rem;
+    text-align: center;
+    color: ${props => props.theme.mainRed};
+    margin-bottom: 36px;
+  }
 `;
 
 const Main = styled.main`
   width: 900px;
   margin: auto;
+
+  > .admin-buttons {
+    width: 520px;
+    display: flex;
+    justify-content: center;
+    padding: 12px 12px 14px 12px;
+    border-radius: 8px;
+    background-color: #1b1b1b;
+    margin: auto;
+
+    > button:last-child {
+      margin-right: 0;
+    }
+  }
 `;

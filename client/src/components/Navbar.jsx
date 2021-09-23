@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { RedBlueButton } from '../styles/components';
+import { PurpleGreenButton } from '../styles/components';
 import { logout } from '../redux/actions/authActions';
 
 const Navbar = props => {
@@ -20,33 +20,11 @@ const Navbar = props => {
   return (
     <Wrapper>
       <nav>
-        <RedBlueButton text onClick={() => goTo('/')}>
+        <PurpleGreenButton text onClick={() => goTo('/')}>
           <i className="fas fa-home" />
-        </RedBlueButton>
-        {props.admin && (
-          <>
-            <RedBlueButton
-              title="new post"
-              width="50"
-              height="26"
-              onClick={() => goTo('/editor')}
-              disabled={location.includes('editor')}
-            >
-              <i className="fas fa-plus" />
-            </RedBlueButton>
+        </PurpleGreenButton>
 
-            <RedBlueButton
-              title="admin"
-              width="50"
-              height="26"
-              onClick={() => goTo('/admin')}
-              disabled={location.includes('admin')}
-            >
-              <i className="fas fa-cog" />
-            </RedBlueButton>
-          </>
-        )}
-        <RedBlueButton
+        <PurpleGreenButton
           title="news sources"
           width="50"
           height="26"
@@ -54,16 +32,41 @@ const Navbar = props => {
           disabled={location.includes('sources')}
         >
           <i className="fas fa-info" />
-        </RedBlueButton>
+        </PurpleGreenButton>
+
+        {props.admin && (
+          <>
+            <PurpleGreenButton
+              title="new post"
+              width="50"
+              height="26"
+              onClick={() => goTo('/editor')}
+              disabled={location.includes('editor')}
+            >
+              <i className="fas fa-plus" />
+            </PurpleGreenButton>
+
+            <PurpleGreenButton
+              title="admin"
+              width="50"
+              height="26"
+              onClick={() => goTo('/admin')}
+              disabled={location.includes('admin')}
+            >
+              <i className="fas fa-cog" />
+            </PurpleGreenButton>
+          </>
+        )}
+
         {props.authenticated
           ? (
-            <RedBlueButton width="50" height="26" onClick={props.logout} title="logout">
+            <PurpleGreenButton width="50" height="26" onClick={props.logout} title="logout">
               <i className="fas fa-sign-out-alt" />
-            </RedBlueButton>
+            </PurpleGreenButton>
           ) : (
-            <RedBlueButton width="50" height="26" onClick={() => goTo('/login')} title="login">
+            <PurpleGreenButton width="50" height="26" onClick={() => goTo('/login')} title="login">
               <i className="fas fa-sign-in-alt" />
-            </RedBlueButton>
+            </PurpleGreenButton>
           )}
       </nav>
     </Wrapper>
