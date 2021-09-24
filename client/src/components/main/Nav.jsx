@@ -9,13 +9,13 @@ const Nav = props => {
   const history = useHistory();
   const [searchHeight, setSearchHeight] = useState('56px');
   const [searchWidth, setSearchWidth] = useState(props.admin ? '420px' : '300px');
-  const [transition, setTransition] = useState('max-width .2s ease-in-out, height .3s ease-in-out .06s');
+  const [transition, setTransition] = useState('max-width .2s ease-in-out, height .35s ease-in-out .06s');
   const [shadow, setShadow] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
 
   function toggleSearch() {
     if (showSearch === true) {
-      setTransition('max-width .2s ease-in-out .18s, height .3s ease-in-out, box-shadow .2s ease-in-out .15s');
+      setTransition('max-width .2s ease-in-out .18s, height .35s ease-in-out, box-shadow .2s ease-in-out .15s');
       setSearchHeight("56px");
       setSearchWidth(props.admin ? '420px' : '300px');
       props.setSearchProps({
@@ -26,7 +26,7 @@ const Nav = props => {
       setShadow(null);
       setShowSearch(false);
     } else {
-      setTransition('max-width .2s ease-in-out, height .3s ease-in-out .1s, box-shadow .2s ease-in-out .12s');
+      setTransition('max-width .2s ease-in-out, height .35s ease-in-out .1s, box-shadow .2s ease-in-out .12s');
       setSearchHeight("420px");
       setSearchWidth("500px");
       props.setSearchProps({

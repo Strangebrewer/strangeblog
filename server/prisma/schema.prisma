@@ -66,7 +66,6 @@ model Blog {
   title      String
   subtitle   String
   bio        String
-  categories Category[]
   createdAt  DateTime   @default(now()) @map("created_at") @db.Timestamptz
   updatedAt  DateTime   @updatedAt @map("updated_at") @db.Timestamptz
 }
@@ -92,8 +91,6 @@ model Category {
   user      User     @relation(fields: [userId], references: [id])
   userId    Int      @map("user_id")
   posts     Post[]
-  Blog      Blog     @relation(fields: [blogId], references: [id])
-  blogId    Int      @map("blog_id")
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 }

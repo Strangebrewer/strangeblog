@@ -1,6 +1,9 @@
 import {
    SET_BLOG_DATA,
    SET_ALL_CATEGORIES,
+   ADD_CATEGORY,
+   DELETE_CATEGORY,
+   EDIT_CATEGORY_IN_CATEGORIES,
    SET_SEARCH_CRITERIA,
    SET_SEARCH_COUNT
 } from '../action-types/otherTypes';
@@ -18,12 +21,42 @@ export function getCategories() {
    }
 }
 
+export function saveCategory(data) {
+   return async dispatch => {
+      try {
+         let response;
+         if (data.id) {
+            response = await API.category.edit(data);
+            dispatch({ type: EDIT_CATEGORY_IN_CATEGORIES, payload: response.data });
+         } else {
+            response = await API.category.create(data);
+            dispatch({ type: ADD_CATEGORY, payload: response.data });
+         }
+         return response.data;
+      } catch (e) {
+         console.log('e in saveCategory:::', e);
+      }
+   }
+}
+
+export function deleteCategory(id) {
+   return async dispatch => {
+      try {
+         await API.category.destroy(id);
+         dispatch({ type: DELETE_CATEGORY, payload: id });
+         return
+      } catch (e) {
+         console.log('e in deleteCategory:::', e);
+      }
+   }
+}
+
 export function getBlogData() {
    return async dispatch => {
       try {
          const response = await API.blog.get();
-         dispatch({ type: SET_BLOG_DATA, payload: response.data[0] });
-         dispatch({ type: SET_ALL_CATEGORIES, payload: response.data[0].categories });
+         dispatch({ type: SET_BLOG_DATA, payload: response.data.blog });
+         dispatch({ type: SET_ALL_CATEGORIES, payload: response.data.categories });
          return response.data;
       } catch (e) {
          console.log('e in getBlogData:::', e);

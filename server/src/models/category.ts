@@ -5,11 +5,14 @@ export default class CategoryModel {
   public constructor(private readonly client: IDatabaseClient) { }
 
   public async findOne(id: number): Promise<Category | null> {
-    return await this.client.category.findUnique({ where: { id } });
+    return await this.client.category.findUnique({ where: { id }, include: { posts: true } });
   }
 
   public async findMany(query = {}): Promise<Category[]> {
-    return await this.client.category.findMany({ where: query });
+    return await this.client.category.findMany({
+      where: query,
+      include: { posts: { select: { id: true } } }
+    });
   }
 
   public async update(id: number, data: Partial<Category>): Promise<Category> {

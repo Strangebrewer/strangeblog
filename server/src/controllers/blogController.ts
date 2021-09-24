@@ -1,4 +1,4 @@
-import { blogModel } from '../models';
+import { blogModel, categoryModel } from '../models';
 import { Request, Response } from 'express';
 
 export default {
@@ -14,8 +14,12 @@ export default {
 
   async list(req: Request, res: Response): Promise<void> {
     try {
-      const response = await blogModel.findMany(req.query);
-      res.status(200).json(response);
+      const blog = await blogModel.findMany(req.query);
+      const categories = await categoryModel.findMany();
+      for (let i = 0; i < categories.length; i++) {
+        const cat = categories[i];
+      }
+      res.status(200).json({ blog: blog[0], categories });
     } catch (err) {
       console.log('err in blogController list:::', err);
       res.status(400).send(err);

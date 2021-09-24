@@ -36,7 +36,7 @@ const Searchbar = props => {
   // And no, z-index doesn't help - and I tried putting it everywhere.
   function setDisplayProps(props, display) {
     setSearchProps(props);
-    setTimeout(() => setDisplay(display), 300);
+    setTimeout(() => setDisplay(display), 350);
   }
 
   function handleInputChange({ target }) {

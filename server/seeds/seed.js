@@ -67,7 +67,6 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
 
     categorySeed.forEach(c => {
       c.userId = users[0].id;
-      c.blogId = blog[0].id;
     });
     await prisma.category.createMany({ data: categorySeed, skipDuplicates: true });
     const categories = await prisma.category.findMany({});

@@ -16,7 +16,6 @@ export default class BlogModel {
         title: true,
         subtitle: true,
         bio: true,
-        categories: true
       }
     });
   }

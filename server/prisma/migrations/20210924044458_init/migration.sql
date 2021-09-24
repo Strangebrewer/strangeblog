@@ -10,6 +10,9 @@ CREATE TYPE "FactualReportingTypes" AS ENUM ('Very_High', 'High', 'Mostly_Factua
 -- CreateEnum
 CREATE TYPE "CredibilityTypes" AS ENUM ('High', 'Medium', 'Low');
 
+-- CreateEnum
+CREATE TYPE "NewsCategoryTypes" AS ENUM ('Conservative', 'Liberal', 'Neutral');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
@@ -58,7 +61,6 @@ CREATE TABLE "Category" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "user_id" INTEGER NOT NULL,
-    "blog_id" INTEGER NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ NOT NULL,
 
@@ -70,6 +72,7 @@ CREATE TABLE "Source" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "bias" "BiasTypes" NOT NULL,
+    "category" "NewsCategoryTypes" NOT NULL DEFAULT E'Conservative',
     "factual_reporting" "FactualReportingTypes" NOT NULL,
     "credibility" "CredibilityTypes" NOT NULL,
     "url" TEXT NOT NULL,
@@ -97,6 +100,3 @@ ALTER TABLE "Post" ADD FOREIGN KEY ("category_id") REFERENCES "Category"("id") O
 
 -- AddForeignKey
 ALTER TABLE "Category" ADD FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Category" ADD FOREIGN KEY ("blog_id") REFERENCES "Blog"("id") ON DELETE CASCADE ON UPDATE CASCADE;
