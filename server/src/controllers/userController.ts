@@ -71,5 +71,36 @@ export default {
       console.log('err in userController destroy:::', err);
       res.status(400).send({ message: err.message });
     }
-  }
+  },
+
+  async adminList(req: Request, res: Response): Promise<void> {
+    try {
+      const users = await userModel.adminList(req.query);
+      res.status(200).json(users);
+    } catch (err) {
+      console.log('err in userController adminList:::', err);
+      res.status(400).send({ message: err.message });
+    }
+  },
+
+  async adminUpdate(req: Request, res: Response): Promise<void> {
+    try {
+      const user = await userModel.adminUpdate(parseInt(req.params.id), req.body);
+      res.status(200).json(user);
+    } catch (err) {
+      console.log('err in userController adminUpdate:::', err);
+      res.status(400).send({ message: err.message });
+    }
+  },
+
+  async adminDeactivate(req: Request, res: Response): Promise<void> {
+    try {
+      const { id, status } = req.params;
+      const user = await userModel.adminDeactivate(parseInt(id), status);
+      res.status(200).json(user);
+    } catch (err) {
+      console.log('err in userController adminDestroy:::', err);
+      res.status(400).send({ message: err.message });
+    }
+  },
 }

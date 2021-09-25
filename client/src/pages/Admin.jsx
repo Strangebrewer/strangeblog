@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Blog from '../components/admin/Blog';
 import Categories from '../components/admin/Categories';
 import Sources from '../components/admin/Sources';
+import Users from '../components/admin/Users';
 import { MainButton } from '../styles/components';
 
 import { deleteSource, listSources, saveSource } from '../redux/actions/sourceActions';
@@ -59,7 +60,7 @@ const Admin = props => {
         {/* this will show more than just the form - the form will be there, but hidden until needed, such as when a "create" button is clicked */}
         {showing.sources && <Sources />}
 
-        {showing.users && <div>hi there, users!</div>}
+        {showing.users && <Users />}
 
         {showing.cray && <div>hi there, Crayg!</div>}
       </Main>

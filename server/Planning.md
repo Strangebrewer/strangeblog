@@ -28,7 +28,7 @@
     - DONE: each item for each category will have an edit and a delete button
     - There will also be a create button for each, which will toggle a form
     - Cray Cray can be whatev - but it makes the rainbow of buttons look cool :)
-  - Maybe there should be a search functionality for these. Or maybe that will come later...
+    - Build search function for finding users. Search by: acl, status, email, username
 
   - DONE: adding or removing sources
   - DONE: adding or removing categories

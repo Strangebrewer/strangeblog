@@ -20,6 +20,34 @@ type UserTag = {
   tags: string[];
 }
 
+interface IInitialData {
+  username?: string;
+  email?: string;
+  acl?: string;
+  status?: string;
+  password?: string;
+  skip?: string;
+  take?: string;
+  orderBy?: string;
+  order?: string;
+}
+
+interface IUserSearch {
+  username?: Record<string, unknown>;
+  email?: Record<string, unknown>;
+  acl?: string;
+  status?: string;
+  AND?: Record<string, unknown>[]
+}
+
+interface IUserOptions {
+  select: Record<string, unknown>;
+  skip?: number;
+  take?: number;
+  orderBy?: Record<string, unknown>;
+  include?: Record<string, unknown>;
+}
+
 export default class UserModel {
   private readonly select = {
     id: true,
@@ -77,14 +105,14 @@ export default class UserModel {
   }
 
   public async delete(id: number): Promise<User> {
-    return await this.client.user.delete({ where: { id } });
+    return await this.client.user.update({ where: { id }, data: { status: 'inactive' } });
   }
 
   public async login(email: string, password: string): Promise<Tokenized> {
     let user = await this.client.user.findUnique({
       where: { normalizedEmail: email.toLowerCase() }
     });
-    
+
     if (!user) throw new Error('Can\'t find a user with that email');
 
     const passwordValid = this.checkPassword(password, user.password);
@@ -98,6 +126,29 @@ export default class UserModel {
     } else {
       throw new Error('That password does not match');
     }
+  }
+
+  public async adminList(data: IInitialData): Promise<User[]> {
+    const { search, options } = this.buildQuery(data);
+    return this.client.user.findMany({
+      where: search,
+      ...options
+    });
+  }
+
+  public async adminUpdate(id: number, data: IInitialData): Promise<User> {
+    if (data.password) data.password = this.hashPassword(data.password);
+    const { options } = this.buildQuery(data);
+    return await this.client.user.update({ where: { id }, data, ...options });
+  }
+
+  public async adminDeactivate(id: number, status: string): Promise<User> {
+    const { options } = this.buildQuery({});
+    return await this.client.user.update({
+      where: { id },
+      data: { status },
+      ...options
+    });
   }
 
   private tokenize(user: User): Tokenized {
@@ -118,5 +169,28 @@ export default class UserModel {
 
   private checkPassword(given: string, original: string): boolean {
     return bcrypt.compareSync(given, original);
+  }
+
+  private buildQuery(data: IInitialData = {}): { search: IUserSearch, options: IUserOptions } {
+    const search: IUserSearch = {};
+    if (data.username) search.username = { contains: data.username, mode: 'insensitive' };
+    if (data.email) search.email = { contains: data.email, mode: 'insensitive' };
+    if (data.status) search.status = data.status;
+    if (data.acl) search.acl = data.acl;
+
+    const options: IUserOptions = {
+      select: {
+        ...this.select,
+        tags: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true
+      }
+    };
+    if (data.skip) options.skip = parseInt(data.skip);
+    if (data.take) options.take = parseInt(data.take);
+    if (data.orderBy) options.orderBy = { [data.orderBy]: data.order };
+
+    return { search, options };
   }
 }

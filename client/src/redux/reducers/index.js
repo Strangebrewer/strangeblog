@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import { adminUserReducer } from './adminUserReducer';
 import { authReducer, userReducer } from './authReducer';
 import { postReducer, currentPostReducer } from './postReducer';
 import {
@@ -22,6 +23,7 @@ const appReducer = combineReducers({
    posts: postReducer,
    sources: sourceReducer,
    user: userReducer,
+   adminUsers: adminUserReducer
 });
 
 const rootReducer = (state, action) => {

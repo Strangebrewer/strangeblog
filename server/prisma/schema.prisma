@@ -47,27 +47,34 @@ enum NewsCategoryTypes {
   Neutral
 }
 
+enum UserStatusTypes {
+  active
+  inactive
+  banned
+}
+
 model User {
-  id              Int        @id @default(autoincrement())
-  acl             ACLTypes   @default(public)
-  email           String     @unique
-  normalizedEmail String     @unique @map("normalized_email")
-  username        String     @unique
+  id              Int             @id @default(autoincrement())
+  acl             ACLTypes        @default(public)
+  email           String          @unique
+  normalizedEmail String          @unique @map("normalized_email")
+  username        String          @unique
   password        String
   tags            Json[]
-  createdAt       DateTime   @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime   @updatedAt @map("updated_at") @db.Timestamptz
+  status          UserStatusTypes @default(active)
+  createdAt       DateTime        @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime        @updatedAt @map("updated_at") @db.Timestamptz
   posts           Post[]
   categories      Category[]
 }
 
 model Blog {
-  id         Int        @id @default(autoincrement())
-  title      String
-  subtitle   String
-  bio        String
-  createdAt  DateTime   @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt  DateTime   @updatedAt @map("updated_at") @db.Timestamptz
+  id        Int      @id @default(autoincrement())
+  title     String
+  subtitle  String
+  bio       String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 }
 
 model Post {
