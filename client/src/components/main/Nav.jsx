@@ -15,7 +15,7 @@ const Nav = props => {
 
   function toggleSearch() {
     if (showSearch === true) {
-      setTransition('max-width .2s ease-in-out .18s, height .35s ease-in-out, box-shadow .2s ease-in-out .15s');
+      setTransition('max-width .2s ease-in-out .3s, height .35s ease-in-out, box-shadow .2s ease-in-out .15s');
       setSearchHeight("56px");
       setSearchWidth(props.admin ? '420px' : '300px');
       props.setSearchProps({
@@ -26,7 +26,7 @@ const Nav = props => {
       setShadow(null);
       setShowSearch(false);
     } else {
-      setTransition('max-width .2s ease-in-out, height .35s ease-in-out .1s, box-shadow .2s ease-in-out .12s');
+      setTransition('max-width .2s ease-in-out, height .35s ease-in-out .15s, box-shadow .2s ease-in-out .12s');
       setSearchHeight("420px");
       setSearchWidth("500px");
       props.setSearchProps({

@@ -5,7 +5,7 @@ import CategoryCard from './CategoryCard';
 import Modal from '../Modal';
 import { RedBlueButton, PurpleGreenButton } from '../../styles/components';
 
-import { saveCategory, deleteCategory } from '../../redux/actions/otherActions';
+import { saveCategory, deleteCategory } from '../../redux/actions/categoryActions';
 
 const Categories = props => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);

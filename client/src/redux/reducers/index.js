@@ -4,10 +4,10 @@ import { authReducer, userReducer } from './authReducer';
 import { postReducer, currentPostReducer } from './postReducer';
 import {
    blogReducer,
-   categoryReducer,
    countReducer,
    searchCriteriaReducer
 } from './otherReducer';
+import { categoryReducer } from './categoryReducer';
 import { sourceReducer } from './sourceReducer';
 
 // import { UNAUTHENTICATED } from '../action-types/authTypes';

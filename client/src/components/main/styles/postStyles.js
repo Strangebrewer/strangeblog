@@ -89,7 +89,6 @@ export const TagWrapper = styled.div`
   display: flex;
   font-size: .68rem;
   margin-top: ${props => props.userTags && '24px'};
-  z-index: 99;
 
   > h4 {
     padding: 3px 8px 0 3px;

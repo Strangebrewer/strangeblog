@@ -13,16 +13,16 @@ export function listSources() {
    }
 }
 
-export function save(data) {
+export function saveSource(data) {
   return async dispatch => {
     try {
       let response;
       if (data.id) {
         response = await API.source.edit(data);
-        dispatch({ type: Source.ADD_SOURCE_TO_SOURCES, payload: response.data });
+        dispatch({ type: Source.EDIT_SOURCE_IN_SOURCES, payload: response.data });
       } else {
         response = await API.source.create(data);
-        dispatch({ type: Source.EDIT_SOURCE_IN_SOURCES, payload: response.data });
+        dispatch({ type: Source.ADD_SOURCE_TO_SOURCES, payload: response.data });
       }
       return response.data;
     } catch (e) {

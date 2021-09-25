@@ -1,10 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 
-import { Form, Input, Label, Select } from '../../styles/components';
-
-import { save } from '../../redux/actions/sourceActions';
+import { saveSource } from '../../redux/actions/sourceActions';
 
 const BIASES = [
   { text: "Hard Left", value: "Hard_Left" },
@@ -16,6 +13,12 @@ const BIASES = [
   { text: "Hard Right", value: "Hard_Right" },
 ];
 
+const CREDIBILITY = [
+  "High",
+  "Medium",
+  "Low"
+];
+
 const FACTUAL_REPORTING = [
   { text: "Very High", value: "Very_High" },
   { text: "High", value: "High" },
@@ -25,20 +28,31 @@ const FACTUAL_REPORTING = [
   { text: "Very Low", value: "Very_Low" },
 ];
 
-const CREDIBILITY = [
-  "High",
-  "Medium",
-  "Low"
-];
-
 const SourceForm = props => {
   const [name, setName] = useState('');
   const [bias, setBias] = useState('');
   const [factualReporting, setFactualReporting] = useState('');
   const [credibility, setCredibility] = useState('');
+  const [category, setCategory] = useState('');
   const [url, setUrl] = useState('');
   const [factCheckUrl, setFactCheckUrl] = useState('');
   const [error, setError] = useState('');
+
+  const { source, toggleEditable } = props;
+
+  useEffect(() => {
+    (function () {
+      if (source) {
+        setName(source.name);
+        setBias(source.bias);
+        setFactualReporting(source.factualReporting);
+        setCredibility(source.credibility);
+        setCategory(source.category);
+        setUrl(source.url);
+        setFactCheckUrl(source.factCheckUrl);
+      }
+    })();
+  }, [source]);
 
   function handleInputChange({ target }) {
     const { name, value } = target;
@@ -49,7 +63,7 @@ const SourceForm = props => {
       case 'bias':
         setBias(value);
         break;
-      case 'factualReporting':
+      case 'reporting':
         setFactualReporting(value);
         break;
       case 'credibility':
@@ -79,12 +93,12 @@ const SourceForm = props => {
     return isValid;
   }
 
-  function save(event) {
+  async function save(event) {
     if (event) event.preventDefault();
     const isValid = validate();
     if (!isValid) return;
     let update = {};
-    if (!props.source || !props.source.id) {
+    if (!source || !source.id) {
       update = {
         name,
         bias,
@@ -94,7 +108,6 @@ const SourceForm = props => {
         factCheckUrl
       };
     } else {
-      const { source } = props;
       update.id = source.id;
       if (source.name !== name) update.name = name;
       if (source.bias !== bias) update.bias = bias;
@@ -103,96 +116,90 @@ const SourceForm = props => {
       if (source.url !== url) update.url = url;
       if (source.factCheckUrl !== factCheckUrl) update.factCheckUrl = factCheckUrl;
     }
-    props.save(update);
+    await props.saveSource(update);
+    toggleEditable();
   }
 
   return (
-    <Form submit={save}>
-      <h5>Source Form</h5>
-
-      <InputWrapper>
-        <Label>Organization:</Label>
-        <Input
+    <>
+      <form submit={save} className="main-container">
+        <input
+          className="name-input"
           type="text"
           name="name"
           value={name}
           onChange={handleInputChange}
         />
-      </InputWrapper>
-
-      <InputWrapper>
-        <Label>Bias:</Label>
-        <Select
+        <select
+          className="bias-input"
           name="bias"
           value={bias}
           onChange={handleInputChange}
         >
-          <option value="">select one</option>
-          {BIASES.map(b => (
-            <option
-              key={`bias-${b.value}`}
-              value={b.value}
-            >{b.text}</option>
-          ))}
-        </Select>
-      </InputWrapper>
-
-      <InputWrapper>
-        <Label>Factual Reporting:</Label>
-        <Select
-          name="factualReporting"
-          value={factualReporting}
-          onChange={handleInputChange}
-        >
-          <option value="">select one</option>
-          {FACTUAL_REPORTING.map(b => (
-            <option
-              key={`bias-${b.value}`}
-              value={b.value}
-            >{b.text}</option>
-          ))}
-        </Select>
-      </InputWrapper>
-
-      <InputWrapper>
-        <Label>Credibility:</Label>
-        <Select
+          {BIASES.map((bias) => {
+            return <option key={`bias-${bias.value}`} value={bias.value}>{bias.text}</option>
+          })}
+        </select>
+        <select
+          className="credibility-input"
           name="credibility"
           value={credibility}
           onChange={handleInputChange}
         >
-          <option value="">select one</option>
-          {CREDIBILITY.map(b => (
-            <option
-              key={`bias-${b}`}
-              value={b}
-            >{b}</option>
-          ))}
-        </Select>
-      </InputWrapper>
-
-      <InputWrapper>
-        <Label>URL:</Label>
-        <Input
-          type="text"
-          name="url"
-          value={url}
+          {CREDIBILITY.map((cred) => {
+            return <option key={`cred-${cred}`} value={cred}>{cred}</option>
+          })}
+        </select>
+        <select
+          className="reporting-input"
+          name="reporting"
+          value={factualReporting}
           onChange={handleInputChange}
-        />
-      </InputWrapper>
-
-      <InputWrapper>
-        <Label>Media Bias Fact Check URL:</Label>
-        <Input
-          type="text"
-          name="factCheckUrl"
-          value={factCheckUrl}
+        >
+          {FACTUAL_REPORTING.map((fax) => {
+            return <option key={`fax-${fax.value}`} value={fax.value}>{fax.text}</option>
+          })}
+        </select>
+        <select
+          className="category-input"
+          name="category"
+          value={category}
           onChange={handleInputChange}
-        />
-      </InputWrapper>
+        >
+          {["Conservative", "Liberal", "Neutral"].map((cat, i) => {
+            return <option key={`cat-${i}`} value={cat}>{cat}</option>
+          })}
+        </select>
 
-      <p>{error ? error : ''}</p>
-    </Form>
+
+        <div className="urls">
+          <input
+            type="text"
+            name="url"
+            value={url}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            name="factCheckUrl"
+            value={factCheckUrl}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <p>{error ? error : ''}</p>
+      </form>
+
+      <div className="buttons">
+        <button onClick={toggleEditable}>
+          <i className="fas fa-undo" />
+        </button>
+
+        <button onClick={save}>
+          <i className="fas fa-save" />
+        </button>
+      </div>
+    </>
   )
 }
 
@@ -204,10 +211,6 @@ function mapPropsToState(state) {
   }
 }
 
-const mapDispatchToState = { save };
+const mapDispatchToState = { saveSource };
 
 export default connect(mapPropsToState, mapDispatchToState)(SourceForm);
-
-const InputWrapper = styled.div`
-  margin: 12px 0;
-`;

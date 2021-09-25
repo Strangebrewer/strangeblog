@@ -9,7 +9,10 @@ export default class SourceModel {
   }
 
   public async findMany(query = {}): Promise<Source[]> {
-    return await this.client.source.findMany({ where: query });
+    return await this.client.source.findMany({
+      where: query,
+      orderBy: { 'createdAt': 'asc' }
+    });
   }
 
   public async update(id: number, data: Partial<Source>): Promise<Source> {

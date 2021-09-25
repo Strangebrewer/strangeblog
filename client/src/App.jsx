@@ -14,7 +14,8 @@ import { Spinner, SpinnerWrap } from './styles/Elements';
 
 import { setAuthToken, resetAuthToken } from './utils/token';
 import { getCurrentUser } from './redux/actions/authActions';
-import { getCategories, getBlogData } from './redux/actions/otherActions';
+import { getBlogData } from './redux/actions/otherActions';
+import { getCategories } from './redux/actions/categoryActions';
 
 function App(props) {
   const [loading, setLoading] = useState(true);

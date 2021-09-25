@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import Navbar from "../components/Navbar";
 import Blog from '../components/admin/Blog';
 import Categories from '../components/admin/Categories';
-import SourceForm from '../components/admin/SourceForm';
+import Sources from '../components/admin/Sources';
 import { MainButton } from '../styles/components';
 
-import { deleteSource, listSources, save } from '../redux/actions/sourceActions';
+import { deleteSource, listSources, saveSource } from '../redux/actions/sourceActions';
 
 const Admin = props => {
   const [showing, setShowing] = useState({ ...falsetto(), blog: true });
@@ -57,7 +57,7 @@ const Admin = props => {
         {showing.categories && <Categories />}
 
         {/* this will show more than just the form - the form will be there, but hidden until needed, such as when a "create" button is clicked */}
-        {showing.sources && <SourceForm />}
+        {showing.sources && <Sources />}
 
         {showing.users && <div>hi there, users!</div>}
 
@@ -79,7 +79,7 @@ function mapPropsToState(state) {
 const mapDispatchToState = {
   deleteSource,
   listSources,
-  save, Navbar
+  saveSource,
 };
 
 export default connect(mapPropsToState, mapDispatchToState)(Admin);

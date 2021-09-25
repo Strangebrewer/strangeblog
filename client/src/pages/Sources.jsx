@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import SourceCard from "./SourceCard";
+import SourceCard from "../components/sources/SourceCard";
 import Navbar from "../components/Navbar";
 
-import { deleteSource, listSources, save } from '../redux/actions/sourceActions';
+import { listSources } from '../redux/actions/sourceActions';
 
 const Sources = props => {
   useEffect(() => {
@@ -70,11 +70,7 @@ function mapPropsToState(state) {
   }
 }
 
-const mapDispatchToState = {
-  deleteSource,
-  listSources,
-  save,
-};
+const mapDispatchToState = { listSources };
 
 export default connect(mapPropsToState, mapDispatchToState)(Sources);
 

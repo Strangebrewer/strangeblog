@@ -25,13 +25,12 @@
 - functionality for:
   - DONE: a button each for Users, Sources, Blog, Categories and Cray Cray
     - DONE: the buttons will toggle which component is visible
-    - each component will fetch its own data
     - DONE: each item for each category will have an edit and a delete button
     - There will also be a create button for each, which will toggle a form
     - Cray Cray can be whatev - but it makes the rainbow of buttons look cool :)
   - Maybe there should be a search functionality for these. Or maybe that will come later...
 
-  - adding or removing sources
+  - DONE: adding or removing sources
   - DONE: adding or removing categories
   - editing user accounts (to add "friend" to the acl field)
   - DONE: editing the blog title and subtitle
