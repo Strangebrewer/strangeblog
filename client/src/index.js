@@ -9,10 +9,10 @@ import { Themes, GlobalStyle } from "./styles";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ThemeProvider theme={Themes.nightmode}>
-        <GlobalStyle />
+      {/* <ThemeProvider theme={Themes.nightmode}>
+        <GlobalStyle /> */}
         <App />
-      </ThemeProvider>
+      {/* </ThemeProvider> */}
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

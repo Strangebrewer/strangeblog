@@ -6,7 +6,7 @@ import Nav from './Nav';
 import SearchForm from './SearchForm';
 
 import { Outer, SearchWrapper } from './styles/navStyles';
-import { SearchButtons } from '../../styles/components';
+import { SearchButtons, MainButton } from '../../styles/components';
 
 import { listPublicPosts, listPosts } from '../../redux/actions/postActions';
 import { setSearchCriteria, setCount } from '../../redux/actions/otherActions';
@@ -126,12 +126,12 @@ const Searchbar = props => {
             <p>leave the end date blank to search from the start date until the present moment</p>
             <p>leave the start date blank to search for everything prior to the end date</p>
 
-            <SearchButtons className="search-buttons">
+            <div className="search-buttons">
               {/* these are called this way to avoid passing the event to the function */}
-              <button onClick={() => search()}>Search</button>
-              <button onClick={() => clearSearch()}>Clear</button>
-              <button onClick={() => cancelSearch(renderProps.toggleSearch)}>Cancel</button>
-            </SearchButtons>
+              <MainButton color="nGreen" onClick={() => search()}>Search</MainButton>
+              <MainButton color="nBlue" onClick={() => clearSearch()}>Clear</MainButton>
+              <MainButton color="nRed" onClick={() => cancelSearch(renderProps.toggleSearch)}>Cancel</MainButton>
+            </div>
           </SearchWrapper>
         )}
       </Nav>

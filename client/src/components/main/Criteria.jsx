@@ -165,6 +165,7 @@ const Wrapper = styled.div`
     > div {
       display: flex;
       flex-wrap: wrap;
+      color: white;
 
       > p {
         margin-right: 12px;

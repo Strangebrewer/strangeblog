@@ -12,19 +12,33 @@ import { getBasicSearchCriteria } from '../utils/halp';
 
 const Main = (props) => {
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [showModeButtons, setShowModeButtons] = useState(true);
   const [transition, setTransition] = useState('opacity .3s ease-in-out');
 
   useEffect(() => {
-    let visible = false;
+    let scrollBtnVisible = false;
+    let modeBtnsVisible = true;
     const listener = () => {
-      if (window.scrollY > 300 && !visible) {
-        setShowScrollButton(true);
-        setTransition('opacity .3s ease-in-out');
-        visible = true;
-      } else if (window.scrollY <= 300 && visible) {
-        setShowScrollButton(false);
-        setTransition('opacity .3s ease-in-out, visibility .5s ease-in-out .3s');
-        visible = false;
+      if (window.scrollY > 300) {
+        if (!scrollBtnVisible) {
+          setShowScrollButton(true);
+          setTransition('opacity .3s ease-in-out');
+          scrollBtnVisible = true;
+        }
+        if (modeBtnsVisible) {
+          setShowModeButtons(false);
+          modeBtnsVisible = false;
+        }
+      } else if (window.scrollY <= 300) {
+        if (scrollBtnVisible) {
+          setShowScrollButton(false);
+          setTransition('opacity .3s ease-in-out, visibility .5s ease-in-out .3s');
+          scrollBtnVisible = false;
+        }
+        if (!modeBtnsVisible) {
+          setShowModeButtons(true);
+          modeBtnsVisible = true;
+        }
       }
     }
     window.addEventListener('scroll', listener);
@@ -53,6 +67,20 @@ const Main = (props) => {
 
   return (
     <PageWrapper>
+      {showModeButtons && (
+        <Modebuttons night={props.mode === 'night'}>
+          {props.mode === 'bright' && (
+            <button onClick={() => props.toggleMode('night')}>
+              <i className="fas fa-moon" />
+            </button>
+          )}
+          {props.mode === 'night' && (
+            <button onClick={() => props.toggleMode('bright')}>
+              <i className="fas fa-sun" />
+            </button>
+          )}
+        </Modebuttons>
+      )}
       <Header>
         <h1>{props.blog.title}</h1>
         <p>{props.blog.subtitle}</p>
@@ -89,8 +117,6 @@ const mapDispatchToState = {
 export default connect(mapPropsToState, mapDispatchToState)(Main);
 
 const PageWrapper = styled.div`
-  background-color: black;
-  color: white;
   min-height: 100vh;
 `;
 
@@ -124,4 +150,19 @@ const ToTop = styled.button`
   visibility: ${props => props.show ? 'visible' : 'hidden'};
   opacity: ${props => props.show ? '1' : '0'};
   transition: ${props => props.transition};
+`;
+
+const Modebuttons = styled.div`
+  position: fixed;
+  top: 10px;
+  right: 5px;
+
+  > button {
+    background-color: transparent;
+    outline: transparent;
+    border: none;
+    color: ${props => props.night ? props.theme.nOrange : props.theme.nBlue};
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
 `;

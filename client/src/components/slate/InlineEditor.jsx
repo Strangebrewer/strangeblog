@@ -3,7 +3,7 @@ import isHotkey from 'is-hotkey';
 import { Editable, withReact, Slate } from 'slate-react';
 import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
-import { SearchButtons } from '../../styles/components';
+import { MainButton, ButtonContainer } from '../../styles/components';
 
 import RenderButtons, { toggleMark } from './components/RenderButtons';
 import { Element, Leaf } from './utils/Renderers';
@@ -74,11 +74,11 @@ const DisplayEditor = props => {
       </Slate>
 
       {!readOnly && (
-        <SearchButtons>
-          <button onClick={save}>Save</button>
-          {!props.new && <button onClick={saveAndClose}>Save &amp; Close</button>}
-          <button onClick={cancel}>Cancel</button>
-        </SearchButtons>
+        <ButtonContainer>
+          <MainButton color="nGreen" onClick={save}>Save</MainButton>
+          <MainButton color="nBlue" onClick={saveAndClose}>Save &amp; Close</MainButton>
+          <MainButton color="nRed" onClick={cancel}>Cancel</MainButton>
+        </ButtonContainer>
       )}
     </div>
   )

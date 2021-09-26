@@ -30,7 +30,7 @@ export const MetaData = styled.div`
     > button {
       background-color: transparent;
       border: none;
-      color: white;
+      color: ${props => props.theme.text};
       cursor: pointer;
       margin-right: 4px;
       outline: transparent;

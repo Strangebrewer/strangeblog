@@ -25,8 +25,9 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: inherit;
   }
   body {
-    background-color: black;
+    background-color: ${props => props.theme.bg};
     border: 0;
+    color: ${props => props.theme.text};
     font-family: Roboto, Helvetica, sans-serif;
     font-weight: 300;
     line-height: 1;

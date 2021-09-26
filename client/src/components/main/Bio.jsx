@@ -5,7 +5,7 @@ import { Editable, withReact, Slate } from 'slate-react';
 import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
 import styled from 'styled-components';
-import { SearchButtons } from '../../styles/components';
+import { ButtonContainer, MainButton } from '../../styles/components';
 
 import RenderButtons, { toggleMark } from '../slate/components/RenderButtons';
 import { Element, Leaf } from '../slate/utils/Renderers';
@@ -59,7 +59,7 @@ const Bio = props => {
   }
 
   const editorFieldStyle = {
-    backgroundColor: 'black',
+    backgroundColor: 'transparent',
   };
 
   return (
@@ -78,11 +78,11 @@ const Bio = props => {
       </Slate>
 
       {!readonly && (
-        <SearchButtons className="search-buttons">
-          <button onClick={saveBio}>Save</button>
-          <button onClick={saveBioAndClose}>Save &amp; Close</button>
-          <button onClick={cancelBio}>Cancel</button>
-        </SearchButtons>
+        <ButtonContainer className="search-buttons">
+          <MainButton color="nGreen" onClick={saveBio}>Save</MainButton>
+          <MainButton color="nBlue" onClick={saveBioAndClose}>Save &amp; Close</MainButton>
+          <MainButton color="nRed" onClick={cancelBio}>Cancel</MainButton>
+        </ButtonContainer>
       )}
     </Wrapper>
   );
@@ -102,13 +102,13 @@ export default connect(mapPropsToState, mapDispatchToState)(Bio);
 const Wrapper = styled.section`
   border-bottom: 2px solid ${props => props.theme.mainRed};
   border-top: 2px solid ${props => props.theme.mainRed};
-  color: #aaa;
+  color: ${props => props.theme.text}99;
   font-weight: 500;
   margin: 24px auto 0 auto;
   padding: 0;
   width: 700px;
 
-  p {
+  > p {
     font-size: 16px;
     padding: 8px 0;
     line-height: 1.3;

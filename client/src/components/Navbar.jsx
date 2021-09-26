@@ -88,7 +88,6 @@ const Wrapper = styled.header`
   > nav {
     display: flex;
     justify-content: center;
-    width: 800px;
     margin: 0 auto;
     padding: 16px 0;
 

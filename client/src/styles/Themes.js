@@ -2,17 +2,51 @@ export const Themes = {
   nightmode: {
     mainRed: '#e22c5a',
     mainGrey: '#aaa',
+    bg: '#000000',
+    text: '#ffffff',
+    black: '#000000',
+    white: '#ffffff',
+    blue: '#0000ff',
+    red: '#ff0000',
+    yellow: '#ffff00',
+    orange: '#ffa500',
+    purple: '#800080',
+    green: '#008000',
+    nBlue: '#4666FF',
+    nRed: '#DF002D',
+    nYellow: '#CCFF00',
+    nOrange: '#FF9933',
+    nPurple: '#BC13FE',
+    nGreen: '#39FF14'
+  },
 
+  brightmode: {
+    mainRed: '#e22c5a',
+    mainGrey: '#aaa',
+    bg: '#ffffff',
+    text: '#000000',
+    black: '#000000',
+    white: '#ffffff',
+    blue: '#0000ff',
+    red: '#ff0000',
+    yellow: '#ffff00',
+    orange: '#ffa500',
+    purple: '#800080',
+    green: '#008000',
+    nBlue: '#4666FF',
+    nRed: '#DF002D',
+    nYellow: '#CCFF00',
+    nOrange: '#FF9933',
+    nPurple: '#BC13FE',
+    nGreen: '#39FF14'
+  },
 
-    bg: '#1b1e24',
-    shadow: '#000',
-    text:'#f3f3f4',
-    icon: '#fafbfd',
-    iconDisabled:'#595d60',
-    dragonGreen: '#6fdac3',
-    dragonGreenHover: '#b3ffee',
-    
-    black: '#000',
+  frightmode: {
+    mainRed: '#e22c5a',
+    mainGrey: '#aaa',
+    bg: '#ffffff',
+    text: '#000000',
+    black: '#000000',
     white: '#fff',
     blue: '#0000ff',
     red: '#ff0000',
@@ -25,15 +59,6 @@ export const Themes = {
     nYellow: '#CCFF00',
     nOrange: '#FF9933',
     nPurple: '#BC13FE',
-    nGreen: '#39FF14',
-    hTypeface: "'Abril Fatface', 'Times New Roman', Times, serif",
-  },
-
-  brightmode: {
-    black: '#000'
-  },
-
-  frightmode: {
-    black: '#000'
+    nGreen: '#39FF14'
   },
 };

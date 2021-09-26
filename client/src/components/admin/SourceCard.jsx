@@ -65,7 +65,7 @@ const mapDispatchToState = {};
 export default connect(mapPropsToState, mapDispatchToState)(SourceCard);
 
 export const Card = styled.div`
-  border: 1px solid ${props => props.add ? props.theme.nBlue : 'white'};
+  border: 1px solid ${props => props.add ? props.theme.nBlue : props.theme.text};
   display: flex;
   ${props => props.add && 'margin-bottom: 24px;'}
 
@@ -93,11 +93,11 @@ export const Card = styled.div`
     > input, > select,
     > .urls > input {
       padding: 4px 0;
-      background-color: black;
+      background-color: transparent;
       outline: transparent;
       border: none;
       border-bottom: 1px solid #333;
-      color: white;
+      color: ${props => props.theme.text};
       font-size: 1rem;
       font-weight: 300;
       font-family: Roboto;
@@ -136,11 +136,11 @@ export const Card = styled.div`
       background-color: transparent;
       outline: transparent;
       border: none;
-      color: white;
+      color: ${props => props.theme.text};
       cursor: pointer;
 
       &:hover {
-        color: ${props => props.theme.nPurple};
+        color: ${props => props.theme.nBlue};
       }
     }
   }

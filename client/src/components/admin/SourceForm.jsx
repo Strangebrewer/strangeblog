@@ -122,7 +122,7 @@ const SourceForm = props => {
 
   return (
     <>
-      <form submit={save} className="main-container">
+      <form onSubmit={save} className="main-container">
         <input
           className="name-input"
           type="text"

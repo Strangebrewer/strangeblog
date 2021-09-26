@@ -87,7 +87,6 @@ export default connect(mapPropsToState, mapDispatchToState)(Admin);
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  color: white;
 
   > h1 {
     font-size: 3rem;
@@ -114,7 +113,7 @@ const Main = styled.main`
     justify-content: center;
     padding: 12px 12px 14px 12px;
     border-radius: 8px;
-    background-color: #1b1b1b;
+    background-color: ${props => props.theme.text + '55'};
     margin: auto;
 
     > button:last-child {

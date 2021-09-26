@@ -81,7 +81,7 @@ const Card = styled.div`
     padding: 0 0 3px 0;
     background-color: transparent;
     border-bottom: 1px solid #222;
-    color: white;
+    color: ${props => props.theme.text};
     font-weight: 300;
     font-family: Roboto;
       outline: transparent;
@@ -91,7 +91,7 @@ const Card = styled.div`
     background-color: transparent;
     outline: transparent;
     border: none;
-    color: white;
+    color: ${props => props.theme.text};
     cursor: pointer;
 
     &:hover {

@@ -9,13 +9,13 @@ const Nav = props => {
   const history = useHistory();
   const [searchHeight, setSearchHeight] = useState('56px');
   const [searchWidth, setSearchWidth] = useState(props.admin ? '420px' : '300px');
-  const [transition, setTransition] = useState('max-width .2s ease-in-out, height .35s ease-in-out .06s');
-  const [shadow, setShadow] = useState(null);
+  const [transition, setTransition] = useState('max-width .2s ease-in-out, height .35s ease-in-out .06s, box-shadow .2s ease-in-out .15s');
+  const [shadow, setShadow] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
 
   function toggleSearch() {
-    if (showSearch === true) {
-      setTransition('max-width .2s ease-in-out .3s, height .35s ease-in-out, box-shadow .2s ease-in-out .15s');
+    if (showSearch) {
+      setTransition('max-width .2s ease-in-out .3s, height .35s ease-in-out, box-shadow .2s ease-in-out');
       setSearchHeight("56px");
       setSearchWidth(props.admin ? '420px' : '300px');
       props.setSearchProps({
@@ -23,10 +23,10 @@ const Nav = props => {
         transition: '.15s ease-in-out',
         visibility: 'hidden'
       }, 'none');
-      setShadow(null);
+      setShadow(false);
       setShowSearch(false);
     } else {
-      setTransition('max-width .2s ease-in-out, height .35s ease-in-out .15s, box-shadow .2s ease-in-out .12s');
+      setTransition('max-width .2s ease-in-out, height .35s ease-in-out .15s, box-shadow .2s ease-in-out .2s');
       setSearchHeight("420px");
       setSearchWidth("500px");
       props.setSearchProps({
@@ -95,9 +95,9 @@ function mapPropsToState(state) {
 export default connect(mapPropsToState, { logout })(Nav);
 
 export const Wrapper = styled.nav`
-  background-color: #ffffff22;
+  background-color: ${props => props.theme.text + '33'};
   border-radius: 12px;
-  ${props => props.shadow && 'box-shadow: 0 0 4px #ffffff'};
+  box-shadow: ${props => props.shadow ? '2px 2px 8px' + props.theme.text : 'none'};
   height: ${props => props.height};
   margin: 0 auto;
   max-width:  ${props => props.width};

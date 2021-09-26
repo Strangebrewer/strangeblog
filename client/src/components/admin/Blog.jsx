@@ -105,7 +105,7 @@ const InputWrapper = styled.div`
     padding-bottom: 6px;
     width: 100%;
     font-family: Roboto;
-    color: ${props => props.subtitle ? props.theme.mainRed : 'white'};
+    color: ${props => props.subtitle ? props.theme.mainRed : props.theme.text};
     font-size: ${props => props.subtitle ? '1.35rem' : '3rem'};
     font-weight: ${props => props.subtitle ? '300' : '900'};
     ${props => props.subtitle && 'text-indent: 10px'};

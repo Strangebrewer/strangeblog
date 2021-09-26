@@ -11,7 +11,7 @@ export function adminUserReducer(state = [], action) {
     case EDIT_USER:
       return state.map(user => {
         if (user.id === action.payload.id) {
-          return [...action.payload];
+          return action.payload;
         }
         return user;
       });

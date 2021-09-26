@@ -4,7 +4,7 @@ import { Editable, withReact, Slate } from 'slate-react';
 import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
 import styled from 'styled-components';
-import { SearchButtons } from '../../styles/components';
+import { ButtonContainer, MainButton } from '../../styles/components';
 
 import RenderButtons, { toggleMark } from './components/RenderButtons';
 import { Element, Leaf } from './utils/Renderers';
@@ -68,11 +68,11 @@ const PostEditor = props => {
       </Slate>
 
       {!props.readOnly && (
-        <SearchButtons>
-          <button onClick={() => save()}>Save</button>
-          <button onClick={saveAndClose}>Save &amp; Close</button>
-          <button onClick={cancel}>Cancel</button>
-        </SearchButtons>
+        <ButtonContainer>
+          <MainButton color="nGreen" onClick={() => save()}>Save</MainButton>
+          <MainButton color="nBlue" onClick={saveAndClose}>Save &amp; Close</MainButton>
+          <MainButton color="nRed" onClick={cancel}>Cancel</MainButton>
+        </ButtonContainer>
       )}
     </EditorWrapper>
   )

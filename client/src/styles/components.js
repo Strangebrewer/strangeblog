@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 export const RedBlueButton = styled.button`
   background: #181818;
-  border: 1px solid ${props => props.disabled ? props.theme.mainRed + '99' : props.theme.mainRed};
+  border: 1px solid ${props => props.theme.mainRed};
   border-radius: 5px;
-  ${props => !props.disabled && `box-shadow: 0px 0px 8px ${props.theme.mainRed}`};
-  color: ${props => props.disabled ? props.theme.nBlue + '99' : props.theme.nBlue};
-  cursor: ${props => props.disabled ? 'default' : 'pointer'};
+  box-shadow: 0px 0px 8px ${props => props.theme.mainRed};
+  color: ${props => props.theme.nBlue};
+  cursor: pointer;
   font-weight: bold;
   margin: 0 12px;
   outline: transparent;
@@ -14,20 +14,36 @@ export const RedBlueButton = styled.button`
   ${props => props.width ? `min-width: ${props.width}px` : ''};
   display: flex;
   ${props => props.text && 'padding: 4px 8px'};
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   > i {
     display: block;
     align-self: center;
     margin: auto;
+  }
+  &:hover {
+    background-color: ${props => props.theme.nBlue};
+    color: ${props => props.theme.nRed};
+  }
+  &:disabled {
+    color: ${props => props.theme.nBlue + '99'};
+    cursor: default;
+    box-shadow: none;
+    border: 1px solid ${props => props.theme.mainRed + '99'};
+
+    &:hover {
+      background: #181818;
+      color: ${props => props.theme.nBlue + '99'};
+    }
   }
 `;
 
 export const PurpleGreenButton = styled.button`
   background: #181818;
-  border: 1px solid ${props => props.disabled ? props.theme.nPurple + '99' : props.theme.nPurple};
+  border: 1px solid ${props => props.theme.nPurple};
   border-radius: 5px;
-  ${props => !props.disabled && `box-shadow: 0px 0px 8px ${props.theme.nPurple}`};
-  color: ${props => props.disabled ? props.theme.nGreen + '99' : props.theme.nGreen};
-  cursor: ${props => props.disabled ? 'default' : 'pointer'};
+  box-shadow: 0px 0px 8px ${props => props.theme.nPurple};
+  color: ${props => props.theme.nGreen};
+  cursor: pointer;
   font-weight: bold;
   margin: 0 12px;
   outline: transparent;
@@ -35,32 +51,59 @@ export const PurpleGreenButton = styled.button`
   ${props => props.width ? `min-width: ${props.width}px` : ''};
   display: flex;
   ${props => props.text && 'padding: 4px 8px'};
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   > i {
-    display: block;
     align-self: center;
+    display: block;
     margin: auto;
+  }
+  &:hover {
+    background-color: ${props => props.theme.nGreen};
+    color: ${props => props.theme.nPurple};
+  }
+  &:disabled {
+    border: 1px solid ${props => props.theme.nPurple + '99'};
+    box-shadow: none;
+    color: ${props => props.theme.nGreen + '99'};
+    cursor: default;
+
+    &:hover {
+      background: #181818;
+      color: ${props => props.theme.nGreen + '99'};
+    }
   }
 `;
 
 export const MainButton = styled.button`
   background: #111;
-  border: 1px solid ${props => props.disabled ? '#333' : props.theme[props.color]};
+  border: 1px solid ${props => props.theme[props.color]};
   border-radius: 5px;
-  box-shadow: 4px 4px 4px ${props => props.disabled ? '#333' : props.theme[props.color]}77;
-  color: ${props => props.disabled ? '#333' : props.theme[props.color]};
+  box-shadow: 4px 4px 4px ${props => props.theme[props.color]}77;
+  color: ${props => props.theme[props.color]};
   cursor: pointer;
   font-weight: bold;
   margin-right: 16px;
   outline: transparent;
   padding: 6px 12px;
   min-width: 80px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  &:hover {
+    background-color: ${props => props.theme[props.color]};
+    color: ${props => props.color === 'nGreen' || props.color === 'nYellow' ? 'black' : 'white'};
+  }
+  &:disabled {
+    background-color: ${props => props.theme.text + '44'};
+    color: ${props => props.theme.bg + '99'};
+    box-shadow: none;
+    border: 1px solid ${props => props.theme.text + '99'};
+  }
 `;
 
 export const Label = styled.label`
   width: 100%;
   display: block;
   margin-bottom: 6px;
-  color: white;
+  /* color: white; */
 `;
 
 export const Input = styled.input`
@@ -143,34 +186,11 @@ export const Tags = styled.p`
   }
 `;
 
-export const SearchButtons = styled.div`
+export const ButtonContainer = styled.div`
   margin-left: 16px;
   margin-top: 16px;
 
-  > button {
-    background: #111;
-    border: 1px solid ${props => props.theme.nGreen};
-    border-radius: 5px;
-    box-shadow: 4px 4px 4px ${props => props.theme.nGreen}77;
-    color: ${props => props.theme.nGreen};
-    cursor: pointer;
-    font-weight: bold;
-    margin-right: 16px;
-    outline: transparent;
-    padding: 6px 12px;
-    min-width: 80px;
-  }
-
-  > button:nth-child(2) {
-    border: 1px solid ${props => props.theme.nBlue};
-    box-shadow: 4px 4px 4px ${props => props.theme.nBlue}77;
-    color: ${props => props.theme.nBlue};
-  }
-
   > button:last-of-type {
-    border: 1px solid ${props => props.theme.nRed};
-    box-shadow: 4px 4px 4px ${props => props.theme.nRed}77;
-    color: ${props => props.theme.nRed};
     margin-right: 0;
   }
 `;

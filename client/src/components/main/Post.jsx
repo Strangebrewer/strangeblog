@@ -191,7 +191,6 @@ const Post = props => {
       </MetaData>
 
       <DateWrapper>
-        {console.log('post.createdAt:::', post.createdAt)}
         <h5>{format(new Date(post.createdAt), 'MMM dd, yyyy - hh:mm aaaa')} {post.tags.length ? <span>-</span> : null}</h5>
         {
           post.tags.length

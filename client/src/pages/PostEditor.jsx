@@ -227,7 +227,7 @@ export const Wrapper = styled.div`
 const Main = styled.main`
   width: 900px;
   margin: auto;
-  padding-top: 50px;
+  padding-bottom: 50px;
 `;
 
 const YeOldeInputs = styled.div`
@@ -242,10 +242,6 @@ const YeOldeInputs = styled.div`
     > div {
       margin: auto;
       width: 48%;
-
-      label {
-        color: white;
-      }
     }
   }
 `;
@@ -287,7 +283,6 @@ const TagWrapper = styled.div`
   margin: 12px 0 6px 0;
 
   > h4 {
-    color: white;
     font-size: 16px;
     padding: 3px 8px;
   }

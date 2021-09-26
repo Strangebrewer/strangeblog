@@ -23,7 +23,7 @@ const Sources = props => {
 
         <p>These are the sources I generally use to research any news issue I want to know more about. I want as unbiased reporting as I can get, but I like to know what spin is going around, too.</p>
 
-        <p>The Conservative section is the result of my best effort to find Conservative news sources that Conservatives read and trust; likewise for Liberal sources, but my existing biases made that relatively easy. I initially wanted to only include sources that are ranked high in both Credibility and Factual Reporting, but I had some difficulty finding more than a handful, especially for Conservative sources. Take that as you will - I admit I leaned heavily on <a href="mediabiasfactcheck.com" target="_blank" rel="noopener noreferrer nofollow">mediabiasfactcheck.com</a> for these ratings.  I may refine this list over time as I get a better feel for the veracity of these sources.</p>
+        <p>The Conservative section is the result of my best effort to find Conservative news sources that Conservatives read and trust; likewise for Liberal sources, but my existing biases made that relatively easy. I initially wanted to only include sources that are ranked high in both Credibility and Factual Reporting, but I had some difficulty finding more than a handful, especially for Conservative sources. Take that as you will - I admit I leaned heavily on <a href="mediabiasfactcheck.com" target="_blank" rel="noopener noreferrer nofollow">mediabiasfactcheck.com</a> for these rankings.  I may refine this list over time as I get a better feel for the veracity of these sources.</p>
 
         {props.sources && props.sources.length ? (
           <SourceTable color="nPurple">
@@ -76,7 +76,6 @@ export default connect(mapPropsToState, mapDispatchToState)(Sources);
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  color: white;
 `;
 
 const Main = styled.main`

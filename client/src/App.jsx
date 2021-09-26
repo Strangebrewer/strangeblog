@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
+import { Themes, GlobalStyle } from "./styles";
+import { ThemeProvider } from 'styled-components';
 
 import Admin from './pages/Admin';
 import Authoritaw from './pages/Authoritaw';
@@ -19,14 +21,24 @@ import { getCategories } from './redux/actions/categoryActions';
 
 function App(props) {
   const [loading, setLoading] = useState(true);
+  const [mode, setMode] = useState(Themes.nightmode);
+  const [currentTheme, setCurrentTheme] = useState('night');
 
   useEffect(() => {
     (async function () {
       const token = localStorage.getItem('token');
+      const theme = localStorage.getItem('theme');
       try {
         if (token) {
           setAuthToken(token);
           await props.getUser();
+        }
+        if (!theme || theme === 'night') {
+          setMode(Themes.nightmode);
+          setCurrentTheme('night');
+        } else {
+          setMode(Themes.brightmode);
+          setCurrentTheme('bright');
         }
       } catch (e) {
         if (token) resetAuthToken();
@@ -37,6 +49,16 @@ function App(props) {
     })();
   }, [props.getUser]);
 
+  function toggleMode(theme) {
+    if (theme === 'night') {
+      setMode(Themes.nightmode);
+    } else {
+      setMode(Themes.brightmode);
+    }
+    setCurrentTheme(theme);
+    localStorage.setItem('theme', theme)
+  }
+
   return (
     loading
       ? (
@@ -44,51 +66,54 @@ function App(props) {
           <Spinner size="120" border="10" />
         </SpinnerWrap>
       ) : (
-        <Router>
-          <Switch>
-            <Route
-              exact
-              path="/"
-              component={Main}
-            />
+        <ThemeProvider theme={mode}>
+          <GlobalStyle />
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                {routeProps => (
+                  <Main {...routeProps} toggleMode={toggleMode} mode={currentTheme} />
+                )}
+              </Route>
 
-            <Route
-              exact
-              path="/login"
-              component={Authentication(Authoritaw, { required: false, authenticated: props.authenticated })}
-            />
+              <Route
+                exact
+                path="/login"
+                component={Authentication(Authoritaw, { required: false, authenticated: props.authenticated })}
+              />
 
-            <Route
-              exact
-              path="/editor"
-              component={Authentication(PostEditor, { adminRequired: true, admin: props.admin })}
-            />
+              <Route
+                exact
+                path="/editor"
+                component={Authentication(PostEditor, { adminRequired: true, admin: props.admin })}
+              />
 
-            <Route
-              exact
-              path="/editor/:id"
-              component={Authentication(PostEditor, { adminRequired: true, admin: props.admin })}
-            />
+              <Route
+                exact
+                path="/editor/:id"
+                component={Authentication(PostEditor, { adminRequired: true, admin: props.admin })}
+              />
 
-            <Route
-              exact
-              path="/admin"
-              component={Authentication(Admin, { adminRequired: true, admin: props.admin })}
-            />
+              <Route
+                exact
+                path="/admin"
+                component={Authentication(Admin, { adminRequired: true, admin: props.admin })}
+              />
 
-            <Route
-              exact
-              path="/sources"
-              component={Sources}
-            />
+              <Route
+                exact
+                path="/sources"
+                component={Sources}
+              />
 
-            <Route
-              exact
-              path="/:title"
-              component={SinglePost}
-            />
-          </Switch>
-        </Router>
+              <Route
+                exact
+                path="/:title"
+                component={SinglePost}
+              />
+            </Switch>
+          </Router>
+        </ThemeProvider>
       )
   )
 }
