@@ -12,6 +12,9 @@
     - search by multiple tags will only find articles with both tags
 
 # ToDo
+- Set it up to deny banned users access
+- Set it up to ask inactive users if they want to reactivate
+- Set up singlePost page to let me print the article to a pdf (see og-dragon-writer)
 
 ## Next
 

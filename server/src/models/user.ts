@@ -26,6 +26,9 @@ interface IInitialData {
   acl?: string[];
   status?: string;
   password?: string;
+  resetPassword?: boolean;
+  addFriend?: boolean;
+  removeFriend?: boolean;
   skip?: string;
   take?: string;
   orderBy?: string;
@@ -138,6 +141,19 @@ export default class UserModel {
 
   public async adminUpdate(id: number, data: IInitialData): Promise<User> {
     if (data.password) data.password = this.hashPassword(data.password);
+    if (data.resetPassword) data.password = this.hashPassword('1234');
+    if (data.addFriend || data.removeFriend) {
+      const user = await this.client.user.findUnique({ where: { id } });
+      if (data.addFriend) {
+        if (!user.acl.includes('friend')) data.acl = [...user.acl, 'friend'];
+        delete data.addFriend;
+      }
+      if (data.removeFriend) {
+        if (user.acl.includes('friend')) data.acl = user.acl.filter(u => u !== 'friend');
+        delete data.removeFriend;
+      }
+    }
+    delete data.resetPassword;
     const { options } = this.buildQuery(data);
     return await this.client.user.update({ where: { id }, data, ...options });
   }
