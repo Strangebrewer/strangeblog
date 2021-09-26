@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 export default function (req: Request, res: Response, next: NextFunction): void {
-   if (req.user.acl === 'admin') {
+   if (req.user.acl.includes('admin')) {
       next();
    } else {
       res.status(403).send({

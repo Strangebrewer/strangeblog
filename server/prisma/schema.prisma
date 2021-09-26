@@ -13,7 +13,6 @@ generator client {
 enum ACLTypes {
   admin
   friend
-  public
 }
 
 enum BiasTypes {
@@ -55,7 +54,7 @@ enum UserStatusTypes {
 
 model User {
   id              Int             @id @default(autoincrement())
-  acl             ACLTypes        @default(public)
+  acl             ACLTypes[]      
   email           String          @unique
   normalizedEmail String          @unique @map("normalized_email")
   username        String          @unique

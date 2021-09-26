@@ -143,8 +143,8 @@ const Searchbar = props => {
 
 function mapPropsToState(state) {
   return {
-    admin: state.user.acl === "admin",
-    friend: state.user.acl === 'friend',
+    admin: state.user.acl && state.user.acl.includes('admin'),
+    friend: state.user.acl && state.user.acl.includes('friend'),
     authenticated: state.auth.authenticated,
     categories: state.categories
   }

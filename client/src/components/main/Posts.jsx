@@ -50,9 +50,9 @@ const Posts = props => {
 
 function mapPropsToState(state) {
   return {
-    admin: state.user.acl === "admin",
+    admin: state.user.acl && state.user.acl.includes('admin'),
     count: state.count,
-    friend: state.user.acl === "friend",
+    friend: state.user.acl && state.user.acl.includes('friend'),
     posts: state.posts,
     criteria: state.criteria
   }

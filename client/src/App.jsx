@@ -96,7 +96,7 @@ function App(props) {
 function mapStateToProps(state) {
   return {
     authenticated: state.auth.authenticated,
-    admin: state.user.acl === 'admin',
+    admin: state.user.acl && state.user.acl && state.user.acl.includes('admin'),
     user: state.user
   }
 }

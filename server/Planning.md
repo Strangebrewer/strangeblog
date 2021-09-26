@@ -42,10 +42,6 @@
 
 
 ### Main.jsx:
-- tag z-index makes them appear over the delete modal.
-
-
-
 
 
 

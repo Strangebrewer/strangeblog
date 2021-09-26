@@ -2,23 +2,26 @@
    {
       "username": "mr-mojo-risin",
       "email": "BKAShambala@gmail.com",
-      "acl": "admin"
+      "acl":["admin", "friend"]
    },
    {
       "username": "Heck-Fire",
       "email": "adcatcher73@gmail.com",
-      "acl": "friend"
+      "acl": ["friend"]
    },
    {
       "username": "The-Loving-Friend",
-      "email": "carry@gmail.com"
+      "email": "carry@gmail.com",
+      "acl":[]
    },
    {
       "username": "Don't-Kick-The-Bucket",
-      "email": "Carsons.dad@gmail.com"
+      "email": "Carsons.dad@gmail.com",
+      "acl":[]
    },
    {
       "username": "Bend-Over",
-      "email": "thedover@gmail.com"
+      "email": "thedover@gmail.com",
+      "acl":[]
    }
 ]

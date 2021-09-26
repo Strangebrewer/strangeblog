@@ -7,7 +7,7 @@ type PartialUser = {
   id: number;
   email: string;
   username: string;
-  acl: string
+  acl?: string[];
 };
 
 type Tokenized = {
@@ -23,7 +23,7 @@ type UserTag = {
 interface IInitialData {
   username?: string;
   email?: string;
-  acl?: string;
+  acl?: string[];
   status?: string;
   password?: string;
   skip?: string;
@@ -35,7 +35,7 @@ interface IInitialData {
 interface IUserSearch {
   username?: Record<string, unknown>;
   email?: Record<string, unknown>;
-  acl?: string;
+  acl?: string[];
   status?: string;
   AND?: Record<string, unknown>[]
 }

@@ -205,7 +205,7 @@ const SourceForm = props => {
 
 function mapPropsToState(state) {
   return {
-    admin: state.user.acl === "admin",
+    admin: state.user.acl && state.user.acl.includes('admin'),
     blog: state.blog,
     sources: state.sources
   }

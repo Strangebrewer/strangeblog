@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "ACLTypes" AS ENUM ('admin', 'friend', 'public');
+CREATE TYPE "ACLTypes" AS ENUM ('admin', 'friend');
 
 -- CreateEnum
 CREATE TYPE "BiasTypes" AS ENUM ('Hard_Left', 'Left', 'Left_Center', 'Least_Biased', 'Right_Center', 'Right', 'Hard_Right');
@@ -13,15 +13,19 @@ CREATE TYPE "CredibilityTypes" AS ENUM ('High', 'Medium', 'Low');
 -- CreateEnum
 CREATE TYPE "NewsCategoryTypes" AS ENUM ('Conservative', 'Liberal', 'Neutral');
 
+-- CreateEnum
+CREATE TYPE "UserStatusTypes" AS ENUM ('active', 'inactive', 'banned');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
-    "acl" "ACLTypes" NOT NULL DEFAULT E'public',
+    "acl" "ACLTypes"[],
     "email" TEXT NOT NULL,
     "normalized_email" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "tags" JSONB[],
+    "status" "UserStatusTypes" NOT NULL DEFAULT E'active',
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ NOT NULL,
 

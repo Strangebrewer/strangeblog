@@ -89,7 +89,7 @@ const Categories = props => {
 
 function mapPropsToState(state) {
   return {
-    admin: state.user.acl === "admin",
+    admin: state.user.acl && state.user.acl.includes('admin'),
     categories: state.categories
   }
 }
