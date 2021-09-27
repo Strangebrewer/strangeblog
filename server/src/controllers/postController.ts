@@ -36,26 +36,27 @@ export default {
     }
   },
 
-  async list(req: Request, res: Response): Promise<void> {
-    try {
-      if (req.query.byUserTag) req.query.ids = getPostQueryIds(req);
-      const response = await postModel.findMany(req.query);
-      addUserTagsToPosts(response.posts, req.user.tags);
-      res.status(200).json(response);
-    } catch (err) {
-      console.log('err in postController list:::', err);
-      res.status(400).send(err);
-    }
-  },
+  // async OGlist(req: Request, res: Response): Promise<void> {
+  //   try {
+  //     if (req.query.byUserTag) req.query.ids = getPostQueryIds(req);
+  //     const response = await postModel.findMany(req.query);
+  //     addUserTagsToPosts(response.posts, req.user.tags);
+  //     res.status(200).json(response);
+  //   } catch (err) {
+  //     console.log('err in postController list:::', err);
+  //     res.status(400).send(err);
+  //   }
+  // },
 
-  async listThisShit(req: Request, res: Response): Promise<void> {
+  async list(req: Request, res: Response): Promise<void> {
+    console.log('hello from listThisShit');
     try {
-      if (req.query.byUserTag) req.query.ids = getPostQueryIds(req);
+      if (req.body.byUserTag) req.body.ids = getPostQueryIds(req);
       const response = await postModel.findMany(req.body);
       addUserTagsToPosts(response.posts, req.user.tags);
       res.status(200).json(response);
     } catch (err) {
-      console.log('err in postController list:::', err);
+      console.log('err in postController listThisShit:::', err);
       res.status(400).send(err);
     }
   },

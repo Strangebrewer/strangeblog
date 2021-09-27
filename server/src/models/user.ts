@@ -38,7 +38,7 @@ interface IInitialData {
 interface IUserSearch {
   username?: Record<string, unknown>;
   email?: Record<string, unknown>;
-  acl?: string[];
+  acl?: Record<string, unknown>;
   status?: string;
   AND?: Record<string, unknown>[]
 }
@@ -131,12 +131,14 @@ export default class UserModel {
     }
   }
 
-  public async adminList(data: IInitialData): Promise<User[]> {
+  public async adminList(data: IInitialData): Promise<{ users: User[], count: number }> {
     const { search, options } = this.buildQuery(data);
-    return this.client.user.findMany({
+    const users = await this.client.user.findMany({
       where: search,
       ...options
     });
+    const count = await this.client.user.count({ where: search });
+    return { users, count };
   }
 
   public async adminUpdate(id: number, data: IInitialData): Promise<User> {
@@ -192,7 +194,7 @@ export default class UserModel {
     if (data.username) search.username = { contains: data.username, mode: 'insensitive' };
     if (data.email) search.email = { contains: data.email, mode: 'insensitive' };
     if (data.status) search.status = data.status;
-    if (data.acl) search.acl = data.acl;
+    if (data.acl) search.acl = { has: data.acl };
 
     const options: IUserOptions = {
       select: {

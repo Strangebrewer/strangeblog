@@ -12,39 +12,31 @@
     - search by multiple tags will only find articles with both tags
 
 # ToDo
-- Set it up to deny banned users access
-- Set it up to ask inactive users if they want to reactivate
+- FIRST: Figure out WTF is going on with the "/list" POST vs "/" GET endpoints
+  - searching by date seems to work with public posts (i.e. non-friend users)
+      but not with admin users. Strange things are afoot at the Circle K...
+
+- Clicking on a user tag to filter by that tag doesn't seem to be working...
+- Login:
+  - Style the login/register page to align with the rest
+  - Set it up to deny banned users access
+  - Set it up to ask inactive users if they want to reactivate
 - Set up singlePost page to let me print the article to a pdf (see og-dragon-writer)
 
 ## Next
 
-### Modal:
-- fuck around with the colors to see if it looks good with current theme
-  - it actually looks cool as it is, so not a big deal
-
 ### Sources page:
 
 ### Admin page:
-- functionality for:
-  - DONE: a button each for Users, Sources, Blog, Categories and Cray Cray
-    - DONE: the buttons will toggle which component is visible
-    - DONE: each item for each category will have an edit and a delete button
-    - There will also be a create button for each, which will toggle a form
-    - Cray Cray can be whatev - but it makes the rainbow of buttons look cool :)
-    - Build search function for finding users. Search by: acl, status, email, username
+- Cray Cray can be whatev - but it makes the rainbow of buttons look cool :)
 
-  - DONE: adding or removing sources
-  - DONE: adding or removing categories
-  - editing user accounts (to add "friend" to the acl field)
-  - DONE: editing the blog title and subtitle
-
-### SinglePost.jsx page:
+### SinglePost page:
 - The point of this page is to make it so you can link directly to one post
   - consequently, the url will need to use the postId rather than the name
 - button to edit (should just go to the "/editor/:id" page)
 
 
-### Main.jsx:
+### Main page:
 
 
 
@@ -92,4 +84,13 @@
 - DONE: a list of news and data sources I like (the one from my spread sheet)
 - DONE: style the cards on the Sources page
 
-### Admin Page
+### Admin page:
+- DONE: a button each for Users, Sources, Blog, Categories and Cray Cray
+  - DONE: the buttons will toggle which component is visible
+  - DONE: each item for each category will have an edit and a delete button
+  - DONE: Build search function for finding users. Search by: acl, status, email, username
+
+- DONE: adding or removing sources
+- DONE: adding or removing categories
+- DONE: editing user accounts
+- DONE: editing the blog title and subtitle

@@ -4,8 +4,8 @@ import { Tag, PostPlus } from './postController';
 
 export function getPostQueryIds(req: Request): string[] {
   let userTags: Tag[] = req.user.tags;
-  const queryTags = req.query.tags as string;
-  let queryTagsArray: string[];
+  const queryTags: string = req.query.tags ? req.query.tags : req.body.tags;
+  let queryTagsArray: string[] = [];
   if (queryTags) queryTagsArray = queryTags.split(',');
 
   const ids = [];

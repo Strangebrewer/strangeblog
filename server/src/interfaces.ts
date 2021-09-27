@@ -36,6 +36,7 @@ export interface IDatabaseClient {
     delete(query: Record<string, unknown>): Promise<Source>;
   },
   user: {
+    count(query: Record<string, unknown>): Promise<number>;
     findFirst(query: Record<string, unknown>): Promise<User | null>;
     findUnique(query: Record<string, unknown>): Promise<User | null>;
     findMany(query: Record<string, unknown>): Promise<User[]>;

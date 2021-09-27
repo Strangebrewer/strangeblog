@@ -81,6 +81,9 @@ export default class PostModel {
       const ids = data.ids.map(id => parseInt(id));
       search.id = { in: ids }
     }
+
+    // if data.byUserTag, the above conditional will catch it
+    //  because there will be data.ids;
     if (data.tags && !data.byUserTag) {
       let tags = data.tags.split(',');
       tags = tags.map(tag => tag.trim());
