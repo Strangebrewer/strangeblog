@@ -5,14 +5,14 @@ import authenticate from '../utils/authenticate';
 import isAdmin from '../utils/isAdmin';
 import isAdminOrFriend from '../utils/isAdminOrFriend';
 
-router.get('/public', authenticate, postController.listPublic);
+router.post('/public', authenticate, postController.listPublic);
 
 router.get('/public/:id', authenticate, postController.getOnePublic);
 
 router.route('/')
 // dates don't seem to pass correctly via querystring, so the "/" GET functionality
-//  has been moved to the "/list" POST endpoint below
-  // .get(authenticate, isAdminOrFriend, postController.OGlist)
+//  has been moved to the "/list" POST endpoint below (because "/" POST is for creating a new post)
+  // .get(authenticate, isAdminOrFriend, postController.list)
   .post(authenticate, isAdmin, postController.post);
 
 router.route('/list')

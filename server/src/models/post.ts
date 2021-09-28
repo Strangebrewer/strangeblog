@@ -39,16 +39,6 @@ export default class PostModel {
     return await this.client.post.findUnique({ where: { id } });
   }
 
-  public async findMany(data: IInitialData = {}): Promise<{ posts: Post[], count: number }> {
-    const { search, options } = this.buildQuery(data);
-    const posts = await this.client.post.findMany({
-      where: { ...search },
-      ...options
-    });
-    const count = await this.client.post.count({ where: { ...search } });
-    return { posts, count };
-  }
-
   public async findOnePublic(id: number): Promise<Post | null> {
     return await this.client.post.findUnique({ where: { id, public: true } });
   }
@@ -60,6 +50,16 @@ export default class PostModel {
       ...options
     });
     const count = await this.client.post.count({ where: { ...search, public: true } });
+    return { posts, count };
+  }
+
+  public async findMany(data: IInitialData = {}): Promise<{ posts: Post[], count: number }> {
+    const { search, options } = this.buildQuery(data);
+    const posts = await this.client.post.findMany({
+      where: { ...search },
+      ...options
+    });
+    const count = await this.client.post.count({ where: { ...search } });
     return { posts, count };
   }
 

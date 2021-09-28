@@ -15,6 +15,18 @@ export function getOnePost(id) {
   }
 }
 
+export function getOnePublicPost(id) {
+  return async dispatch => {
+    try {
+      const response = await API.post.getOnePublicPost(id);
+      dispatch({ type: Post.SET_CURRENT_POST, payload: response.data });
+      return response.data;
+    } catch (e) {
+
+    }
+  }
+}
+
 export function listPosts(query = {}, add) {
   return async dispatch => {
     try {
@@ -24,18 +36,6 @@ export function listPosts(query = {}, add) {
       } else {
         dispatch({ type: Post.SET_ALL_POSTS, payload: response.data.posts });
       }
-      return response.data;
-    } catch (e) {
-
-    }
-  }
-}
-
-export function getOnePublicPost(id) {
-  return async dispatch => {
-    try {
-      const response = await API.post.getOnePublicPost(id);
-      dispatch({ type: Post.SET_CURRENT_POST, payload: response.data });
       return response.data;
     } catch (e) {
 

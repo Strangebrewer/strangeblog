@@ -109,7 +109,7 @@ export const Card = styled.div`
       justify-content: space-around;
 
       > p {
-        width: 40%;
+        width: 48%;
 
         > a {
           color: ${props => props.theme.nBlue};
@@ -118,7 +118,7 @@ export const Card = styled.div`
       }
 
       > input {
-        width: 40%;
+        width: 48%;
       font-size: .9rem;
       }
     }

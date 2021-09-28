@@ -50,7 +50,10 @@ const PostEditor = props => {
     backgroundColor: 'white',
     boxShadow: '4px 4px 8px #222',
     padding: '80px 120px',
-    fontSize: '18px'
+    fontSize: '18px',
+    color: 'black',
+    maxHeight: '60vh',
+    overflowY: 'scroll'
   };
 
   return (

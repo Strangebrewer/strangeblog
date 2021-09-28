@@ -10,9 +10,9 @@ export function adminListUsers(query = {}, add) {
     try {
       const response = await API.user.adminListUsers(query);
       if (add) {
-        dispatch({ type: ADD_MORE_USERS, payload: response.data });
+        dispatch({ type: ADD_MORE_USERS, payload: response.data.users });
       } else {
-        dispatch({ type: SET_ALL_USERS, payload: response.data });
+        dispatch({ type: SET_ALL_USERS, payload: response.data.users });
       }
       return response.data;
     } catch (e) {

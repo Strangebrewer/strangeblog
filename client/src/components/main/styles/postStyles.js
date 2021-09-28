@@ -57,7 +57,7 @@ export const UserActions = styled.div`
   > button {
       background-color: transparent;
       border: none;
-      color: white;
+      color: ${props => props.theme.text};
       cursor: pointer;
       outline: transparent;
 

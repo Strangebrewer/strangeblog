@@ -15,8 +15,8 @@ export const Spinner = styled.span`
   animation: spinner 400ms linear infinite;
   border: solid ${props => props.border || '2'}px transparent;
   border-left-color: ${props => 'white'};
-  border-bottom-color: ${props => props.theme.purple};
-  border-right-color: ${props => props.theme.blue};
+  border-bottom-color: ${props => props.theme.mainRed};
+  border-right-color: ${props => props.theme.nPurple};
   /* border-top-color: ${props => props.theme.blue}; */
   border-radius: 50%;
   height: ${props => props.size}px;

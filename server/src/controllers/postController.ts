@@ -13,6 +13,17 @@ export interface PostPlus extends Post {
 }
 
 export default {
+  async getOne(req: Request, res: Response): Promise<void> {
+    try {
+      const post: PostPlus = await postModel.findOne(parseInt(req.params.id));
+      addUserTagsToPosts(post, req.user.tags);
+      res.status(200).json(post);
+    } catch (err) {
+      console.log('err in postController getOne:::', err);
+      res.status(400).send(err);
+    }
+  },
+
   async getOnePublic(req: Request, res: Response): Promise<void> {
     try {
       const post: PostPlus = await postModel.findOnePublic(parseInt(req.params.id));
@@ -24,32 +35,7 @@ export default {
     }
   },
 
-  async listPublic(req: Request, res: Response): Promise<void> {
-    try {
-      if (req.user && req.query.byUserTag) req.query.ids = getPostQueryIds(req);
-      const response = await postModel.findManyPublic(req.query);
-      if (req.user) addUserTagsToPosts(response.posts, req.user.tags);
-      res.status(200).json(response);
-    } catch (err) {
-      console.log('err in postController listPublic:::', err);
-      res.status(400).send(err);
-    }
-  },
-
-  // async OGlist(req: Request, res: Response): Promise<void> {
-  //   try {
-  //     if (req.query.byUserTag) req.query.ids = getPostQueryIds(req);
-  //     const response = await postModel.findMany(req.query);
-  //     addUserTagsToPosts(response.posts, req.user.tags);
-  //     res.status(200).json(response);
-  //   } catch (err) {
-  //     console.log('err in postController list:::', err);
-  //     res.status(400).send(err);
-  //   }
-  // },
-
   async list(req: Request, res: Response): Promise<void> {
-    console.log('hello from listThisShit');
     try {
       if (req.body.byUserTag) req.body.ids = getPostQueryIds(req);
       const response = await postModel.findMany(req.body);
@@ -61,13 +47,14 @@ export default {
     }
   },
 
-  async getOne(req: Request, res: Response): Promise<void> {
+  async listPublic(req: Request, res: Response): Promise<void> {
     try {
-      const post: PostPlus = await postModel.findOne(parseInt(req.params.id));
-      addUserTagsToPosts(post, req.user.tags);
-      res.status(200).json(post);
+      if (req.user && req.body.byUserTag) req.body.ids = getPostQueryIds(req);
+      const response = await postModel.findManyPublic(req.body);
+      if (req.user) addUserTagsToPosts(response.posts, req.user.tags);
+      res.status(200).json(response);
     } catch (err) {
-      console.log('err in postController getOne:::', err);
+      console.log('err in postController listPublic:::', err);
       res.status(400).send(err);
     }
   },

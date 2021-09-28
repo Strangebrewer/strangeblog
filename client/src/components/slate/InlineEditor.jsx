@@ -56,7 +56,10 @@ const DisplayEditor = props => {
   }
 
   const editorStyles = {
-    fontSize: '1.2rem'
+    fontSize: '1.2rem',
+    maxHeight: '60vh',
+    overflowY: 'auto',
+    paddingRight: '12px'
   }
 
   return (

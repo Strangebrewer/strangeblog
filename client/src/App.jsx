@@ -62,9 +62,12 @@ function App(props) {
   return (
     loading
       ? (
-        <SpinnerWrap background="linear-gradient(black, 88%, blue)">
-          <Spinner size="120" border="10" />
-        </SpinnerWrap>
+        <ThemeProvider theme={mode}>
+          <GlobalStyle />
+          <SpinnerWrap background="linear-gradient(black, 88%, #e22c5a)">
+            <Spinner size="120" border="10" />
+          </SpinnerWrap>
+        </ThemeProvider>
       ) : (
         <ThemeProvider theme={mode}>
           <GlobalStyle />
@@ -108,7 +111,7 @@ function App(props) {
 
               <Route
                 exact
-                path="/:title"
+                path="/:id"
                 component={SinglePost}
               />
             </Switch>

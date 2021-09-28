@@ -7,7 +7,7 @@ import {
 export function adminUserReducer(state = [], action) {
   switch (action.type) {
     case ADD_MORE_USERS:
-      return [...state, action.payload];
+      return [...state, ...action.payload];
     case EDIT_USER:
       return state.map(user => {
         if (user.id === action.payload.id) {

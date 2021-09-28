@@ -11,13 +11,14 @@ class PostAPI extends BaseAPI {
     return axios.get(`${this.endpoint}/public/${id}`);
   }
 
-  // may find this one useful...
-  listPublicPosts(query) {
-    console.log('query:::', query);
-    console.log('querystring.stringify(query):::', querystring.stringify(query));
-    return axios.get(`${this.endpoint}/public${query ? '?' + querystring.stringify(query) : ''}`);
+  listPublicPosts(data) {
+    return axios.post(`${this.endpoint}/public`, data);
   }
 
+  // doing this as a post instead of get with querystring because
+  //  it appears that dates don't get passed properly via querystring
+  //  without some extra formatting, and I don't feel like doing it
+  // it's a "/list" endpoint because "/" as a POST is already being used for creating a new post
   listPosts(data) {
     return axios.post(`${this.endpoint}/list`, data);
   }
