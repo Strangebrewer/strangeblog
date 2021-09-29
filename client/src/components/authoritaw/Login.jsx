@@ -1,48 +1,64 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { login } from '../../redux/actions/authActions';
+import { login, reactivate } from '../../redux/actions/authActions';
 import { Error, Form } from './Signup';
+
+import { Input, MainButton, PurpleGreenButton } from '../../styles/components';
 
 const Login = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleInputChange = e => {
+  function handleInputChange(e) {
     const { name, value } = e.target;
     if (name === 'email') return setEmail(value);
     setPassword(value);
   }
 
-  const enterSandman = async e => {
+  async function enterSandman(e) {
     e.preventDefault();
     props.login({ email, password });
+  }
+
+  function submitReactivate(e) {
+    e.preventDefault();
+    props.reactivate(email);
   }
 
   return (
     <Form login>
       <h3>Login</h3>
-      <input
+      <Input
         type="text"
         name="email"
         value={email}
         onChange={handleInputChange}
         placeholder="Enter your email"
       />
-      <input
+      <Input
         type="password"
         name="password"
         value={password}
         onChange={handleInputChange}
         placeholder="Enter your password"
       />
-      <button
+      <MainButton
+        color="nBlue"
         disabled={!email || !password}
         onClick={enterSandman}
       >
         Abandon all hope...
-      </button>
+      </MainButton>
+
+      <button className="toggle-button" onClick={props.toggleForms}>register</button>
       <Error>{props.error}</Error>
+
+      {props.error && props.error.includes('Would you like to reactivate it') && (
+        <PurpleGreenButton text onClick={submitReactivate}>
+          Yes, please reactivate my account
+        </PurpleGreenButton>
+      )}
     </Form>
   );
 }
@@ -53,4 +69,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login, reactivate })(Login);

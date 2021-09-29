@@ -54,7 +54,7 @@ enum UserStatusTypes {
 
 model User {
   id              Int             @id @default(autoincrement())
-  acl             ACLTypes[]      
+  acl             ACLTypes[]
   email           String          @unique
   normalizedEmail String          @unique @map("normalized_email")
   username        String          @unique

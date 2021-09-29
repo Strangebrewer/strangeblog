@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 
@@ -6,10 +6,20 @@ import Login from '../components/authoritaw/Login';
 import Signup from '../components/authoritaw/Signup';
 
 const Auth = () => {
+  const [showLogin, setShowLogin] = useState(true);
+
+  function toggleForms() {
+    setShowLogin(!showLogin);
+  }
+
   return (
     <Wrapper>
-      <Login />
-      <Signup />
+      {showLogin
+        ? (
+          <Login toggleForms={toggleForms} />
+        ) : (
+          <Signup toggleForms={toggleForms} />
+        )}
       <p><Link to="/">&lt;&lt; home</Link></p>
     </Wrapper>
   )
@@ -18,11 +28,10 @@ const Auth = () => {
 export default Auth;
 
 export const Wrapper = styled.div`
-  background-color: black;
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  min-width: 100%;
+  min-width: 100vw;
   position: relative;
 
   > p {

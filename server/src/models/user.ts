@@ -96,6 +96,17 @@ export default class UserModel {
   public async create(data: User): Promise<Tokenized> {
     this.validateEmail(data.email);
 
+    const emailExists = await this.client.user.findUnique({ where: { email: data.email } });
+    if (emailExists) {
+      throw new Error('An account already exists with that email address');
+    }
+
+    const userNameExists = await this.client.user.findUnique({ where: { username: data.username } });
+    if (userNameExists) {
+      throw new Error('That username has already been taken');
+    }
+
+
     data.password = this.hashPassword(data.password);
     data.normalizedEmail = data.email.toLowerCase();
 
@@ -120,15 +131,31 @@ export default class UserModel {
 
     const passwordValid = this.checkPassword(password, user.password);
     if (passwordValid) {
-      user = await this.client.user.findUnique({
-        where: { normalizedEmail: email.toLowerCase() },
-        select: this.select
-      });
+      if (user.status === 'banned') {
+        throw new Error('That account has been banned.')
+      } else if (user.status === 'inactive') {
+        throw new Error('That account is inactive. Would you like to reactivate it?')
+      } else {
+        user = await this.client.user.findUnique({
+          where: { normalizedEmail: email.toLowerCase() },
+          select: this.select
+        });
+      }
 
       return this.tokenize(user);
     } else {
       throw new Error('That password does not match');
     }
+  }
+
+  public async reactivate(email: string) : Promise<Tokenized> {
+    let user = await this.client.user.update({
+      where: { email },
+      data: { status: 'active' },
+      select: this.select
+    });
+
+    return this.tokenize(user);
   }
 
   public async adminList(data: IInitialData): Promise<{ users: User[], count: number }> {

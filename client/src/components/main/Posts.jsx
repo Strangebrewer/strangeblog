@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { listPublicPosts, listPosts } from '../../redux/actions/postActions';
 import { setSearchCriteria, setCount } from '../../redux/actions/otherActions';
+import { getBasicSearchCriteria } from '../../utils/halp';
 
 import Post from './Post';
 
@@ -14,10 +15,11 @@ const Posts = props => {
     (async function () {
       let result;
       if (admin || friend) {
-        result = await props.listPosts(props.criteria);
+        result = await props.listPosts(getBasicSearchCriteria());
       } else {
-        result = await props.listPublicPosts(props.criteria);
+        result = await props.listPublicPosts(getBasicSearchCriteria());
       }
+      props.setSearchCriteria(getBasicSearchCriteria());
       props.setCount(result.count);
     })();
   }, [admin, friend]);

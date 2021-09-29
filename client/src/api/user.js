@@ -6,6 +6,7 @@ const routes = {
     login: data => axios.post('users/login', data),
     register: data => axios.post('users', data),
     update: (id, data) => axios.put(`users/${id}`, data),
+    reactivate: (email) => axios.post(`users/reactivate`, { email }),
     updateUserTags: (id, data) => axios.put(`users/tags/${id}`, data),
     adminListUsers: (query) => axios.get(`users/admin${query ? '?' + querystring.stringify(query) : ''}`),
     adminUpdateUser: (data) => axios.put(`users/admin/${data.id}`, data),

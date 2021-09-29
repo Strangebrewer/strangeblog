@@ -10,12 +10,10 @@ router.route('/')
 
 router.post('/login', userController.login);
 
+router.post('/reactivate', userController.reactivate);
+
 router.put('/password/:id', authenticate, userController.updatePassword);
 router.put('/tags/:id', authenticate, userController.updateUserTags);
-
-router.route('/:id')
-  .put(authenticate, userController.update)
-  .delete(authenticate, userController.destroy);
 
 router.route('/admin')
   .get(authenticate, isAdmin, userController.adminList);
@@ -25,5 +23,9 @@ router.route('/admin/:id')
 
   router.route('/admin/:id/:status')
     .delete(authenticate, isAdmin, userController.adminDeactivate);
+
+    router.route('/:id')
+      .put(authenticate, userController.update)
+      .delete(authenticate, userController.destroy);
 
 export default router;

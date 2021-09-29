@@ -24,6 +24,7 @@ const UserCard = props => {
         <button
           onClick={() => openModal(user.id, 'reset-pw')}
           title="reset pw"
+          disabled={user.acl.includes('admin')}
         >
           <i className="fas fa-unlock-alt" />
         </button>
@@ -47,7 +48,7 @@ const UserCard = props => {
         <button
           onClick={() => openModal(user.id, 'unfriend')}
           title="remove as friend"
-          disabled={!user.acl.includes('friend')}
+          disabled={!user.acl.includes('friend') || user.acl.includes('admin')}
         >
           <i className="fas fa-atom" />
         </button>
@@ -55,7 +56,7 @@ const UserCard = props => {
         <button
           onClick={() => openModal(user.id, 'inactive')}
           title="deactivate user"
-          disabled={!user.status === 'active'}
+          disabled={!user.status === 'active' || user.acl.includes('admin')}
         >
           <i className="far fa-stop-circle" />
         </button>
@@ -63,7 +64,7 @@ const UserCard = props => {
         <button
           onClick={() => openModal(user.id, 'banned')}
           title="ban user"
-          disabled={user.status === 'banned'}
+          disabled={user.status === 'banned' || user.acl.includes('admin')}
         >
           <i className="fas fa-ban" />
         </button>

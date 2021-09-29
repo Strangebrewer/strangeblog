@@ -12,21 +12,14 @@
     - search by multiple tags will only find articles with both tags
 
 # ToDo
-- Login:
-  - Style the login/register page to align with the rest
-  - Set it up to deny banned users access
-  - Set it up to ask inactive users if they want to reactivate
 
 ## Next
+Create page where users can change their info (username, email, and password)
 
 ### Sources page:
 
 ### Admin page:
 - Cray Cray can be whatev - but it makes the rainbow of buttons look cool :)
-
-### SinglePost page:
-- The point of this page is to make it so you can link directly to one post
-  - consequently, the url will need to use the postId rather than the name
 
 
 ### Main page:
@@ -43,6 +36,12 @@
     - "public"
   - the only thing this will change is what posts they see; it will still require "admin" to create, edit, or delete
 - DONE: add save, save & close, and cancel functionality to the "/editor" page
+
+
+- Login:
+  - DONE: Style the login/register page to align with the rest
+  - DONE: Set it up to deny banned users access
+  - DONE: Set it up to ask inactive users if they want to reactivate
 
 ### Main.jsx:
 - FIXED: If there are usertags and you delete the last one, the "My Tags:" label still shows.

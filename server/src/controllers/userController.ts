@@ -34,6 +34,16 @@ export default {
     }
   },
 
+  async reactivate(req: Request, res: Response): Promise<void> {
+    try {
+      const data = await userModel.reactivate(req.body.email);
+      res.status(200).json(data);
+    } catch (err) {
+      console.log('err in userController reactivate:::', err);
+      res.status(400).send({ message: err.message });
+    }
+  },
+
   async update(req: Request, res: Response): Promise<void> {
     try {
       const data = await userModel.update(req.body);

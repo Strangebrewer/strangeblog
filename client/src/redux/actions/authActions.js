@@ -54,6 +54,19 @@ export function logout() {
    }
 }
 
+export function reactivate(email) {
+   return async dispatch => {
+      try {
+         const response = await API.user.reactivate(email);
+         setAuthToken(response.data.token);
+         dispatch({ type: Auth.SET_CURRENT_USER, payload: response.data.user });
+         dispatch({ type: Auth.AUTHENTICATED });
+      } catch (e) {
+         dispatch({ type: Auth.UNAUTHENTICATED });
+      }
+   }
+}
+
 export function setError(errorMsg, signup) {
    let type = signup ? Auth.SIGNUP_ERROR : Auth.LOGIN_ERROR;
    return dispatch => {
