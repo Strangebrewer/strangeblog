@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Themes, GlobalStyle } from "./styles";
 import { ThemeProvider } from 'styled-components';
 
+import Account from './pages/Account';
 import Admin from './pages/Admin';
 import Authoritaw from './pages/Authoritaw';
 import Main from './pages/Main';
@@ -107,6 +108,12 @@ function App(props) {
                 exact
                 path="/sources"
                 component={Sources}
+              />
+
+              <Route
+                exact
+                path="/my-info"
+                component={Authentication(Account, { required: true, authenticated: props.authenticated })}
               />
 
               <Route

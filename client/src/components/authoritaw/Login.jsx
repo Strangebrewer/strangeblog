@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { login, reactivate } from '../../redux/actions/authActions';
+import { login, reactivate, clearError } from '../../redux/actions/authActions';
 import { Error, Form } from './Signup';
 
 import { Input, MainButton, PurpleGreenButton } from '../../styles/components';
@@ -18,7 +18,8 @@ const Login = props => {
 
   async function enterSandman(e) {
     e.preventDefault();
-    props.login({ email, password });
+    await props.login({ email, password });
+    setTimeout(() => props.clearError(), 2000);
   }
 
   function submitReactivate(e) {
@@ -69,4 +70,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { login, reactivate })(Login);
+export default connect(mapStateToProps, { login, reactivate, clearError })(Login);

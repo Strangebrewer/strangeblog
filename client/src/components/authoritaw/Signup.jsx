@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { signup, setError } from '../../redux/actions/authActions';
+import { signup, setError, clearError } from '../../redux/actions/authActions';
 import { Input, MainButton } from '../../styles/components';
 
 const Signup = props => {
@@ -22,10 +22,14 @@ const Signup = props => {
 
   const enterSandman = async e => {
     e.preventDefault();
-    if (password !== confirmation)
-      return props.setError('Passwords do not match.', true);
+    if (password !== confirmation) {
+      props.setError('Passwords do not match.', 'signup');
+      setTimeout(() => props.clearError(), 2000);
+      return;
+    }
 
-    props.signup({ email, password, username });
+    await props.signup({ email, password, username });
+    setTimeout(() => props.clearError(), 2000);
   }
 
   return (
@@ -70,7 +74,7 @@ const Signup = props => {
         Abandon all hope...
       </MainButton>
 
-      <button onClick={props.toggleForms}>login</button>
+      <button className="toggle-button" onClick={props.toggleForms}>login</button>
 
       <Error>{props.error}</Error>
     </Form>
@@ -84,11 +88,13 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { signup, setError })(Signup);
+export default connect(mapStateToProps, { signup, setError, clearError })(Signup);
 
 export const Form = styled.form`
   margin: auto;
   width: 240px;
+  position: relative;
+  padding-bottom: 24px;
 
   > h3 {
     font-size: 1.8rem;
@@ -111,6 +117,7 @@ export const Form = styled.form`
     background: none;
     outline: transparent;
     color: ${props => props.theme.nBlue};
+    cursor: pointer;
   }
 `;
 
@@ -118,4 +125,8 @@ export const Error = styled.div`
   color: crimson;
   font-size: 12px;
   text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 `;

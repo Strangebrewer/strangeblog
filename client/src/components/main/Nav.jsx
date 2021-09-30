@@ -8,7 +8,7 @@ import { logout } from '../../redux/actions/authActions';
 const Nav = props => {
   const history = useHistory();
   const [searchHeight, setSearchHeight] = useState('56px');
-  const [searchWidth, setSearchWidth] = useState(props.admin ? '420px' : '300px');
+  const [searchWidth, setSearchWidth] = useState(props.admin ? '460px' : '340px');
   const [transition, setTransition] = useState('max-width .2s ease-in-out, height .35s ease-in-out .06s, box-shadow .2s ease-in-out .15s');
   const [shadow, setShadow] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -17,7 +17,7 @@ const Nav = props => {
     if (showSearch) {
       setTransition('max-width .2s ease-in-out .3s, height .35s ease-in-out, box-shadow .2s ease-in-out');
       setSearchHeight("56px");
-      setSearchWidth(props.admin ? '420px' : '300px');
+      setSearchWidth(props.admin ? '460px' : '340px');
       props.setSearchProps({
         opacity: '0',
         transition: '.15s ease-in-out',
@@ -53,13 +53,19 @@ const Nav = props => {
         <RedBlueButton width="50" height="26" onClick={() => goTo('/sources')} title="news sources">
           <i className="fas fa-info" />
         </RedBlueButton>
-        
+
+        {props.authenticated && (
+          <RedBlueButton width="50" height="26" onClick={() => goTo('/my-info')} title="update my info">
+            <i className="fas fa-user-circle" />
+          </RedBlueButton>
+        )}
+
         {props.admin && (
           <>
             <RedBlueButton width="50" height="26" onClick={() => goTo('/editor')} title="new post">
               <i className="fas fa-plus" />
             </RedBlueButton>
-            
+
             <RedBlueButton width="50" height="26" onClick={() => goTo('/admin')} title="admin">
               <i className="fas fa-cog" />
             </RedBlueButton>

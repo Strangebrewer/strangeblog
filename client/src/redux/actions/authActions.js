@@ -67,9 +67,34 @@ export function reactivate(email) {
    }
 }
 
-export function setError(errorMsg, signup) {
-   let type = signup ? Auth.SIGNUP_ERROR : Auth.LOGIN_ERROR;
+export function update(data) {
+   return async dispatch => {
+      try {
+         const response = await API.user.update(data);
+         setAuthToken(response.data.token);
+         dispatch({ type: Auth.SET_CURRENT_USER, payload: response.data.user });
+         return response.data.user;
+      } catch (e) {
+         dispatch({
+            type: Auth.UPDATE_ERROR,
+            payload: e.response.data.message
+         });
+      }
+   }
+}
+
+export function setError(errorMsg, errorType) {
+   let type;
+   if (errorType === 'signup') type = Auth.SIGNUP_ERROR;
+   if (errorType === 'login') type = Auth.LOGIN_ERROR;
+   if (errorType === 'update') type = Auth.UPDATE_ERROR;
    return dispatch => {
       dispatch({ type, payload: errorMsg })
+   }
+}
+
+export function clearError() {
+   return dispatch => {
+      dispatch({ type: Auth.CLEAR_ERROR })
    }
 }

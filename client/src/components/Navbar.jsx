@@ -34,6 +34,12 @@ const Navbar = props => {
           <i className="fas fa-info" />
         </PurpleGreenButton>
 
+        {props.authenticated && (
+          <PurpleGreenButton width="50" height="26" onClick={() => goTo('/my-info')} title="update my info">
+            <i className="far fa-user-circle" />
+          </PurpleGreenButton>
+        )}
+
         {props.admin && (
           <>
             <PurpleGreenButton
