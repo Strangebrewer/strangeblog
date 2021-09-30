@@ -10,6 +10,13 @@ type PartialUser = {
   acl?: string[];
 };
 
+type UserUpdate = {
+  email?: string;
+  normalizedEmail?: string;
+  username?: string;
+  password?: string;
+}
+
 type Tokenized = {
   token: string;
   user: PartialUser;
@@ -77,12 +84,40 @@ export default class UserModel {
     return this.tokenize(user);
   }
 
-  public async update(id: number, data = {}): Promise<User> {
-    return await this.client.user.update({
+  public async update(id: number, data: Partial<User>): Promise<Tokenized> {
+    const changes: UserUpdate = {};
+    if (data.email) {
+      this.validateEmail(data.email);
+
+      const emailExists = await this.client.user.findUnique({ where: { normalizedEmail: data.email.toLowerCase() } });
+      if (emailExists) {
+        throw new Error('That email has already been used');
+      } else {
+        changes.email = data.email;
+        changes.normalizedEmail = data.email.toLowerCase();
+      }
+    }
+
+    if (data.username) {
+      const userNameExists = await this.client.user.findUnique({ where: { username: data.username } });
+      if (userNameExists) {
+        throw new Error('That username has already been taken');
+      } else {
+        changes.username = data.username;
+      }
+    }
+
+    if (data.password) {
+      changes.password = this.hashPassword(data.password);
+    }
+
+    const user = await this.client.user.update({
       where: { id },
-      data,
+      data: changes,
       select: this.select
     });
+
+    return this.tokenize(user);
   }
 
   public async updateUserTags(userId: number, data: UserTag) {
@@ -96,12 +131,13 @@ export default class UserModel {
   public async create(data: User): Promise<Tokenized> {
     this.validateEmail(data.email);
 
-    const emailExists = await this.client.user.findUnique({ where: { email: data.email } });
+    const emailExists = await this.client.user.findUnique({ where: { normalizedEmail: data.email.toLowerCase() } });
     if (emailExists) {
       throw new Error('An account already exists with that email address');
     }
 
     const userNameExists = await this.client.user.findUnique({ where: { username: data.username } });
+    console.log('userNameExists:::', userNameExists);
     if (userNameExists) {
       throw new Error('That username has already been taken');
     }
@@ -148,7 +184,7 @@ export default class UserModel {
     }
   }
 
-  public async reactivate(email: string) : Promise<Tokenized> {
+  public async reactivate(email: string): Promise<Tokenized> {
     let user = await this.client.user.update({
       where: { email },
       data: { status: 'active' },

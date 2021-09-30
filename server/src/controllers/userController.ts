@@ -5,7 +5,8 @@ export default {
   async getCurrentUser(req: Request, res: Response): Promise<void> {
     try {
       if (!req.user) throw new Error('User could not be authenticated');
-      const data = await userModel.findOne(req.user.id)
+      const data = await userModel.findOne(req.user.id);
+      console.log('data:::', data);
       res.status(200).json(data);
     } catch (err) {
       console.log('err in userController getCurrentUser:::', err);
@@ -46,7 +47,8 @@ export default {
 
   async update(req: Request, res: Response): Promise<void> {
     try {
-      const data = await userModel.update(req.body);
+      const id = parseInt(req.body.id);
+      const data = await userModel.update(id, req.body);
       res.status(200).json(data);
     } catch (err) {
       console.log('err in userController update:::', err);
@@ -60,15 +62,6 @@ export default {
       res.status(200).json(data);
     } catch (err) {
       console.log('err in userController updateUserTags:::', err);
-      res.status(400).send({ message: err.message });
-    }
-  },
-
-  async updatePassword(req: Request, res: Response): Promise<void> {
-    try {
-      console.log('Hello from user updatePassword');
-    } catch (err) {
-      console.log('err in userController updatePassword:::', err);
       res.status(400).send({ message: err.message });
     }
   },

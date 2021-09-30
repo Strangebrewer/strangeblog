@@ -12,7 +12,6 @@ router.post('/login', userController.login);
 
 router.post('/reactivate', userController.reactivate);
 
-router.put('/password/:id', authenticate, userController.updatePassword);
 router.put('/tags/:id', authenticate, userController.updateUserTags);
 
 router.route('/admin')
