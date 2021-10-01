@@ -17,9 +17,9 @@
 - DONE: Create page where users can change their info (username, email, and password)
 
 ### Account page:
-Make it so  usernames are either saved as lowercase or add a "normalizedUsername" field to the User schema
-When trying to signup or update the username, it should check against the normalizedUsername field
-Validate usernames to only accept letters, numbers, single dashes and single underscores (regex!)
+- DONE: Make it so  usernames are either saved as lowercase or add a "normalizedUsername" field to the User schema
+  - DONE: When trying to signup or update the username, it should check against the normalizedUsername field
+- DONE: Validate usernames to only accept letters, numbers, and spaces (extra spaces will be trimmed)
 
 ### Sources page:
 

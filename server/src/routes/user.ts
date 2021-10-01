@@ -19,12 +19,12 @@ router.route('/admin')
 
 router.route('/admin/:id')
   .put(authenticate, isAdmin, userController.adminUpdate)
+  .delete(authenticate, isAdmin, userController.adminDelete);
 
-  router.route('/admin/:id/:status')
-    .delete(authenticate, isAdmin, userController.adminDeactivate);
+router.route('/admin/:id/:status')
+  .put(authenticate, isAdmin, userController.adminDeactivate);
 
-    router.route('/:id')
-      .put(authenticate, userController.update)
-      .delete(authenticate, userController.destroy);
+router.route('/:id')
+  .put(authenticate, userController.update);
 
 export default router;

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { format } from 'date-fns';
@@ -68,6 +67,14 @@ const UserCard = props => {
         >
           <i className="fas fa-ban" />
         </button>
+
+        <button
+          onClick={() => openModal(user.id, 'delete')}
+          title="delete user"
+          disabled={user.acl.includes('admin')}
+        >
+          <i className="far fa-trash-alt" />
+        </button>
       </div>
     </UserCardWrapper>
   );
@@ -84,34 +91,44 @@ const mapDispatchToState = {};
 
 export default connect(mapPropsToState, mapDispatchToState)(UserCard);
 
-const UserCardWrapper = styled.div`
+export const UserCardWrapper = styled.div`
   width: 900px;
   margin: auto;
   display: flex;
   align-items: center;
   border-bottom: 1px solid ${props => props.theme.text};
   padding: 6px 0 6px 12px;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 
   &:last-of-type {
     border: none;
   }
 
   > .username {
-    width: 180px;
+    min-width: 200px;
+    max-width: 200px;
   }
   > .email {
-    width: 240px;
+    min-width: 250px;
+    max-width: 250px;
   }
   > .acl {
-    width: 70px;
+    min-width: 70px;
+    max-width: 70px;
   }
   > .status {
-    width: 70px;
+    min-width: 70px;
+    max-width: 70px;
+  }
+  > .since {
+    min-width: 210px;
+    max-width: 210px;
   }
 
   > .buttons {
-    width: 80px;
+    min-width: 100px;
+    max-width: 100px;
+    width: 100px;
     text-align: right;
     display: flex;
     flex-wrap: wrap;

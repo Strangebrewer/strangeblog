@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import bcrypt from 'bcryptjs';
+import slugify from 'slugify';
 
 import categorySeed from './categories.json';
 import postSeed from './posts.json';
@@ -24,7 +25,8 @@ const pw = bcrypt.hashSync('1234', bcrypt.genSaltSync(10));
       user.createdAt = new Date();
       user.updatedAt = new Date();
       user.normalizedEmail = user.email.toLowerCase();
-      user.username = user.username.toLowerCase();
+      user.username = slugify(user.username, ' ');
+      user.normalizedUsername = slugify(user.username, { lower: true });
     });
 
     await prisma.blog.create({

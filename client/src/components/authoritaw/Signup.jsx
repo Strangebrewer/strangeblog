@@ -24,12 +24,12 @@ const Signup = props => {
     e.preventDefault();
     if (password !== confirmation) {
       props.setError('Passwords do not match.', 'signup');
-      setTimeout(() => props.clearError(), 2000);
+      setTimeout(() => props.clearError(), 5000);
       return;
     }
 
     await props.signup({ email, password, username });
-    setTimeout(() => props.clearError(), 2000);
+    setTimeout(() => props.clearError(), 5000);
   }
 
   return (

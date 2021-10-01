@@ -2,6 +2,7 @@ import { User } from '@prisma/client';
 import { IDatabaseClient } from '../interfaces';
 import bcrypt from 'bcryptjs';
 import { sign } from '../passport';
+import slugify from 'slugify';
 
 type PartialUser = {
   id: number;
@@ -14,6 +15,7 @@ type UserUpdate = {
   email?: string;
   normalizedEmail?: string;
   username?: string;
+  normalizedUsername?: string;
   password?: string;
 }
 
@@ -44,6 +46,7 @@ interface IInitialData {
 
 interface IUserSearch {
   username?: Record<string, unknown>;
+  normalizedUsername?: Record<string, unknown>;
   email?: Record<string, unknown>;
   acl?: Record<string, unknown>;
   status?: string;
@@ -99,11 +102,14 @@ export default class UserModel {
     }
 
     if (data.username) {
-      const userNameExists = await this.client.user.findUnique({ where: { username: data.username } });
+      this.validateUsername(data.username);
+      const sluggedUsername = slugify(data.username, { lower: true });
+      const userNameExists = await this.client.user.findUnique({ where: { normalizedUsername: sluggedUsername } });
       if (userNameExists) {
         throw new Error('That username has already been taken');
       } else {
-        changes.username = data.username;
+        changes.username = slugify(data.username, ' ');
+        changes.normalizedUsername = sluggedUsername;
       }
     }
 
@@ -130,20 +136,23 @@ export default class UserModel {
 
   public async create(data: User): Promise<Tokenized> {
     this.validateEmail(data.email);
+    this.validateUsername(data.username);
 
     const emailExists = await this.client.user.findUnique({ where: { normalizedEmail: data.email.toLowerCase() } });
     if (emailExists) {
       throw new Error('An account already exists with that email address');
     }
-
-    const userNameExists = await this.client.user.findUnique({ where: { username: data.username } });
-    console.log('userNameExists:::', userNameExists);
+    
+    const sluggedUsername = slugify(data.username, { lower: true });
+    const userNameExists = await this.client.user.findUnique({ where: { normalizedUsername: sluggedUsername } });
     if (userNameExists) {
       throw new Error('That username has already been taken');
     }
 
 
     data.password = this.hashPassword(data.password);
+    data.username = slugify(data.username, ' ');
+    data.normalizedUsername = sluggedUsername;
     data.normalizedEmail = data.email.toLowerCase();
 
     const user = await this.client.user.create({
@@ -154,8 +163,8 @@ export default class UserModel {
     return this.tokenize(user);
   }
 
-  public async delete(id: number): Promise<User> {
-    return await this.client.user.update({ where: { id }, data: { status: 'inactive' } });
+  public async adminDelete(id: number): Promise<User> {
+    return await this.client.user.delete({ where: { id } });
   }
 
   public async login(email: string, password: string): Promise<Tokenized> {
@@ -244,6 +253,13 @@ export default class UserModel {
     return;
   }
 
+  private validateUsername(username: string): void {
+    let test = /^[ A-Za-z0-9\s]*$/.test(username);
+    if (!test)
+      throw new Error('Usernames must be only letters, numbers, and spaces');
+    return;
+  }
+
   private hashPassword(password: string): string {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
   }
@@ -254,7 +270,10 @@ export default class UserModel {
 
   private buildQuery(data: IInitialData = {}): { search: IUserSearch, options: IUserOptions } {
     const search: IUserSearch = {};
-    if (data.username) search.username = { contains: data.username, mode: 'insensitive' };
+    if (data.username) {
+      const sluggedUsername = slugify(data.username, { lower: true });
+      search.normalizedUsername = { contains: sluggedUsername, mode: 'insensitive' };
+    }
     if (data.email) search.email = { contains: data.email, mode: 'insensitive' };
     if (data.status) search.status = data.status;
     if (data.acl) search.acl = { has: data.acl };

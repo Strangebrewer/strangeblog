@@ -23,6 +23,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "normalized_email" TEXT NOT NULL,
     "username" TEXT NOT NULL,
+    "normalizedUsername" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "tags" JSONB[],
     "status" "UserStatusTypes" NOT NULL DEFAULT E'active',
@@ -95,6 +96,9 @@ CREATE UNIQUE INDEX "User.normalized_email_unique" ON "User"("normalized_email")
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User.username_unique" ON "User"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User.normalizedUsername_unique" ON "User"("normalizedUsername");
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

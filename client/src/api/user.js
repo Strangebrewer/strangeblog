@@ -10,7 +10,8 @@ const routes = {
     updateUserTags: (id, data) => axios.put(`users/tags/${id}`, data),
     adminListUsers: (query) => axios.get(`users/admin${query ? '?' + querystring.stringify(query) : ''}`),
     adminUpdateUser: (data) => axios.put(`users/admin/${data.id}`, data),
-    adminDestroyUser: (id, status) => axios.delete(`users/admin/${id}/${status}`)
+    adminDeactivateUser: (id, status) => axios.put(`users/admin/${id}/${status}`),
+    adminDeleteUser: id => axios.delete(`users/admin/${id}`)
 };
 
 export default routes;

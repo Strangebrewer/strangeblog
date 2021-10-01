@@ -6,7 +6,7 @@ import Nav from './Nav';
 import SearchForm from './SearchForm';
 
 import { Outer, SearchWrapper } from './styles/navStyles';
-import { SearchButtons, MainButton } from '../../styles/components';
+import { MainButton } from '../../styles/components';
 
 import { listPublicPosts, listPosts } from '../../redux/actions/postActions';
 import { setSearchCriteria, setCount } from '../../redux/actions/otherActions';
@@ -89,13 +89,13 @@ const Searchbar = props => {
       let newState = { ...state };
       switch (criterion) {
         case 'tags':
-          newState.tags = tags;
+          return newState.tags = tags;
         case 'title':
-          newState.title = '';
+          return newState.title = '';
         case 'startDate':
-          newState.startDate = '';
+          return newState.startDate = '';
         case 'endDate':
-          newState.endDate = '';
+          return newState.endDate = '';
         default:
           newState.categoryId = '';
       }

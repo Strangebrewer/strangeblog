@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import UserCard from "./UserCard";
 import Modal from '../Modal';
 import { Form, Input, Label } from '../../styles/components'
+import { UserCardWrapper } from './UserCard';
 
 import { getBasicSearchCriteria } from '../../utils/halp';
 
-import { adminListUsers, adminDestroyUser, adminUpdateUser } from '../../redux/actions/adminUserActions';
+import { adminListUsers, adminDeactivateUser, adminUpdateUser, adminDeleteUser } from '../../redux/actions/adminUserActions';
 import { setSearchCriteria, setCount } from '../../redux/actions/otherActions';
 
 const Users = props => {
@@ -70,6 +71,9 @@ const Users = props => {
     if (status === 'reset-pw') {
       setModalMessage('Are you sure you want to reset this user\'s password?')
     }
+    if (status === 'delete') {
+      setModalMessage('Are you sure you want to delete this user?')
+    }
     setAction(status);
     setUserIdToUpdate(userId);
     setShowModal(true);
@@ -77,7 +81,7 @@ const Users = props => {
 
   function modalSaveUser() {
     if (action === 'inactive' || action === 'banned') {
-      props.adminDestroyUser(userIdToUpdate, action);
+      props.adminDeactivateUser(userIdToUpdate, action);
     }
     if (action === 'active') {
       props.adminUpdateUser({
@@ -103,6 +107,9 @@ const Users = props => {
         id: userIdToUpdate
       });
     }
+    if (action === 'delete') {
+      props.adminDeleteUser(userIdToUpdate);
+    }
   }
 
   return (
@@ -122,24 +129,24 @@ const Users = props => {
       <SearchWrapper>
         <h2>Seek and Destroy!</h2>
 
-        <Form onSubmit={searchUsers}>
+        <Form submit={searchUsers}>
           <FormRow>
-            <div>
-              <Label>Email:</Label>
-              <Input
-                type="text"
-                name="email"
-                value={email}
-                onChange={handleInputChange}
-              />
-            </div>
-
             <div>
               <Label>Username:</Label>
               <Input
                 type="text"
                 name="username"
                 value={username}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div>
+              <Label>Email:</Label>
+              <Input
+                type="text"
+                name="email"
+                value={email}
                 onChange={handleInputChange}
               />
             </div>
@@ -166,7 +173,15 @@ const Users = props => {
           </FormRow>
         </Form>
       </SearchWrapper>
-
+      
+      <UserCardWrapper style={{ borderBottom: '1px solid #333' }}>
+        <p className="username">Username</p>
+        <p className="email">Email</p>
+        <p className="acl">ACL</p>
+        <p className="status">Status</p>
+        <p className="since">Follower Since</p>
+        <div className="buttons"></div>
+      </UserCardWrapper>
       {props.adminUsers.map((user) => {
         return (
           <UserCard
@@ -195,7 +210,8 @@ function mapPropsToState(state) {
 
 const mapDispatchToState = {
   adminListUsers,
-  adminDestroyUser,
+  adminDeactivateUser,
+  adminDeleteUser,
   adminUpdateUser,
   setCount,
   setSearchCriteria

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Navbar from "../components/Navbar";
@@ -32,7 +32,7 @@ const Account = props => {
       if (response) {
         props.setError('Updated Successfully', 'update');
       }
-      setTimeout(() => props.clearError(), 2000);
+      setTimeout(() => props.clearError(), 5000);
     }
   }
 
@@ -42,12 +42,12 @@ const Account = props => {
 
     if (email === user.email && username === user.username && !password) {
       props.setError('You have to change something first...', 'update');
-      setTimeout(() => props.clearError(), 2000);
+      setTimeout(() => props.clearError(), 5000);
       valid = false;
     }
     if (password && password !== confirmPw) {
       props.setError('Password and confirmation do not match', 'update');
-      setTimeout(() => props.clearError(), 2000);
+      setTimeout(() => props.clearError(), 5000);
       valid = false;
     }
 

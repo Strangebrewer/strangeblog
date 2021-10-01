@@ -6,7 +6,6 @@ export default {
     try {
       if (!req.user) throw new Error('User could not be authenticated');
       const data = await userModel.findOne(req.user.id);
-      console.log('data:::', data);
       res.status(200).json(data);
     } catch (err) {
       console.log('err in userController getCurrentUser:::', err);
@@ -66,9 +65,9 @@ export default {
     }
   },
 
-  async destroy(req: Request, res: Response): Promise<void> {
+  async adminDelete(req: Request, res: Response): Promise<void> {
     try {
-      await userModel.delete(parseInt(req.params.id));
+      await userModel.adminDelete(parseInt(req.params.id));
       res.status(200).send('success');
     } catch (err) {
       console.log('err in userController destroy:::', err);

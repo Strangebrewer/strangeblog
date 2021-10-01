@@ -25,6 +25,8 @@ function App(props) {
   const [mode, setMode] = useState(Themes.nightmode);
   const [currentTheme, setCurrentTheme] = useState('night');
 
+  const { getBlog, getUser } = props;
+
   useEffect(() => {
     (async function () {
       const token = localStorage.getItem('token');
@@ -32,7 +34,7 @@ function App(props) {
       try {
         if (token) {
           setAuthToken(token);
-          await props.getUser();
+          await getUser();
         }
         if (!theme || theme === 'night') {
           setMode(Themes.nightmode);
@@ -44,11 +46,11 @@ function App(props) {
       } catch (e) {
         if (token) resetAuthToken();
       } finally {
-        await props.getBlogData();
+        await getBlog();
         setTimeout(() => setLoading(false), 1000);
       }
     })();
-  }, [props.getUser]);
+  }, [getUser, getBlog]);
 
   function toggleMode(theme) {
     if (theme === 'night') {
@@ -137,7 +139,7 @@ function mapStateToProps(state) {
 }
 
 const dispatchProps = {
-  getBlogData,
+  getBlog: getBlogData,
   getCategories,
   getUser: getCurrentUser
 };

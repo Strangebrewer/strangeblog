@@ -21,8 +21,7 @@ import {
   UserActions,
   DateWrapper,
   TagWrapper,
-  TagInput,
-  EditWrapper
+  TagInput
 } from './styles/postStyles';
 
 const Post = props => {
@@ -44,7 +43,7 @@ const Post = props => {
     switch (name) {
       case "newTags":
         return setNewTags(value);
-      case "newUserTags":
+      default:
         return setNewUserTags(value);
     }
   }

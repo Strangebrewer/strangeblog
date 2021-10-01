@@ -33,15 +33,14 @@ const SearchForm = props => {
           <Label>by Category:</Label>
           <Select
             full
-            name="category"
+            name="categoryId"
             onChange={handleInputChange}
             value={state.categoryId}
           >
             <option value="None">None</option>
-            {categories.map((c, i) => {
-              if (c.name !== 'None')
-                return <option key={`cat-${i}`} value={c.id}>{c.name}</option>
-            })}
+            {categories.filter(c => c.name !== 'None').map((c, i) => (
+              <option key={`cat-${i}`} value={c.id}>{c.name}</option>
+            ))}
           </Select>
         </div>
       </div>
@@ -72,7 +71,7 @@ const SearchForm = props => {
             />
           </div>
 
-          <input hidden type="submit"/>
+          <input hidden type="submit" />
         </div>
       </div>
     </form>

@@ -1,6 +1,5 @@
 import BaseAPI from './baseApi';
 import axios from '../plugins/axios';
-import querystring from 'querystring';
 
 class PostAPI extends BaseAPI {
   constructor() {

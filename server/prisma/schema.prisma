@@ -53,18 +53,19 @@ enum UserStatusTypes {
 }
 
 model User {
-  id              Int             @id @default(autoincrement())
-  acl             ACLTypes[]
-  email           String          @unique
-  normalizedEmail String          @unique @map("normalized_email")
-  username        String          @unique
-  password        String
-  tags            Json[]
-  status          UserStatusTypes @default(active)
-  createdAt       DateTime        @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime        @updatedAt @map("updated_at") @db.Timestamptz
-  posts           Post[]
-  categories      Category[]
+  id                 Int             @id @default(autoincrement())
+  acl                ACLTypes[]
+  email              String          @unique
+  normalizedEmail    String          @unique @map("normalized_email")
+  username           String          @unique
+  normalizedUsername String          @unique
+  password           String
+  tags               Json[]
+  status             UserStatusTypes @default(active)
+  createdAt          DateTime        @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime        @updatedAt @map("updated_at") @db.Timestamptz
+  posts              Post[]
+  categories         Category[]
 }
 
 model Blog {

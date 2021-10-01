@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import CategoryCard from './CategoryCard';
 import Modal from '../Modal';
-import { RedBlueButton, PurpleGreenButton } from '../../styles/components';
+import { RedBlueButton } from '../../styles/components';
 
 import { saveCategory, deleteCategory } from '../../redux/actions/categoryActions';
 
@@ -27,12 +27,10 @@ const Categories = props => {
   }
 
   async function deleteCategory() {
-    console.log('idToDelete:::', idToDelete);
     await props.deleteCategory(idToDelete);
   }
 
   function save(data) {
-    console.log('data:::', data);
     return props.saveCategory(data);
   }
 
@@ -49,16 +47,15 @@ const Categories = props => {
       </Modal>
 
       <h2>Categories</h2>
-      {props.categories.map(cat => {
-        if (cat.name !== 'None')
-          return (
-            <CategoryCard
-              category={cat}
-              key={`category-card-${cat.id}`}
-              openDeleteModal={openDeleteModal}
-              save={save}
-            />
-          )
+      {props.categories.filter(cat => cat.name !== 'None').map(cat => {
+        return (
+          <CategoryCard
+            category={cat}
+            key={`category-card-${cat.id}`}
+            openDeleteModal={openDeleteModal}
+            save={save}
+          />
+        )
       })}
 
       <RedBlueButton text onClick={toggleNewInput}>

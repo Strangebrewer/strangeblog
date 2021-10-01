@@ -22,7 +22,6 @@ const SinglePost = props => {
   const [buttonStyles, setButtonStyles] = useState({ opacity: '.1' });
 
   const { admin, friend, match } = props;
-  console.log('props:::', props);
 
   useEffect(() => {
     (async function () {

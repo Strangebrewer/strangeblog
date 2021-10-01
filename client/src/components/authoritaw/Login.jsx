@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import { login, reactivate, clearError } from '../../redux/actions/authActions';
 import { Error, Form } from './Signup';
 
@@ -19,7 +18,7 @@ const Login = props => {
   async function enterSandman(e) {
     e.preventDefault();
     await props.login({ email, password });
-    setTimeout(() => props.clearError(), 2000);
+    setTimeout(() => props.clearError(), 5000);
   }
 
   function submitReactivate(e) {

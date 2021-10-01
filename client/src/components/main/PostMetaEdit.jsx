@@ -70,10 +70,9 @@ const PostMetaEdit = props => {
           value={categoryId}
         >
           <option value="None">None</option>
-          {categories.map((c, i) => {
-            if (c.name !== 'None')
-              return <option key={`cat-${i}`} value={c.id}>{c.name}</option>
-          })}
+          {categories.filter(c => c.name !== 'None').map((c, i) => (
+            <option key={`cat-${i}`} value={c.id}>{c.name}</option>
+          ))}
         </Select>
 
         <div>

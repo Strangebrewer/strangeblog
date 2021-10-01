@@ -1,7 +1,8 @@
 import {
-  SET_ALL_USERS,
+  ADD_MORE_USERS,
+  DELETE_USER,
   EDIT_USER,
-  ADD_MORE_USERS
+  SET_ALL_USERS,
 } from '../action-types/adminUserTypes';
 import * as API from '../../api';
 
@@ -33,14 +34,26 @@ export function adminUpdateUser(data) {
   }
 }
 
-export function adminDestroyUser(id, status) {
+export function adminDeactivateUser(id, status) {
   return async dispatch => {
     try {
-      const response = await API.user.adminDestroyUser(id, status);
+      const response = await API.user.adminDeactivateUser(id, status);
       dispatch({ type: EDIT_USER, payload: response.data });
       return response.data;
     } catch (e) {
       console.log('e in getCategories:::', e);
+    }
+  }
+}
+
+export function adminDeleteUser(id) {
+  return async dispatch => {
+    try {
+      const response = await API.user.adminDeleteUser(id);
+      dispatch({ type: DELETE_USER, payload: id });
+      return response.data;
+    } catch (e) {
+      console.log('e in adminDeleteUser:::', e);
     }
   }
 }
