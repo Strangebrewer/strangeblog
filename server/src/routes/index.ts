@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 const router = express.Router();
 import blogRoutes from './blog';
@@ -11,5 +12,9 @@ router.use('/categories', categoryRoutes);
 router.use('/posts', postRoutes);
 router.use('/sources', sourceRoutes);
 router.use('/users', userRoutes);
+
+router.use(function (req, res) {
+  res.sendFile(path.join(__dirname, "../../client/build/index.html"));
+});
 
 export default router;
