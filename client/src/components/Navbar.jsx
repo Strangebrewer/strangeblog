@@ -28,7 +28,7 @@ const Navbar = props => {
           title="news sources"
           width="50"
           height="26"
-          onClick={() => goTo('/sources')}
+          onClick={() => goTo('/news-sources')}
           disabled={location.includes('sources')}
         >
           <i className="fas fa-info" />

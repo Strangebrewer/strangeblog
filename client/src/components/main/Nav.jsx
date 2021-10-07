@@ -50,7 +50,7 @@ const Nav = props => {
           <i className="fas fa-search" />
         </RedBlueButton>
 
-        <RedBlueButton width="50" height="26" onClick={() => goTo('/sources')} title="news sources">
+        <RedBlueButton width="50" height="26" onClick={() => goTo('/news-sources')} title="news sources">
           <i className="fas fa-info" />
         </RedBlueButton>
 

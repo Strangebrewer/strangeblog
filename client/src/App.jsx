@@ -108,7 +108,7 @@ function App(props) {
 
               <Route
                 exact
-                path="/sources"
+                path="/news-sources"
                 component={Sources}
               />
 
