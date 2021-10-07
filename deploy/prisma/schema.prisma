@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum ACLTypes {
+  admin
+  friend
+}
+
+enum BiasTypes {
+  Hard_Left
+  Left
+  Left_Center
+  Least_Biased
+  Right_Center
+  Right
+  Hard_Right
+}
+
+enum FactualReportingTypes {
+  Very_High
+  High
+  Mostly_Factual
+  Mixed
+  Low
+  Very_Low
+}
+
+enum CredibilityTypes {
+  High
+  Medium
+  Low
+}
+
+enum NewsCategoryTypes {
+  Conservative
+  Liberal
+  Neutral
+}
+
+enum UserStatusTypes {
+  active
+  inactive
+  banned
+}
+
+model User {
+  id                 Int             @id @default(autoincrement())
+  acl                ACLTypes[]
+  email              String          @unique
+  normalizedEmail    String          @unique @map("normalized_email")
+  username           String          @unique
+  normalizedUsername String          @unique
+  password           String
+  tags               Json[]
+  status             UserStatusTypes @default(active)
+  createdAt          DateTime        @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime        @updatedAt @map("updated_at") @db.Timestamptz
+  posts              Post[]
+  categories         Category[]
+}
+
+model Blog {
+  id        Int      @id @default(autoincrement())
+  title     String
+  subtitle  String
+  bio       String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+}
+
+model Post {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int      @map("user_id")
+  title      String
+  subtitle   String?
+  body       String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int      @map("category_id")
+  tags       String[]
+  public     Boolean  @default(false)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      @map("user_id")
+  posts     Post[]
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+}
+
+model Source {
+  id               Int                   @id @default(autoincrement())
+  name             String
+  bias             BiasTypes
+  category         NewsCategoryTypes     @default(Conservative)
+  factualReporting FactualReportingTypes @map("factual_reporting")
+  credibility      CredibilityTypes
+  url              String
+  factCheckUrl     String                @map("fact_check_url")
+  createdAt        DateTime              @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime              @updatedAt @map("updated_at") @db.Timestamptz
+}

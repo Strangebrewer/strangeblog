@@ -11,7 +11,7 @@ const SourceCard = props => {
   return (
     <Card category={source.category.toLowerCase()}>
       <h3>{source.name}</h3>
-      <p><a href={source.url} target="_blank" rel="noopener noreferrer nofollow">{urlText}</a></p>
+      <p><a href={`https://${source.url}`} target="_blank" rel="noopener noreferrer nofollow">{urlText}</a></p>
 
       <div className="source-facts">
         <p className="source-bias">Bias: <span>{source.bias.split('_').join(' ')}</span></p>
@@ -19,7 +19,7 @@ const SourceCard = props => {
         <p>Factual Reporting: <span>{source.factualReporting.split('_').join(' ')}</span></p>
       </div>
 
-      <p>source: <a href={source.factCheckUrl} target="_blank" rel="noopener noreferrer nofollow">mediabiasfactcheck.com</a></p>
+      <p>source: <a href={`https://${source.factCheckUrl}`} target="_blank" rel="noopener noreferrer nofollow">mediabiasfactcheck.com</a></p>
     </Card>
   );
 };
