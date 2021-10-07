@@ -40,7 +40,7 @@ export default class PostModel {
   }
 
   public async findOnePublic(id: number): Promise<Post | null> {
-    return await this.client.post.findUnique({ where: { id, public: true } });
+    return await this.client.post.findFirst({ where: { id, public: true } });
   }
 
   public async findManyPublic(data: IInitialData = {}): Promise<{ posts: Post[], count: number }> {
