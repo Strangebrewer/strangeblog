@@ -60,6 +60,7 @@ const Bio = props => {
 
   const editorFieldStyle = {
     backgroundColor: 'transparent',
+    fontWeight: '300'
   };
 
   return (
