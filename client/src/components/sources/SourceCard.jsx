@@ -67,7 +67,6 @@ const Card = styled.div`
 
     > p {
       border-bottom: 1px solid grey;
-      color: white;
       display: flex;
       font-size: .9rem;
       justify-content: space-between;
@@ -78,6 +77,7 @@ const Card = styled.div`
       > span {
         background-color: #555;
         border-radius: 2px;
+        color: white;
         padding: 2px 4px;
       }
     }
