@@ -130,18 +130,19 @@ const Wrapper = styled.div`
   min-height: 100vh;
 
   > form {
+    align-items: center;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    width: 220px;
     margin: 48px auto 0 auto;
-    position: relative;
     padding-bottom: 24px;
+    position: relative;
+    width: 220px;
 
     > div {
       margin: 8px 0;
       width: 100%;
+
       > input, > label {
         width: 100%;
       }    
@@ -164,9 +165,9 @@ const Wrapper = styled.div`
 export const Error = styled.div`
   color: ${props => props.green ? 'green' : 'crimson'};
   font-size: 12px;
-  text-align: center;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+  text-align: center;
 `;

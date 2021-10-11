@@ -92,41 +92,41 @@ export default connect(mapStateToProps, { signup, setError, clearError })(Signup
 
 export const Form = styled.form`
   margin: auto;
-  width: 240px;
-  position: relative;
   padding-bottom: 24px;
+  position: relative;
+  width: 240px;
 
   > h3 {
+    color: ${props => props.theme.nPurple};
     font-size: 1.8rem;
     margin-bottom: 12px;
-    color: ${props => props.theme.nPurple};
   }
 
   > input {
-    width: 100%;
     margin-bottom: 12px;
+    width: 100%;
   }
 
   > button {
-    margin: 12px auto;
     display: block;
+    margin: 12px auto;
   }
 
   > .toggle-button {
-    border: none;
     background: none;
-    outline: transparent;
+    border: none;
     color: ${props => props.theme.nBlue};
     cursor: pointer;
+    outline: transparent;
   }
 `;
 
 export const Error = styled.div`
   color: crimson;
   font-size: 12px;
-  text-align: center;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+  text-align: center;
 `;

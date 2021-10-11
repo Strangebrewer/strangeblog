@@ -103,41 +103,41 @@ const Wrapper = styled.div`
   margin: auto;
 
   > h2 {
+    border-bottom: 2px solid ${props => props.theme.mainRed};
     font-size: 2.2rem;
-    text-align: center;
     font-weight: 700;
     margin: 24px auto;
     padding-bottom: 12px;
-    border-bottom: 2px solid ${props => props.theme.mainRed};
+    text-align: center;
     width: 300px;
   }
 
   > button {
+    margin: auto;
     min-width: 20px;
     text-align: center;
-    margin: auto;
   }
 
 
 
   > form {
-    width: 300px;
     margin: 12px auto;
+    width: 300px;
 
     > input {
       border: none;
-      padding: 0 0 11px 0;
       background-color: transparent;
       border-bottom: 1px solid #555;
       color: white;
-      font-weight: 300;
-      font-family: Roboto;
-      height: 32px;
-      font-size: 1.2rem;
-      width: 200px;
-      margin: 24px auto 0 auto;
       display: block;
+      font-family: Roboto;
+      font-size: 1.2rem;
+      font-weight: 300;
+      height: 32px;
+      margin: 24px auto 0 auto;
       outline: transparent;
+      padding: 0 0 11px 0;
+      width: 200px;
 
       &:last-of-type {
         display: none;

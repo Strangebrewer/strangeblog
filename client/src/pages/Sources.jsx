@@ -79,22 +79,22 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.main`
-  width: 904px;
   margin: auto;
+  width: 904px;
 
   > h1 {
-    font-size: 3rem;
     font-family: monospace;
-    text-align: center;
+    font-size: 3rem;
     margin-bottom: 8px;
+    text-align: center;
   }
 
   > p {
     font-size: 1rem;
-    line-height: 1.5;
     font-style: italic;
-    width: 560px;
+    line-height: 1.5;
     margin: 16px auto;
+    width: 560px;
 
     > a {
       color: ${props => props.theme.nBlue};
@@ -105,22 +105,22 @@ const Main = styled.main`
 const SourceTable = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 904px;
   margin: 48px auto;
+  width: 904px;
 
   > h2 {
-    width: 100%;
-    padding: 12px 0;
-    font-size: 2rem;
-    text-align: center;
-    font-weight: 500;
-    margin: 0 0 12px 0;
-    border: 1px solid ${props => props.theme[props.color]};
-    color: ${props => props.theme[props.color]};
-    border-radius: 5px;
-    box-shadow: 4px 4px 4px ${props => props.theme[props.color]}77,
-      4px 8px 8px ${props => props.theme[props.color]}77;
     border-top-left-radius: 100px;
     border-top-right-radius: 100px;
+    border: 1px solid ${props => props.theme[props.color]};
+    border-radius: 5px;
+    box-shadow: 4px 4px 4px ${props => props.theme[props.color]}77,
+    4px 8px 8px ${props => props.theme[props.color]}77;
+    color: ${props => props.theme[props.color]};
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 0 0 12px 0;
+    padding: 12px 0;
+    text-align: center;
+    width: 100%;
   }
 `;

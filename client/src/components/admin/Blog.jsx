@@ -85,9 +85,9 @@ const mapDispatchToState = {
 export default connect(mapPropsToState, mapDispatchToState)(Blog);
 
 const Wrapper = styled.div`
-  width: 900px;
   margin: auto;
   padding-top: 48px;
+  width: 900px;
 
   > .buttons {
     margin: 24px 0 0 132px;
@@ -99,31 +99,31 @@ const InputWrapper = styled.div`
 
   input {
     background: transparent;
-    outline: transparent;
     border: none;
     border-bottom: 1px solid #222;
-    padding-bottom: 6px;
-    width: 100%;
-    font-family: Roboto;
     color: ${props => props.subtitle ? props.theme.mainRed : props.theme.text};
+    font-family: Roboto;
     font-size: ${props => props.subtitle ? '1.35rem' : '3rem'};
     font-weight: ${props => props.subtitle ? '300' : '900'};
+    outline: transparent;
+    padding-bottom: 6px;
+    width: 100%;
     ${props => props.subtitle && 'text-indent: 10px'};
   }
 
   h1 {
-    font-size: 2.4rem;
     align-self: flex-end;
+    font-size: 2.4rem;
     padding: 0 12px 12px 0;
-    width: 140px;
     text-align: right;
+    width: 140px;
   }
 
   h2 {
-    font-size: 1.1rem;
     align-self: flex-end;
+    font-size: 1.1rem;
     padding: 0 12px 9px 0;
-    width: 140px;
     text-align: right;
+    width: 140px;
   }
 `;

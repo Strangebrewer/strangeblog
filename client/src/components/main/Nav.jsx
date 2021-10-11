@@ -105,17 +105,17 @@ export const Wrapper = styled.nav`
   border-radius: 12px;
   box-shadow: ${props => props.shadow ? '2px 2px 8px' + props.theme.text : 'none'};
   height: ${props => props.height};
-  margin: 0 auto;
   max-width:  ${props => props.width};
+  margin: 0 auto;
   padding: 16px 0;
   transition: ${props => props.transition};
   z-index: 1;
 
   .nav-buttons {
+    align-items: flex-start;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
     z-index: 1;
 
     > button:first-of-type {

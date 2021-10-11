@@ -70,7 +70,7 @@ const mapDispatchToState = {
 export default connect(mapPropsToState, mapDispatchToState)(Posts);
 
 const Wrapper = styled.main`
-  width: 700px;
   margin: auto;
   padding: 20px 0;
+  width: 700px;
 `;

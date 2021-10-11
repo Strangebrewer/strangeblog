@@ -91,30 +91,30 @@ const Wrapper = styled.div`
   > h1 {
     font-size: 3rem;
     font-weight: 700;
-    text-align: center;
     line-height: 1.4;
+    text-align: center;
   }
 
   > p {
-    font-size: 1.35rem;
-    text-align: center;
     color: ${props => props.theme.mainRed};
+    font-size: 1.35rem;
     margin-bottom: 36px;
+    text-align: center;
   }
 `;
 
 const Main = styled.main`
-  width: 900px;
   margin: auto;
+  width: 900px;
 
   > .admin-buttons {
-    width: 520px;
+    background-color: ${props => props.theme.text + '55'};
+    border-radius: 8px;
     display: flex;
     justify-content: center;
-    padding: 12px 12px 14px 12px;
-    border-radius: 8px;
-    background-color: ${props => props.theme.text + '55'};
     margin: auto;
+    padding: 12px 12px 14px 12px;
+    width: 520px;
 
     > button:last-child {
       margin-right: 0;

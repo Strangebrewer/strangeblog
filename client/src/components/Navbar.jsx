@@ -98,9 +98,9 @@ const Wrapper = styled.header`
     padding: 16px 0;
 
     > button {
+      justify-content: center;
       margin: 4px 10px;
       min-width: 100px;
-      justify-content: center;
     }
   }
 `;

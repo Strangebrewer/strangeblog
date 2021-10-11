@@ -225,9 +225,9 @@ export const Wrapper = styled.div`
 `;
 
 const Main = styled.main`
-  width: 900px;
   margin: auto;
   padding-bottom: 50px;
+  width: 900px;
 `;
 
 const YeOldeInputs = styled.div`
@@ -247,17 +247,17 @@ const YeOldeInputs = styled.div`
 `;
 
 const YeOldeTagInputs = styled.div`
-  width: 800px;
-  margin: auto;
   display: flex;
+  margin: auto;
   position: relative;
+  width: 800px;
 
   .tag-input-wrapper {
+    align-items: center;
+    display: flex;
     position: absolute;
     top: 40px;
     width: 360px;
-    display: flex;
-    align-items: center;
 
     > input {
       margin-bottom: 0;

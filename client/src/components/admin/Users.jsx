@@ -220,16 +220,16 @@ const mapDispatchToState = {
 export default connect(mapPropsToState, mapDispatchToState)(Users);
 
 const Wrapper = styled.div`
-  width: 900px;
   margin: auto;
+  width: 900px;
 
   > h2 {
+    border-bottom: 2px solid ${props => props.theme.mainRed};
     font-size: 2.2rem;
-    text-align: center;
     font-weight: 700;
     margin: 24px auto 12px auto;
     padding-bottom: 12px;
-    border-bottom: 2px solid ${props => props.theme.mainRed};
+    text-align: center;
   }
 `;
 

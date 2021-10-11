@@ -137,9 +137,9 @@ const Wrapper = styled.div`
 `;
 
 const ChildrenWrapper = styled.div`
-  text-align: center;
   line-height: 2;
   margin-bottom: ${props => props.hasChildren ? '12px' : '0px'};
+  text-align: center;
 `;
 
 const Content = styled.div`
@@ -159,14 +159,16 @@ const Content = styled.div`
     inset 0 0 100px 30px rgb(0,0,0);
   display: ${props => props.show ? 'block' : 'none'};
   font-size: 1.2rem;
+  margin: auto;
   max-width: 60%;
   min-width: 300px;
-  margin: auto;
   padding: 0;
   position: relative;
+  
   img {
     border: 1px solid black;
   }
+
   @keyframes fadein {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -174,11 +176,11 @@ const Content = styled.div`
 `;
 
 const Body = styled.div`
+  color: white;
   margin: auto;
   max-width: 100%;
   padding: 40px;
   z-index: 999;
-  color: white;
 `;
 
 const Buttons = styled.div`
@@ -195,6 +197,7 @@ const CloseBtn = styled.button`
   position: absolute;
   top: 5px;
   right: 5px;
+  
   &:hover, &:focus {
     color: #26d4cc;
     cursor: pointer;

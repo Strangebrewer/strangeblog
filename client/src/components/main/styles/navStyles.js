@@ -7,13 +7,13 @@ export const Outer = styled.div`
 `;
 
 export const SearchWrapper = styled.div`
-  visibility: ${props => props.visiblity};
-  opacity: ${props => props.opacity};
-  transition: opacity ${props => props.transition};
   display: ${props => props.display};
-  padding: 12px 40px;
-  z-index: 0;
   margin-top: 12px;
+  opacity: ${props => props.opacity};
+  padding: 12px 40px;
+  transition: opacity ${props => props.transition};
+  visibility: ${props => props.visiblity};
+  z-index: 0;
 
   p {
     font-size: .7rem;
@@ -26,9 +26,9 @@ export const SearchWrapper = styled.div`
   }
 
   .tag-category-wrapper {
-    margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 12px;
 
     .tag-search, .category-search {
       width: 48%;
@@ -37,9 +37,9 @@ export const SearchWrapper = styled.div`
 
   .date-search {
     .date-inputs {
-      margin-top: 4px;
       display: flex;
       justify-content: space-between;
+      margin-top: 4px;
       padding: 0 12px;
 
       .start-date, .end-date {
@@ -50,8 +50,8 @@ export const SearchWrapper = styled.div`
 
   .search-buttons {
     display: flex;
-    width: 280px;
     justify-content: space-between;
     margin: 30px auto 0 auto;
+    width: 280px;
   }
 `;

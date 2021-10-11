@@ -29,11 +29,11 @@ export default SourceCard;
 const Card = styled.div`
   border: 2px solid #777;
   border-radius: 9px;
-  width: 280px;
+  box-shadow: 0 0 4px #aaa, 0 0 10px #88888899;
   height: 200px;
   margin: 10px;
   padding: 16px;
-  box-shadow: 0 0 4px #aaa, 0 0 10px #88888899;
+  width: 280px;
   
   a {
     color: ${props => props.theme.nBlue};
@@ -43,7 +43,6 @@ const Card = styled.div`
     margin-bottom: 16px;
 
     &:first-of-type {
-      /* border-bottom: none; */
       text-indent: 6px;
     }
 
@@ -54,11 +53,11 @@ const Card = styled.div`
   }
 
   > h3 {
-    width: 100%;
+    border-bottom: 1px solid ${props => props.theme.mainRed};
     font-size: 1.2rem;
     margin-bottom: 4px;
     padding-bottom: 2px;
-    border-bottom: 1px solid ${props => props.theme.mainRed};
+    width: 100%;
   }
 
 
@@ -67,31 +66,32 @@ const Card = styled.div`
       margin-bottom: 12px;
 
     > p {
+      border-bottom: 1px solid grey;
+      color: white;
       display: flex;
+      font-size: .9rem;
       justify-content: space-between;
-      width: 100%;
       margin: 4px 0 2px 0;
       padding: 4px 0;
-      border-bottom: 1px solid grey;
-      font-size: .9rem;
+      width: 100%;
 
       > span {
-        padding: 2px 4px;
-        border-radius: 2px;
         background-color: #555;
+        border-radius: 2px;
+        padding: 2px 4px;
       }
     }
 
     .source-bias {
 
       > span {
-        padding: 2px 4px;
-        border-radius: 2px;
         background: ${props => {
     if (props.category === 'neutral') return props.theme.nPurple;
     if (props.category === 'conservative') return props.theme.nRed;
     if (props.category === 'liberal') return props.theme.nBlue;
   }};
+        border-radius: 2px;
+        padding: 2px 4px;
       }
     }
   }

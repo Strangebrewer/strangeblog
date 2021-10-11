@@ -131,25 +131,25 @@ const Header = styled.header`
   }
 
   > p {
+    color: ${props => props.theme.mainRed};
     font-size: 1.35rem;
     text-indent: 10px;
-    color: ${props => props.theme.mainRed};
   }
 `;
 
 const ToTop = styled.button`
   background: transparent;
-  outline: transparent;
   border: none;
   color: ${props => props.theme.nBlue};
   cursor: pointer;
   font-size: 30px;
+  opacity: ${props => props.show ? '1' : '0'};
+  outline: transparent;
   position: fixed;
   bottom: 18px;
   right: 18px;
-  visibility: ${props => props.show ? 'visible' : 'hidden'};
-  opacity: ${props => props.show ? '1' : '0'};
   transition: ${props => props.transition};
+  visibility: ${props => props.show ? 'visible' : 'hidden'};
 `;
 
 const Modebuttons = styled.div`
@@ -159,10 +159,10 @@ const Modebuttons = styled.div`
 
   > button {
     background-color: transparent;
-    outline: transparent;
     border: none;
     color: ${props => props.night ? props.theme.nOrange : props.theme.nBlue};
-    font-size: 1.3rem;
     cursor: pointer;
+    font-size: 1.3rem;
+    outline: transparent;
   }
 `;

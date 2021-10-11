@@ -157,29 +157,29 @@ const Wrapper = styled.div`
       cursor: pointer;
       font-weight: bold;
       margin-right: 16px;
+      min-width: 60px;
       outline: transparent;
       padding: 4px 8px;
-      min-width: 60px;
     }
     
     > div {
+      color: white;
       display: flex;
       flex-wrap: wrap;
-      color: white;
 
       > p {
-        margin-right: 12px;
         align-self: center;
-        font-size: .9rem;
         background-color: #222;
-        padding: 3px 6px;
         border-radius: 3px;
+        font-size: .9rem;
+        margin-right: 12px;
+        padding: 3px 6px;
       }
     }
   }
 `;
 
 const Remover = styled.span`
-  cursor: pointer;
   color: ${props => props.theme.nRed};
+  cursor: pointer;
 `;

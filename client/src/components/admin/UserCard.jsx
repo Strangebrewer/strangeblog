@@ -92,56 +92,55 @@ const mapDispatchToState = {};
 export default connect(mapPropsToState, mapDispatchToState)(UserCard);
 
 export const UserCardWrapper = styled.div`
-  width: 900px;
-  margin: auto;
-  display: flex;
   align-items: center;
   border-bottom: 1px solid ${props => props.theme.text};
+  display: flex;
+  margin: auto;
   padding: 6px 0 6px 12px;
-  /* justify-content: space-between; */
+  width: 900px;
 
   &:last-of-type {
     border: none;
   }
 
   > .username {
-    min-width: 200px;
     max-width: 200px;
+    min-width: 200px;
   }
   > .email {
-    min-width: 250px;
     max-width: 250px;
+    min-width: 250px;
   }
   > .acl {
-    min-width: 70px;
     max-width: 70px;
+    min-width: 70px;
   }
   > .status {
-    min-width: 70px;
     max-width: 70px;
+    min-width: 70px;
   }
   > .since {
-    min-width: 210px;
     max-width: 210px;
+    min-width: 210px;
   }
 
   > .buttons {
-    min-width: 100px;
-    max-width: 100px;
-    width: 100px;
-    text-align: right;
+    align-items: center;
+    border-left: 1px solid ${props => props.theme.nBlue};
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
-    border-left: 1px solid ${props => props.theme.nBlue};
+    max-width: 100px;
+    min-width: 100px;
+    text-align: right;
+    width: 100px;
 
     > button {
       background-color: transparent;
-      outline: transparent;
       border: none;
       color: ${props => props.theme.nPurple};
       cursor: pointer;
+      outline: transparent;
       padding: 3px 4px;
 
       &:hover {

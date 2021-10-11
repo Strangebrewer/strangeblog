@@ -14,12 +14,12 @@ export const MetaData = styled.div`
   }
 
   .post-subtitle {
-    font-size: .88rem;
     border-bottom: 1px solid ${props => props.theme.mainGrey};
-    padding-bottom: 8px;
-    margin-bottom: 4px;
-    text-indent: 20px;
     color: ${props => props.theme.mainRed};
+    font-size: .88rem;
+    margin-bottom: 4px;
+    padding-bottom: 8px;
+    text-indent: 20px;
   }
 
   .post-buttons {
@@ -43,8 +43,8 @@ export const MetaData = styled.div`
 `;
 
 export const Category = styled.span`
-  font-size: .8rem;
   color: #999;
+  font-size: .8rem;
   font-style: italic;
   position: absolute;
   right: 5px;
@@ -73,10 +73,10 @@ export const DateWrapper = styled.div`
   margin-bottom: 24px;
 
   > h5 {
+    align-self: flex-start;
     font-size: .68rem;
     margin-right: 8px;
     padding: 3px 0;
-    align-self: flex-start;
 
     > span {
       color: ${props => props.theme.mainRed};
@@ -106,22 +106,23 @@ export const TagInput = props => {
 };
 
 const TagInputForm = styled.form`
+  display: flex;
   position: absolute;
   ${props => props.userTags ? 'left: 0; top: 24px;' : null};
   ${props => props.userTags ? null : 'right: 120px; top: 0;'};
-  display: flex;
 `;
 
 export const PostMetaEditWrapper = styled.div`
   width: 500px;
+
   > input, > div > select {
     margin-bottom: 6px;
   }
 
   > div:first-of-type {
-    width: 100%;
     display: flex;
     justify-content: space-between;
+    width: 100%;
   }
 
   > div:first-of-type > input,

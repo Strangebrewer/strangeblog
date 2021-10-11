@@ -45,12 +45,12 @@ export { Element, Leaf };
 
 const BlockQuote = styled.div`
   border-left: 2px solid ${props => props.theme.mainRed};
-  margin: 40px 0 40px 50px;
-  padding: 12px 50px 12px 36px;
-  opacity: .8;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 1.4rem;
   font-style: italic;
+  margin: 40px 0 40px 50px;
+  padding: 12px 50px 12px 36px;
+  opacity: .8;
 
   blockquote {
     text-indent: 25px;
@@ -98,6 +98,6 @@ const H3 = styled.h1`
 
 const P = styled.p`
   line-height: 1.5;
-  text-indent: 30px;
   margin: 16px 0;
+  text-indent: 30px;
 `;

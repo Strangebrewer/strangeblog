@@ -35,9 +35,10 @@ export const Wrapper = styled.div`
   position: relative;
 
   > p {
-    position: absolute;
     bottom: 50px;
+    position: absolute;
     text-align: center;
+    
     > a {
       color: ${props => props.theme.nBlue};
     }

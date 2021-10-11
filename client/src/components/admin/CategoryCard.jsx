@@ -66,33 +66,33 @@ const CategoryCard = props => {
 export default CategoryCard;
 
 const Card = styled.div`
-  width: 300px;
   display: flex;
   justify-content: space-between;
   margin: 12px auto;
+  width: 300px;
 
   > h2, > form input {
-    height: 24px;
     font-size: 1.2rem;
+    height: 24px;
   }
 
   > form input {
-    border: none;
-    padding: 0 0 3px 0;
     background-color: transparent;
+    border: none;
     border-bottom: 1px solid #222;
     color: ${props => props.theme.text};
-    font-weight: 300;
     font-family: Roboto;
-      outline: transparent;
+    font-weight: 300;
+    outline: transparent;
+    padding: 0 0 3px 0;
   }
 
   > div > button {
     background-color: transparent;
-    outline: transparent;
     border: none;
     color: ${props => props.theme.text};
     cursor: pointer;
+    outline: transparent;
 
     &:hover {
       color: ${props => props.theme.nBlue};

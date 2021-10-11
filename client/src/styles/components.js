@@ -7,28 +7,31 @@ export const RedBlueButton = styled.button`
   box-shadow: 0px 0px 8px ${props => props.theme.mainRed};
   color: ${props => props.theme.nBlue};
   cursor: pointer;
+  display: flex;
   font-weight: bold;
   margin: 0 12px;
   outline: transparent;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   ${props => props.height ? `height: ${props.height}px` : ''};
   ${props => props.width ? `min-width: ${props.width}px` : ''};
-  display: flex;
   ${props => props.text && 'padding: 4px 8px'};
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
   > i {
-    display: block;
     align-self: center;
+    display: block;
     margin: auto;
   }
+
   &:hover {
     background-color: ${props => props.theme.nBlue};
     color: ${props => props.theme.nRed};
   }
+
   &:disabled {
+    border: 1px solid ${props => props.theme.mainRed + '99'};
+    box-shadow: none;
     color: ${props => props.theme.nBlue + '99'};
     cursor: default;
-    box-shadow: none;
-    border: 1px solid ${props => props.theme.mainRed + '99'};
 
     &:hover {
       background: #181818;
@@ -44,23 +47,26 @@ export const PurpleGreenButton = styled.button`
   box-shadow: 0px 0px 8px ${props => props.theme.nPurple};
   color: ${props => props.theme.nGreen};
   cursor: pointer;
+  display: flex;
   font-weight: bold;
   margin: 0 12px;
   outline: transparent;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   ${props => props.height ? `height: ${props.height}px` : ''};
   ${props => props.width ? `min-width: ${props.width}px` : ''};
-  display: flex;
   ${props => props.text && 'padding: 4px 8px'};
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
   > i {
     align-self: center;
     display: block;
     margin: auto;
   }
+
   &:hover {
     background-color: ${props => props.theme.nGreen};
     color: ${props => props.theme.nPurple};
   }
+
   &:disabled {
     border: 1px solid ${props => props.theme.nPurple + '99'};
     box-shadow: none;
@@ -83,40 +89,42 @@ export const MainButton = styled.button`
   cursor: pointer;
   font-weight: bold;
   margin-right: 16px;
+  min-width: 80px;
   outline: transparent;
   padding: 6px 12px;
-  min-width: 80px;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
   &:hover {
     background-color: ${props => props.theme[props.color]};
     color: ${props => props.color === 'nGreen' || props.color === 'nYellow' ? 'black' : 'white'};
   }
+
   &:disabled {
     background-color: ${props => props.theme.text + '44'};
-    color: ${props => props.theme.bg + '99'};
-    box-shadow: none;
     border: 1px solid ${props => props.theme.text + '99'};
+    box-shadow: none;
+    color: ${props => props.theme.bg + '99'};
   }
 `;
 
 export const Label = styled.label`
-  width: 100%;
   display: block;
   margin-bottom: 6px;
-  /* color: white; */
+  width: 100%;
 `;
 
 export const Input = styled.input`
-  height: ${props => props.height ? `${props.height}px` : '32px'};
-  padding: 4px 8px;
-  border-radius: 4px;
-  border: 2px solid ${props => props.theme.mainRed};
-  box-shadow: inset 3px 3px 2px #777,
-    inset -3px -3px 2px #fff;
   background-color: #ccc;
+  border: 2px solid ${props => props.theme.mainRed};
+  border-radius: 4px;
+  box-shadow: inset 3px 3px 2px #777,
+  inset -3px -3px 2px #fff;
   color: ${props => props.theme.nBlue};
   font-weight: 700;
+  height: ${props => props.height ? `${props.height}px` : '32px'};
   outline: transparent;
+  padding: 4px 8px;
+
   ${props => props.full
     ? 'width: 100%; display: block; margin-bottom: 6px;'
     : ''
@@ -124,16 +132,17 @@ export const Input = styled.input`
 `;
 
 export const Select = styled.select`
-  height: ${props => props.height ? `${props.height}px` : '32px'};
-  padding: 4px 8px;
+  background-color: #ccc;
   border-radius: 4px;
   border: 2px solid ${props => props.theme.mainRed};
   box-shadow: inset 3px 3px 2px #777,
-    inset -3px -3px 2px #fff;
-  background-color: #ccc;
+  inset -3px -3px 2px #fff;
   color: ${props => props.theme.nBlue};
   font-weight: 700;
+  height: ${props => props.height ? `${props.height}px` : '32px'};
   outline: transparent;
+  padding: 4px 8px;
+
   ${props => props.full
     ? 'width: 100%; display: block; margin-bottom: 6px;'
     : ''
@@ -156,8 +165,8 @@ export const StyledForm = styled.form`
 export const TagDelete = styled.span`
   color: ${props => props.theme.mainRed};
   cursor: pointer;
-  margin: auto 8px auto 0;
   font-size: 1rem;
+  margin: auto 8px auto 0;
 `;
 
 export const Tags = styled.p`
@@ -169,19 +178,19 @@ export const Tags = styled.p`
 
     > .tag {
       background-color: #333;
-      color: white;
       border-radius: 3px;
+      color: white;
+      cursor: pointer;
       display: inline-block;
       margin: auto 2px;
       padding: 3px 6px;
-      cursor: pointer;
     }
 
     > .tag-delete {
       color: ${props => props.theme.mainRed};
       cursor: pointer;
-      margin: 0 8px 2px 1px;
       font-size: 1.2rem;
+      margin: 0 8px 2px 1px;
     }
   }
 `;

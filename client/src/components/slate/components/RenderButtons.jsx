@@ -144,7 +144,6 @@ const RenderButtons = props => {
 export default RenderButtons;
 
 const EditorBtnArray = styled.div`
-  visibility: ${props => props.visible ? 'visible' : 'hidden' };
   cursor: default;
   margin: 0px 0 0 0;
   opacity:  ${props => props.inline ? '.4' : '1'};
@@ -154,9 +153,12 @@ const EditorBtnArray = styled.div`
   position: ${props => props.inline && 'absolute'};
   text-align: left;
   transition: opacity .23s ease-in-out;
+  visibility: ${props => props.visible ? 'visible' : 'hidden' };
+
   &:hover {
     opacity: 1;
   }
+
   > button > span {
     font-family: 'Times New Roman', Times, serif;
     font-size: .75rem;
@@ -176,9 +178,11 @@ const EditorBtn = styled.button`
   opacity: ${props => props.active ? 1 : 0.6};
   padding: 0;
   width: ${props => props.inline ? '25px' : '30px'};
+
   &:last-of-type {
     margin-right: 0;
   }
+  
   &:active {
     box-shadow: 1px 1px 1px #222;
     transform: translateY(1px);
